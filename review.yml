@@ -1,0 +1,582 @@
+aid: vaultre
+name: VaultRE
+review:
+  question: >-
+    Does VaultRE expose a real, publicly documented, machine-readable API surface, and what
+    does a developer actually have to do to get in?
+  answer: >-
+    Yes - public docs and downloadable OpenAPI, but approval-gated keys plus per-agency
+    token grant.
+  date: '2026-07-26'
+  reviewer: API Evangelist
+  openapiHarvested: true
+  openapiScopeNote: |
+    Four OpenAPI 3.0.1 documents were harvested verbatim from VaultRE's own public
+    Swagger UI bootstrap at https://docs.api.vaultre.com.au/swagger/index.html (which
+    declares three versioned spec URLs) and
+    https://docs.api.vaultre.com.au/swagger/aggregator/index.html. All four downloaded
+    with HTTP 200 and all four parse cleanly with PyYAML. Nothing was reconstructed,
+    inferred, or authored - every path, operation and security scheme in openapi/ came
+    off VaultRE's servers on 2026-07-26.
+findings:
+  summary: |
+    VaultRE is an Australian real estate CRM and transaction platform - residential,
+    commercial, rural, land, business, holiday-rental, livestock and clearing-sales
+    property lives, plus property management, trust/invoicing and AML - serving agencies
+    across Australia and New Zealand. It is now marketed as "MRI Vault CRM": vaultre.com.au
+    301-redirects to https://www.mrisoftware.com/au/products/vault/ (page title
+    "MRI Vault | Formerly VaultRE | MRI Software AU"), and the integrator registration page
+    is titled "Request integration access to the MRI Vault API - MRI Software | AU". The
+    VaultRE brand and hostnames remain live and are what the API and docs still use.
+
+    In the value chain VaultRE is the agency system of record, not a portal, a land
+    registry or a conveyancing rail. In the Australian seam described for this study -
+    REA Group and Domain as the portal duopoly, PEXA as the mandated e-conveyancing
+    network, PropTrack and CoreLogic as the valuation concentration - VaultRE is the CRM
+    that feeds listings outward and pulls valuation data inward. That dependency is visible
+    in the spec itself: v1.3 carries a `corelogic` tag with GET /corelogic/properties/{id},
+    /avm, /rentalavm, /disclaimers and /suggest/address/corelogic, i.e. CoreLogic AVM
+    access proxied through VaultRE rather than a VaultRE-owned valuation model. A `reinz`
+    tag (GET /reinz/sales) covers New Zealand sales reporting. No PEXA, no land-registry
+    and no title endpoints exist in any harvested spec.
+
+    The developer surface is real and unusually open for this sector. docs.api.vaultre.com.au
+    is a public MkDocs-Material site (9 pages: overview, getting started, technical guide,
+    integrator endpoints, aggregator, oAuth, webhooks, samples, changelog) with no login
+    wall, and it links directly to downloadable OpenAPI documents. What is NOT open is
+    access: keys are issued only after a reviewed application, and each agency must then
+    grant the integrator a scoped token from inside its own account.
+  transports:
+  - protocol: REST
+    scheme: https
+    baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+    documented: true
+    note: >-
+      Confirmed live. GET /api/v1.3/contacts returns HTTP 401 anonymously - the host is up
+      and rejecting unauthenticated calls, not absent.
+  - protocol: REST
+    scheme: https
+    baseURL: https://aggregator.api.vaultre.com.au/api/v1.0
+    documented: true
+    note: >-
+      Confirmed live. POST-only ingestion surface; GET /api/v1.0/staff returns HTTP 403
+      anonymously.
+  - protocol: Webhooks
+    scheme: https
+    documented: true
+    note: >-
+      Outbound HTTP POST JSON events to a subscriber-nominated URL. Payloads carry an
+      X-VaultRE-Signature header of the form t=<ms timestamp>,sha512=<hmac> - HMAC-SHA512
+      over "<timestamp>.<raw JSON body>" using the integrator's API key as the secret,
+      explicitly modelled on Stripe webhook signatures. Documented as receiving no other
+      authentication.
+  - protocol: Polling event stream
+    scheme: https
+    documented: true
+    note: >-
+      GET /eventStream ("Poll the event stream") exists in the v1.3 spec as a pull-based
+      alternative to webhooks.
+  - protocol: WebSocket
+    scheme: wss
+    documented: false
+    note: No WebSocket or streaming surface is documented or present in any harvested spec.
+  - protocol: OData
+    scheme: https
+    documented: false
+    note: >-
+      No OData surface. GET https://ap-southeast-2.api.vaultre.com.au/api/v1.3/$metadata
+      returns HTTP 404.
+sectorPosture:
+  homeMarket: Australia
+  secondaryMarkets:
+  - New Zealand
+  valueChainPosition: >-
+    Agency CRM / transaction system of record. Upstream of the portal duopoly (feeds
+    listings out), downstream of valuation providers (proxies CoreLogic AVM), and entirely
+    absent from title, land registry and e-conveyancing (no PEXA surface).
+  resoPosture: >-
+    No RESO reference found - RESO is absent from VaultRE's entire public surface, which is
+    the honest and expected answer for an Australian CRM.
+  resoCertified: false
+  resoEvidence: |
+    Probed and found nothing:
+      - Full-text search of all 9 docs.api.vaultre.com.au pages for "RESO", "OData",
+        "$metadata", "Data Dictionary", "Universal Property Identifier" and "UPI" returned
+        only two hits, both false positives on the substring "reso" inside the URL
+        https://resources.vaultre.com.au/api-integrations.
+      - Full-text search of all four harvested OpenAPI documents (763KB, 435KB, 225KB and
+        12KB) for "RESO", "OData", "$metadata" and "Data Dictionary" returned zero matches.
+      - GET https://ap-southeast-2.api.vaultre.com.au/api/v1.3/$metadata returned HTTP 404;
+        no OData service document or CSDL exists.
+      - No RESO Web API certification, no RESO Data Dictionary certification (no version
+        1.7, 2.0 or otherwise), no RESO certification directory listing, and no UPI usage
+        is claimed anywhere by VaultRE.
+    This is the correct sector reading rather than a gap: RESO is a North American
+    (NAR/MLS) construct. Australia has no MLS system and no RESO mandate. The equivalent
+    Australian machine-readable listing contract is REAXML plus portal-specific feeds,
+    and VaultRE's own answer to the same problem is its Aggregator API - a proprietary
+    JSON ingestion contract for franchise groups, not a standards-body one.
+  certificationVsReachability: >-
+    VaultRE inverts the pattern this study is testing. There is no certification at all,
+    yet the machine-readable contract is more reachable than most certified US endpoints:
+    four OpenAPI documents are downloadable anonymously with HTTP 200 by anyone, and the
+    contract is versioned with a public changelog. Certification and reachability are
+    genuinely independent here - VaultRE has zero of the former and a great deal of the
+    latter, while the DATA behind the contract remains fully gated.
+accessGate:
+  gate: application-approval
+  gated: true
+  selfServe: false
+  publicDocs: true
+  publicSpecs: true
+  whatADeveloperMustDo: |
+    Two separate steps, both required, neither self-serve:
+      1. REGISTER AS AN APPROVED INTEGRATOR. Submit the integration-request form at
+         https://resources.vaultre.com.au/api-integrations (HTTP 200, publicly reachable,
+         no login). VaultRE states: "We review each integration request to ensure the best
+         experience for our mutual customers ... generally new integrations are created
+         within two business days. Once setup you will receive an email with your API
+         credentials." The docs put it plainly: "Before your web developer can access the
+         VaultRE API, they need to be registered as an approved integrator with VaultRE."
+         Approval yields the integrator's API Key.
+      2. BE GRANTED A TOKEN BY EACH AGENCY. The API Key alone opens nothing. The VaultRE
+         customer must go to Office Integrations > Third-Party Access inside their own
+         account, select the integrator from a dropdown and click "Create Token", then hand
+         that Access Token to the developer. The customer chooses the scopes on the token
+         and can revoke it at any time. One token per customer, so an integrator serving
+         many agencies holds many tokens.
+    The Aggregator API is a third, separate registration - "When you register for
+    Aggregator access, VaultRE will provide you with a unique CRM Key and Secret Key" - and
+    the docs state it is "completely separate to the core VaultRE API".
+  notRequired: |
+    No MLS or board membership (none exists in Australia), no real estate licence, no
+    broker sponsorship, no IDX/VOW data licence, and no signed data-licence agreement is
+    named as a precondition in the public documentation. The gate is commercial/operational
+    approval plus the customer's own consent, not membership or licensure.
+  pricing: >-
+    No public pricing for API access is published. The MRI Vault product site prices the
+    CRM, not the API.
+  contact: api@vaultre.com.au
+authModel:
+  scheme: API key + bearer token (both required on every request)
+  headers:
+  - name: X-Api-Key
+    value: integrator API Key
+    note: Missing or invalid returns HTTP 403 Forbidden per the technical guide.
+  - name: Authorization
+    value: Bearer <customer access token>
+    note: Per-agency token, scoped by the customer, revocable by the customer.
+  securitySchemesInSpec:
+    v1_3: [Api-Key (apiKey, header, X-Api-Key), Bearer (http, bearer)]
+    v1_2: [Api-Key, Bearer]
+    v1_1: [Api-Key, Bearer]
+    aggregator_v1_0: [ApiKey, Bearer]
+  oauth: |
+    An OAuth2-style authorisation-code flow is offered for minting customer tokens without
+    handling VaultRE credentials. Authorisation endpoints:
+      https://login.vaultre.com.au/cgi-bin/clientvault/oauth-authorize.cgi       (third-party / office-account tokens)
+      https://login.vaultre.com.au/cgi-bin/clientvault/oauth-authorize-user.cgi  (user-level tokens)
+    Token exchange (server-side only; CORS blocks browser exchange):
+      POST https://login.vaultre.com.au/cgi-bin/clientvault/integrations/oauthexchange.cgi
+    Parameters are client_id, redirect_uri, response_type=code, optional state. The
+    authorisation code is valid for 60 seconds. Redirect URIs must be registered
+    explicitly, including any query string - VaultRE matches them literally, not by prefix.
+    The client_id is issued out-of-band by emailing api@vaultre.com.au and is a different
+    value from the API key. There is no dynamic client registration.
+  jwt: |
+    Integrator-level and Aggregator endpoints replace the customer bearer token with a
+    self-signed HS512 JWT. Integrator payload {"apiKey": ..., "timestamp": <epoch s>},
+    valid 300 seconds. Aggregator payload {"crmKey": ..., "timestamp": <epoch s>}, valid
+    120 seconds. Both signed with a VaultRE-provided secret key.
+  oidc: |
+    Not OpenID Connect. GET https://login.vaultre.com.au/.well-known/openid-configuration
+    returns HTTP 404, as does the same path on ap-southeast-2.api.vaultre.com.au. The
+    OAuth flow is hand-rolled CGI, not a standards-discoverable OP.
+  scopes: >-
+    Scopes are real and customer-assigned per token. GET /scopes ("Retrieve a list of
+    granted scopes for this bearer token", operationId getTokenScopes) returns an array of
+    strings; GET /integrator/scopes is the integrator-authenticated equivalent. The spec
+    does not enumerate the scope vocabulary, and no scope names were invented here.
+openData:
+  exists: false
+  note: >-
+    Nothing VaultRE publishes is open data. Every dataset behind the API is an individual
+    agency's private CRM data - contacts, listings, offers, tenancies, trust records, AML
+    checks - reachable only with that agency's consent. The Australian open-data
+    counterweights in this sector sit elsewhere (state land registries, ABS, data.gov.au),
+    not with a CRM vendor. VaultRE additionally forbids hotlinking its property images and
+    requires integrators to download and self-host them.
+harvestedSpecs:
+- file: openapi/vaultre-api-v1-3-openapi.yml
+  source: https://docs.api.vaultre.com.au/swagger/vaultre.yaml
+  fetched: '2026-07-26'
+  httpStatus: 200
+  bytes: 763679
+  format: OpenAPI 3.0.1
+  title: VaultRE
+  version: '1.3'
+  server: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  paths: 324
+  operations: 453
+  parses: true
+  note: Current version. 48 declared tags.
+- file: openapi/vaultre-api-v1-2-openapi.yml
+  source: https://docs.api.vaultre.com.au/swagger/vaultre_v1_2.yaml
+  fetched: '2026-07-26'
+  httpStatus: 200
+  bytes: 435571
+  format: OpenAPI 3.0.1
+  title: VaultRE
+  version: '1.2'
+  server: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  paths: 229
+  operations: 326
+  parses: true
+  note: Prior version, still published and selectable in the public Swagger UI.
+- file: openapi/vaultre-api-v1-1-openapi.yml
+  source: https://docs.api.vaultre.com.au/swagger/vaultre_v1_1.yaml
+  fetched: '2026-07-26'
+  httpStatus: 200
+  bytes: 225667
+  format: OpenAPI 3.0.1
+  title: VaultRE
+  version: '1.1'
+  server: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  paths: 121
+  operations: 189
+  parses: true
+  note: Oldest published version, still selectable in the public Swagger UI.
+- file: openapi/vaultre-aggregator-api-v1-0-openapi.yml
+  source: https://docs.api.vaultre.com.au/swagger/aggregator/aggregator_v1_0.yaml
+  fetched: '2026-07-26'
+  httpStatus: 200
+  bytes: 12767
+  format: OpenAPI 3.0.1
+  title: VaultRE Aggregator
+  version: '1.0'
+  server: https://aggregator.api.vaultre.com.au/api/v1.0
+  paths: 6
+  operations: 6
+  parses: true
+  note: >-
+    Separate franchise-group ingestion API. POST /staff, /appraisal, /listing,
+    /unconditional, /settlement, /withdrawn.
+apiSegmentation:
+  note: >-
+    VaultRE does not split its core API into marketed products; it ships one versioned
+    Swagger document with 48 tags. The three apis[] entries in apis.yml mirror the
+    segmentation the documentation itself uses - core API, integrator-level endpoints, and
+    the explicitly separate Aggregator API.
+  coreTagsV1_3:
+  - properties (125 ops)
+  - contacts (70)
+  - user (38)
+  - types (18)
+  - advertising (16)
+  - categories (14)
+  - maintenance (14)
+  - residentialProperties (13)
+  - commercialProperties (13)
+  - integrator (12)
+  - templates (12)
+  - deals (12)
+  - messages (12)
+  - ruralProperties (11)
+  - search (10)
+  - suppliers (8)
+  - landProperties (7)
+  - tasks (7)
+  - aml (7)
+  - calendar (6)
+  - feedback (6)
+  - businessProperties (6)
+  - bulk (6)
+  - buildings (5)
+  - holidayRentalProperties (5)
+  - corelogic (5)
+  - propertyOfferConditions (5)
+  - inspections (5)
+  - livestockProperties (5)
+  - clearingSalesProperties (5)
+  - enquiries (4)
+  - keys (4)
+  - propertyOffer (4)
+  - campaigns (4)
+  - suggest (3)
+  - propertyStats (3)
+  - sms (2)
+  - email (2)
+  - suburbs (2)
+  - lists (2)
+  - precincts (2)
+  - fmsleads (2)
+  - eventStream (1)
+  - mergeFields (1)
+  - tenancies (1)
+  - openhomes (1)
+  - conjunctionals (1)
+  - invoices (1)
+  - reinz (1)
+developerSurface:
+  developerPortal: https://docs.api.vaultre.com.au/
+  portalConfirmed: true
+  portalNote: >-
+    HTTP 200, publicly readable with no login, generated by mkdocs-1.4.2 /
+    mkdocs-material-8.5.10. Sitemap declares exactly 9 pages. This is a real public
+    documentation portal, but it is a docs site rather than a self-serve developer console -
+    there is no signup-and-call flow and no key issuance in the browser.
+  interactiveConsole: >-
+    Yes, in a limited sense - the Swagger UI at /swagger/index.html allows "try it out"
+    requests against the live API, but only for someone who already holds an API key and a
+    customer access token.
+  sandbox: false
+  sandboxNote: No sandbox, demo account, or free test dataset is offered publicly.
+  rateLimits: >-
+    Published in the technical guide: 10 requests per second and 10,000 requests per day
+    per API Key, quota resetting at 00:00 UTC, HTTP 429 when exceeded. VaultRE explicitly
+    advises against calling the API live per page load and recommends periodic
+    synchronisation and local caching.
+  versioning: >-
+    Minor versions 1.1, 1.2 and 1.3 are all published simultaneously. Within a minor
+    version VaultRE commits to additive-only changes (new fields may appear, fields will
+    not be removed or retyped); breaking changes are reserved for version bumps. Consumers
+    are told to tolerate arbitrary new fields.
+  changelog: >-
+    Public and actively maintained at /changelog.html (98KB), segmented by version, with
+    dated entries through 2026-05-29 - recent examples include a source field on external
+    feedback, GET /merge-fields, and GET /contacts/{contactid}/gdpr for consent records.
+  sdks: >-
+    No official SDK or client library is published. The only code VaultRE ships is the
+    sample repository github.com/VaultGroup/api-samples (curl, PHP, Perl and Python
+    samples, last pushed 2024-07-24, no licence file). A WordPress Contact Form 7 plugin
+    (VaultGroup/wp-plugin-contact-form-7) also exists in the org.
+  postman: false
+  postmanNote: No Postman collection or workspace is published.
+  webhooks: true
+  mcp:
+    exists: false
+    note: >-
+      VaultRE publishes no MCP server for its product API. The org does host a public
+      repository named VaultGroup/vaultre-mcp-registry serving
+      https://vaultgroup.github.io/vaultre-mcp-registry/registry.json (HTTP 200), but
+      inspection shows it is INTERNAL ENGINEERING TOOLING for a "vaultre-copilot-bot" -
+      the five registered servers wrap Atlassian, Zendesk, GitHub and Elasticsearch, not
+      the VaultRE API. It must not be counted as an agent-facing artifact for the VaultRE
+      product API.
+  githubOrg:
+    url: https://github.com/VaultGroup
+    name: Vault Group Pty Ltd
+    publicRepos: 15
+    note: Mostly mobile/Flutter/iOS forks; api-samples is the only API-facing repo.
+ownership:
+  operatingName: VaultRE
+  marketedAs: MRI Vault CRM
+  legalEntityOnGitHub: Vault Group Pty Ltd
+  parent: MRI Software
+  evidence: |
+    vaultre.com.au returns HTTP 301 and resolves to
+    https://www.mrisoftware.com/au/products/vault/ (HTTP 200), whose title is
+    "MRI Vault | Formerly VaultRE | MRI Software AU". The integrator registration page at
+    resources.vaultre.com.au is titled "Request integration access to the MRI Vault API -
+    MRI Software | AU". The MCP registry references a Zendesk subdomain "proptech-group",
+    consistent with the PropTech Group lineage. No acquisition date is asserted here
+    because none was verified from a primary source during this review.
+  caution: >-
+    vaultgroup.com.au is an unrelated accountancy business ("The Accountants") and is NOT a
+    VaultRE property. It was probed and excluded.
+strengths:
+- Four complete OpenAPI 3.0.1 documents downloadable anonymously with HTTP 200 - rare in
+  this sector and rarer still outside North America.
+- Large, honestly-tagged surface - 324 paths and 453 operations in v1.3 across the full
+  agency lifecycle.
+- Three minor versions published side by side with an explicit additive-only compatibility
+  promise.
+- Public, dated, actively maintained changelog through 2026-05-29.
+- Real webhooks with HMAC-SHA512 request signing and replay protection, plus a polling
+  event stream as an alternative.
+- Customer-controlled, scoped, revocable per-account tokens with a readable GET /scopes.
+- Published rate limits and explicit caching guidance.
+- Documentation is plain, honest and free of marketing - it names the two-step access
+  reality up front.
+weaknesses:
+- Not self-serve. Nothing can be called without a reviewed approval and a separate
+  per-agency token grant.
+- No sandbox, demo tenant or public test dataset, so the specs cannot be exercised at all
+  before approval.
+- No official SDKs; the sample repo has not been pushed since July 2024 and carries no
+  licence.
+- No Postman collection, no AsyncAPI for the webhook/event surface, no MCP server for the
+  product API.
+- OAuth flow is hand-rolled CGI with no OpenID Connect discovery (/.well-known/
+  openid-configuration is 404) and no dynamic client registration; client_id issuance is by
+  email.
+- Redirect URIs must be enumerated literally including query strings, which is brittle.
+- No published API pricing or plans.
+- Single region only - the sole documented core host is ap-southeast-2.
+- Scope vocabulary is not documented anywhere; it is only discoverable at runtime from a
+  live token.
+sources:
+- url: https://docs.api.vaultre.com.au/
+  type: DeveloperPortal
+  httpStatus: 200
+  note: Public MkDocs-Material developer documentation. Title "VaultRE API Documentation".
+- url: https://docs.api.vaultre.com.au/sitemap.xml
+  type: Sitemap
+  httpStatus: 200
+  note: Declares 9 pages - index, aggregator, basics, changelog, guide, integrator, oauth, samples, webhooks.
+- url: https://docs.api.vaultre.com.au/basics.html
+  type: GettingStarted
+  httpStatus: 200
+  note: >-
+    States the API is open to any third party but that the developer "need[s] to be
+    registered as an approved integrator", then describes the customer-side Office
+    Integrations > Third-Party Access > Create Token grant and revocation.
+- url: https://docs.api.vaultre.com.au/guide.html
+  type: Documentation
+  httpStatus: 200
+  note: >-
+    Technical guide - base endpoint, X-Api-Key and Bearer requirements, 403 on missing key,
+    rate limits (10/s, 10,000/day, 429), versioning policy, image hotlinking prohibition,
+    GET /scopes, api@vaultre.com.au contact.
+- url: https://docs.api.vaultre.com.au/oauth.html
+  type: Authentication
+  httpStatus: 200
+  note: >-
+    OAuth2-style authorisation-code flow, both authorize CGI endpoints, the exchange
+    endpoint, 60-second code lifetime, literal redirect-URI matching, server-side-only
+    exchange.
+- url: https://docs.api.vaultre.com.au/integrator.html
+  type: Documentation
+  httpStatus: 200
+  note: Integrator-level endpoints and the HS512 JWT (apiKey + timestamp, 300s) they require.
+- url: https://docs.api.vaultre.com.au/aggregator.html
+  type: Documentation
+  httpStatus: 200
+  note: >-
+    Aggregator API - "completely separate to the core VaultRE API", HTTP 202 queued
+    processing, CRM Key + Secret Key, HS512 JWT valid 120s, error webhooks.
+- url: https://docs.api.vaultre.com.au/webhooks.html
+  type: Documentation
+  httpStatus: 200
+  note: >-
+    Webhook payload shape, X-VaultRE-Signature HMAC-SHA512 scheme explicitly compared to
+    Stripe's, byte-exact body hashing requirement.
+- url: https://docs.api.vaultre.com.au/samples.html
+  type: CodeExamples
+  httpStatus: 200
+  note: >-
+    Live curl samples against /contacts, /enquiries, /properties/residential/sale, photo
+    and file upload, and /aml.
+- url: https://docs.api.vaultre.com.au/changelog.html
+  type: ChangeLog
+  httpStatus: 200
+  note: Dated changes by version; most recent entry 2026-05-29.
+- url: https://docs.api.vaultre.com.au/swagger/index.html
+  type: APIReference
+  httpStatus: 200
+  note: >-
+    Swagger UI whose bootstrap declares three downloadable spec URLs - vaultre.yaml (v1.3),
+    vaultre_v1_2.yaml, vaultre_v1_1.yaml.
+- url: https://docs.api.vaultre.com.au/swagger/vaultre.yaml
+  type: OpenAPI
+  httpStatus: 200
+  note: Harvested verbatim to openapi/vaultre-api-v1-3-openapi.yml. Parses.
+- url: https://docs.api.vaultre.com.au/swagger/vaultre_v1_2.yaml
+  type: OpenAPI
+  httpStatus: 200
+  note: Harvested verbatim to openapi/vaultre-api-v1-2-openapi.yml. Parses.
+- url: https://docs.api.vaultre.com.au/swagger/vaultre_v1_1.yaml
+  type: OpenAPI
+  httpStatus: 200
+  note: Harvested verbatim to openapi/vaultre-api-v1-1-openapi.yml. Parses.
+- url: https://docs.api.vaultre.com.au/swagger/aggregator/index.html
+  type: APIReference
+  httpStatus: 200
+  note: Swagger UI declaring aggregator_v1_0.yaml.
+- url: https://docs.api.vaultre.com.au/swagger/aggregator/aggregator_v1_0.yaml
+  type: OpenAPI
+  httpStatus: 200
+  note: Harvested verbatim to openapi/vaultre-aggregator-api-v1-0-openapi.yml. Parses.
+- url: https://resources.vaultre.com.au/api-integrations
+  type: Signup
+  httpStatus: 200
+  note: >-
+    "Request integration access to the MRI Vault API" - the approval gate. Reviewed
+    requests, credentials emailed, generally within two business days.
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3/contacts
+  type: APIBaseURL
+  httpStatus: 401
+  note: Live core API host; rejects anonymous requests.
+- url: https://aggregator.api.vaultre.com.au/api/v1.0/staff
+  type: APIBaseURL
+  httpStatus: 403
+  note: Live aggregator host; rejects anonymous requests.
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3/$metadata
+  type: Probe
+  httpStatus: 404
+  note: No OData $metadata / CSDL document. Confirms the absence of any RESO Web API surface.
+- url: https://login.vaultre.com.au/
+  type: Login
+  httpStatus: 200
+  note: Customer login host; also hosts the OAuth authorize and exchange CGI endpoints.
+- url: https://login.vaultre.com.au/.well-known/openid-configuration
+  type: Probe
+  httpStatus: 404
+  note: No OpenID Connect discovery document. The OAuth implementation is not OIDC.
+- url: https://ap-southeast-2.api.vaultre.com.au/.well-known/openid-configuration
+  type: Probe
+  httpStatus: 404
+  note: No OIDC discovery on the API host either.
+- url: https://api.vaultre.com.au/
+  type: Probe
+  httpStatus: 0
+  note: Does not resolve. The API lives on the regional host ap-southeast-2.api.vaultre.com.au.
+- url: https://developer.vaultre.com.au/
+  type: Probe
+  httpStatus: 0
+  note: Does not resolve.
+- url: https://developers.vaultre.com.au/
+  type: Probe
+  httpStatus: 0
+  note: Does not resolve.
+- url: https://docs.vaultre.com.au/
+  type: Probe
+  httpStatus: 0
+  note: Does not resolve. The docs live at docs.api.vaultre.com.au.
+- url: https://vaultre.com.au/
+  type: Website
+  httpStatus: 301
+  note: Redirects to https://www.mrisoftware.com/au/products/vault/.
+- url: https://www.mrisoftware.com/au/products/vault/
+  type: Website
+  httpStatus: 200
+  note: '"MRI Vault | Formerly VaultRE | MRI Software AU" - the product marketing home.'
+- url: https://github.com/VaultGroup
+  type: GitHubOrganization
+  httpStatus: 200
+  note: '"Vault Group Pty Ltd", 15 public repos, blog field set to https://www.vaultre.com.au.'
+- url: https://github.com/VaultGroup/api-samples
+  type: SourceCode
+  httpStatus: 200
+  note: '"A set of sample queries for interacting with the VaultRE API". PHP. Last push 2024-07-24. No licence.'
+- url: https://vaultgroup.github.io/vaultre-mcp-registry/registry.json
+  type: Probe
+  httpStatus: 200
+  note: >-
+    Internal engineering MCP registry (Atlassian, Zendesk, GitHub, Elastic servers for an
+    internal copilot bot). NOT a VaultRE product-API MCP server. Excluded from apis.yml.
+artifacts:
+  apis: 3
+  openapi: 4
+  reso: 0
+  odata: 0
+  asyncapi: 0
+  postman: 0
+  sdks: 0
+  webhooks: 1
+tier: 1
+tier-reason: >-
+  Tier-1 on contract quality despite a gated data surface - VaultRE publishes and serves
+  four complete, parseable, versioned OpenAPI 3.0.1 documents anonymously, alongside real
+  public documentation, signed webhooks, published rate limits and an active changelog.
+  The gate is on keys and customer consent, not on the contract.

@@ -1,0 +1,522 @@
+openapi: 3.0.1
+info:
+  title: VaultRE Aggregator
+  description: Please ensure all API requests use HTTP/1.1.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: "1.0"
+servers:
+- url: https://aggregator.api.vaultre.com.au/api/v1.0
+security:
+- ApiKey: []
+- Bearer: []
+tags:
+- name: staff
+  description: Operations related to staff
+- name: properties
+  description: Operations related to properties
+paths:
+  /staff:
+    post:
+      tags:
+      - staff
+      summary: Add/Update a staff member
+      description: Add/Update a staff member
+      operationId: addUpdateStaff
+      requestBody:
+        description: Staff object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Staff'
+        required: true
+      responses:
+        202:
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data payload
+          content: {}
+      x-codegen-request-body-name: body
+  /appraisal:
+    post:
+      tags:
+      - properties
+      summary: Add/Update an appraisal
+      description: Add/Update an appraisal
+      operationId: addUpdateAppraisal
+      requestBody:
+        description: Appraisal object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appraisal'
+        required: true
+      responses:
+        202:
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data payload
+          content: {}
+      x-codegen-request-body-name: body
+  /listing:
+    post:
+      tags:
+      - properties
+      summary: Add/Update a listing
+      description: Add/Update a listing
+      operationId: addUpdateListing
+      requestBody:
+        description: Listing object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Listing'
+        required: true
+      responses:
+        202:
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data payload
+          content: {}
+      x-codegen-request-body-name: body
+  /unconditional:
+    post:
+      tags:
+      - properties
+      summary: Add/Update an unconditional sale
+      description: Add/Update an unconditional sale
+      operationId: addUpdateUnconditional
+      requestBody:
+        description: Unconditional object.<br />The sum of commissionSplits[].amountExGST
+          must equal grossCommissionExGST.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Unconditional'
+        required: true
+      responses:
+        202:
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data payload
+          content: {}
+      x-codegen-request-body-name: body
+  /settlement:
+    post:
+      tags:
+      - properties
+      summary: Add/Update a settlement
+      description: Add/Update a settlement
+      operationId: addUpdateSettlement
+      requestBody:
+        description: Settlement object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Settlement'
+        required: true
+      responses:
+        202:
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data payload
+          content: {}
+      x-codegen-request-body-name: body
+  /withdrawn:
+    post:
+      tags:
+      - properties
+      summary: Add/Update a withdrawn listing
+      description: Add/Update a withdrawn listing
+      operationId: addUpdateWithdrawn
+      requestBody:
+        description: Withdrawn object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Withdrawn'
+        required: true
+      responses:
+        202:
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data payload
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+    Staff:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+        transactionDate:
+          type: string
+          format: date-time
+        staffId:
+          type: string
+        officeId:
+          type: string
+        active:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        position:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+          format: email
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          type: string
+        postcode:
+          type: string
+        state:
+          type: string
+          enum:
+          - WA
+          - NSW
+          - SA
+          - QLD
+          - ACT
+          - NT
+          - TAS
+          - VIC
+    PropertyStaff:
+      type: object
+      properties:
+        staffId:
+          type: string
+    CommissionSplit:
+      type: object
+      properties:
+        staffId:
+          type: string
+        conjunctingAgentName:
+          type: string
+        type:
+          type: string
+          enum:
+          - lister
+          - seller
+          - listerAndSeller
+          - conjunctionalAgent
+        amountExGST:
+          type: number
+          format: float
+    Appraisal:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+        transactionDate:
+          type: string
+          format: date-time
+        appraisalId:
+          type: string
+        propertyId:
+          type: string
+        officeId:
+          type: string
+        staff:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyStaff'
+        appraisalDate:
+          type: string
+          format: date-time
+        appraisalPrice:
+          type: number
+          format: float
+        address:
+          $ref: '#/components/schemas/Address'
+        classification:
+          type: string
+          enum:
+          - residential
+          - commercial
+          - business
+          - rural
+          - land
+        active:
+          type: boolean
+    Listing:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+        transactionDate:
+          type: string
+          format: date-time
+        listingId:
+          type: string
+        appraisalId:
+          type: string
+        propertyId:
+          type: string
+        officeId:
+          type: string
+        staff:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyStaff'
+        auctionDate:
+          type: string
+          format: date-time
+        auctionVenue:
+          type: string
+        tenderDate:
+          type: string
+          format: date-time
+        listingAuthorityDate:
+          type: string
+          format: date-time
+        listingPrice:
+          type: number
+          format: float
+        address:
+          $ref: '#/components/schemas/Address'
+        classification:
+          type: string
+          enum:
+          - residential
+          - commercial
+          - business
+          - rural
+          - land
+        active:
+          type: boolean
+        listingAuthorityType:
+          type: string
+          enum:
+          - exclusive
+          - open
+          - conjunctional
+        methodOfSale:
+          type: string
+          enum:
+          - privateTreaty
+          - auction
+          - tender
+          - setSaleDate
+          - saleByNegotiation
+          - formalTender
+          - expressionOfInterest
+    Unconditional:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+        transactionDate:
+          type: string
+          format: date-time
+        unconditionalId:
+          type: string
+        listingId:
+          type: string
+        propertyId:
+          type: string
+        officeId:
+          type: string
+        commissionSplits:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommissionSplit'
+        unconditionalDate:
+          type: string
+          format: date-time
+        proposedSettlementDate:
+          type: string
+          format: date-time
+        salePrice:
+          type: number
+          format: float
+        grossCommissionExGST:
+          type: number
+          format: float
+        address:
+          $ref: '#/components/schemas/Address'
+        classification:
+          type: string
+          enum:
+          - residential
+          - commercial
+          - business
+          - rural
+          - land
+        active:
+          type: boolean
+        soldType:
+          type: string
+          enum:
+          - privateTreaty
+          - auction
+          - priorToAuction
+          - postAuction
+          - tender
+    Settlement:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+        transactionDate:
+          type: string
+          format: date-time
+        unconditionalId:
+          type: string
+        settlementId:
+          type: string
+        listingId:
+          type: string
+        propertyId:
+          type: string
+        officeId:
+          type: string
+        commissionSplits:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommissionSplit'
+        unconditionalDate:
+          type: string
+          format: date-time
+        settlementDate:
+          type: string
+          format: date-time
+        salePrice:
+          type: number
+          format: float
+        grossCommissionExGST:
+          type: number
+          format: float
+        address:
+          $ref: '#/components/schemas/Address'
+        classification:
+          type: string
+          enum:
+          - residential
+          - commercial
+          - business
+          - rural
+          - land
+        active:
+          type: boolean
+        soldType:
+          type: string
+          enum:
+          - privateTreaty
+          - auction
+          - priorToAuction
+          - postAuction
+          - tender
+        vendorPaidAdvertising:
+          type: number
+          format: float
+        agentPaidAdvertising:
+          type: number
+          format: float
+    Withdrawn:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+        transactionDate:
+          type: string
+          format: date-time
+        listingId:
+          type: string
+        appraisalId:
+          type: string
+        propertyId:
+          type: string
+        officeId:
+          type: string
+        withdrawnId:
+          type: string
+        staff:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyStaff'
+        withdrawnDate:
+          type: string
+          format: date-time
+        address:
+          $ref: '#/components/schemas/Address'
+        classification:
+          type: string
+          enum:
+          - residential
+          - commercial
+          - business
+          - rural
+          - land
+        active:
+          type: boolean
+        vendorPaidAdvertising:
+          type: number
+          format: float
+        agentPaidAdvertising:
+          type: number
+          format: float
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+      description: This value is provided to you by VaultRE and identifies you as a CRM
+    Bearer:
+      type: http
+      scheme: bearer
+      description: This value is a JWT token signed with the HS512 algorithm using your X-Api-Key value as the secret.

@@ -1,0 +1,186 @@
+aid: vaultre
+url: https://raw.githubusercontent.com/api-evangelist/vaultre/refs/heads/main/apis.yml
+name: VaultRE
+kind: company
+description: >-
+  VaultRE - now marketed as MRI Vault CRM, after VaultRE's parent Vault Group / PropTech
+  Group was absorbed into MRI Software - is an Australian cloud real estate CRM and
+  transaction platform used by residential, commercial, rural, land, business and
+  property-management agencies across Australia and New Zealand. It sits in the agency
+  and CRM layer of the value chain rather than the portal or registry layer: it holds
+  the agency's contacts, appraisals, listings, offers, open homes, feedback, tenancies,
+  maintenance, invoicing and AML records, and feeds listings outward to Australia's portal
+  duopoly (realestate.com.au and Domain) instead of being a portal, a land registry or a
+  conveyancing rail itself. Unlike most of this sector, VaultRE publishes a genuinely open,
+  versioned, machine-readable contract - a public MkDocs developer site at
+  docs.api.vaultre.com.au carrying downloadable OpenAPI 3.0.1 documents for v1.1, v1.2 and
+  v1.3 of the core API (324 paths and 453 operations in v1.3) plus a separate Aggregator
+  API for franchise-group CRM data feeds. The API surface is documented openly but access
+  is not self-serve: anyone can read the docs and download the specs, but API keys are
+  issued only after an integrator-registration request is reviewed and approved (VaultRE
+  states new integrations are generally created within two business days), and each agency
+  must then mint a scoped access token for that integrator from inside its own VaultRE
+  account. RESO plays no part here - Australia has no RESO mandate and no RESO, OData or
+  $metadata reference appears anywhere in VaultRE's documentation or specifications; the
+  local listing-distribution seam is REAXML and portal-specific feeds instead. Auth is a
+  static X-Api-Key integrator key paired with a per-account Bearer access token, with an
+  OAuth2-style authorisation-code flow available for token minting, scoped tokens
+  readable via GET /scopes, HMAC-SHA512-signed webhooks, and published rate limits of 10
+  requests per second and 10,000 requests per day.
+accessModel:
+  pricing: unknown
+  onboarding: approval
+  trial: false
+  try_now: false
+  public: false
+  label: Public docs and specs, approval-gated keys
+  confidence: high
+  source:
+  - documentation
+  - authentication
+  generated: '2026-07-26'
+  method: manual
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vaultre.png
+tags:
+- Real Estate
+- Australia
+- New Zealand
+- PropTech
+- CRM
+- Property Listings
+- Property Management
+- Rentals
+- Commercial Real Estate
+- Webhooks
+created: '2026-07-26'
+modified: '2026-07-26'
+specificationVersion: '0.19'
+apis:
+- aid: vaultre:vaultre-api
+  name: VaultRE API
+  description: >-
+    The core VaultRE REST API - the open API a third-party developer integrates an agency
+    website or application against. Version 1.3 documents 324 paths and 453 operations
+    covering contacts, properties across every life type (residential, commercial, rural,
+    land, business, holiday rental, livestock, clearing sales), listings and photos,
+    enquiries, offers and offer conditions, open homes, feedback, appraisals, calendar and
+    tasks, inspections, maintenance and suppliers, tenancies, invoices, deals, campaigns
+    and advertising, templates, merge fields, SMS and email messaging, AML checks, keys,
+    suburbs and precincts, an event-stream poll endpoint, CoreLogic property and AVM
+    lookups, and REINZ sales reporting for New Zealand. Every request carries both an
+    integrator X-Api-Key header and a per-account Bearer access token; the granted scopes
+    on a token are readable from GET /scopes.
+  humanURL: https://docs.api.vaultre.com.au/swagger/index.html
+  baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  tags:
+  - Contacts
+  - Properties
+  - Listings
+  - Property Management
+  - Enquiries
+  - AML
+  - Valuation
+  properties:
+  - type: OpenAPI
+    url: openapi/vaultre-api-v1-3-openapi.yml
+  - type: OpenAPI
+    url: openapi/vaultre-api-v1-2-openapi.yml
+  - type: OpenAPI
+    url: openapi/vaultre-api-v1-1-openapi.yml
+  - type: APIReference
+    url: https://docs.api.vaultre.com.au/swagger/index.html
+  - type: Documentation
+    url: https://docs.api.vaultre.com.au/guide.html
+  - type: GettingStarted
+    url: https://docs.api.vaultre.com.au/basics.html
+  - type: Authentication
+    url: https://docs.api.vaultre.com.au/oauth.html
+  - type: Documentation
+    url: https://docs.api.vaultre.com.au/webhooks.html
+  - type: CodeExamples
+    url: https://docs.api.vaultre.com.au/samples.html
+  - type: ChangeLog
+    url: https://docs.api.vaultre.com.au/changelog.html
+  - type: SourceCode
+    url: https://github.com/VaultGroup/api-samples
+- aid: vaultre:vaultre-integrator-api
+  name: VaultRE Integrator API
+  description: >-
+    A distinct set of endpoints that operate at the integrator level rather than at an
+    individual agency-account level, letting an approved integrator enumerate the accounts
+    that have granted it an access token, list users on those accounts, validate a user,
+    read granted scopes, list tokens, retrieve account-scoped merge fields, and read its
+    own API usage. These endpoints replace the customer-supplied Bearer token with a
+    short-lived HS512 JWT the integrator signs itself, carrying its API key and a current
+    epoch timestamp and valid for 300 seconds, alongside the same X-Api-Key header.
+  humanURL: https://docs.api.vaultre.com.au/integrator.html
+  baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3/integrator
+  tags:
+  - Integrator
+  - Accounts
+  - Scopes
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/vaultre-api-v1-3-openapi.yml
+  - type: Documentation
+    url: https://docs.api.vaultre.com.au/integrator.html
+  - type: APIReference
+    url: https://docs.api.vaultre.com.au/swagger/index.html
+  - type: SourceCode
+    url: https://github.com/VaultGroup/api-samples/blob/master/python/create_jwt.py
+- aid: vaultre:vaultre-aggregator-api
+  name: VaultRE Aggregator API
+  description: >-
+    A deliberately separate write-only ingestion API that lets other CRM systems feed
+    property data into VaultRE on behalf of a franchise-group agency. Six documented
+    operations accept staff records and property lifecycle events - appraisal, listing,
+    unconditional sale, settlement and withdrawn listing. Submissions are queued rather
+    than processed live, returning HTTP 202 on successful receipt, with validation and
+    processing errors delivered asynchronously to a nominated webhook URL. Authentication
+    uses a per-aggregator Secret Key in the X-Api-Key header plus a self-signed HS512 JWT
+    bearing the aggregator's CRM Key, valid for 120 seconds.
+  humanURL: https://docs.api.vaultre.com.au/swagger/aggregator/index.html
+  baseURL: https://aggregator.api.vaultre.com.au/api/v1.0
+  tags:
+  - Aggregator
+  - Property Data
+  - Franchise
+  - Ingestion
+  properties:
+  - type: OpenAPI
+    url: openapi/vaultre-aggregator-api-v1-0-openapi.yml
+  - type: APIReference
+    url: https://docs.api.vaultre.com.au/swagger/aggregator/index.html
+  - type: Documentation
+    url: https://docs.api.vaultre.com.au/aggregator.html
+  - type: SourceCode
+    url: https://github.com/VaultGroup/api-samples/blob/master/aggregator/client.py
+common:
+- type: Website
+  url: https://www.mrisoftware.com/au/products/vault/
+- type: Documentation
+  url: https://docs.api.vaultre.com.au/
+- type: APIReference
+  url: https://docs.api.vaultre.com.au/swagger/index.html
+- type: GettingStarted
+  url: https://docs.api.vaultre.com.au/basics.html
+- type: Authentication
+  url: https://docs.api.vaultre.com.au/oauth.html
+- type: RateLimits
+  url: https://docs.api.vaultre.com.au/guide.html
+- type: ChangeLog
+  url: https://docs.api.vaultre.com.au/changelog.html
+- type: CodeExamples
+  url: https://docs.api.vaultre.com.au/samples.html
+- type: Signup
+  url: https://resources.vaultre.com.au/api-integrations
+- type: GitHubOrganization
+  url: https://github.com/VaultGroup
+- type: SourceCode
+  url: https://github.com/VaultGroup/api-samples
+- type: Login
+  url: https://login.vaultre.com.au/
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
