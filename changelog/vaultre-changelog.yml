@@ -1,0 +1,159 @@
+generated: '2026-07-26'
+method: searched
+source: https://docs.api.vaultre.com.au/changelog.html
+fetched: '2026-07-26'
+http_status: 200
+scheme:
+  style: dated entries grouped by API minor version
+  versions_documented: ['1.3', '1.2', '1.1', '1.0']
+  current_version: '1.3'
+  entry_count: 197
+  earliest_section: v1.0
+  most_recent_entry: '2026-05-29'
+  breaking_change_policy: >-
+    Additive-only within a minor version; breaking changes reserved for a version bump.
+    Consistent with the record — every entry captured below adds a field, an endpoint or
+    a filter, or fixes a defect; none removes or retypes anything.
+  format: HTML (MkDocs Material page), no RSS/Atom feed, no JSON feed
+  note: >-
+    Recent window only. The live page is the source of truth for full history; 197 dated
+    entries reach back to the v1.0 era (the v1.2 section starts in 2020).
+entries:
+- date: '2026-05-29'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'POST /properties/{propertyid}/{salelease}/{lifeid}/externalFeedback now accepts an optional source object with an id field'
+  - 'PUT /properties/{propertyid}/{salelease}/{lifeid}/externalFeedback/{id} — new endpoint to update an existing external feedback entry'
+  - 'GET /account/enquirySources returns the available source-of-enquiry options'
+  highlights: >-
+    External feedback gains a source-of-enquiry field and now supports franchise shared
+    listings, so users in the same franchise and country can post feedback on properties
+    they do not own.
+- date: '2026-04-28'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /merge-fields — merge fields for a template type and delivery method (email, SMS, cloud letter), filterable by context, include_custom and search'
+  - 'GET /integrator/merge-fields — integrator-authenticated equivalent, scoped to an account'
+  highlights: Template merge fields become machine-readable for both account and integrator auth.
+- date: '2026-03-12'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /contacts/{contactid}/gdpr — GDPR consent records (email, SMS and phone opt-in flags, and a particular property if applicable)'
+  - agentPriceOpinionUpper exposed on property sale objects (GET, POST, PUT)
+  - 'PUT /properties/{propertyid}/photos/{photoid} — update photo caption, published status and type (photograph/floorplan)'
+  highlights: Consent records become readable over the API for the first time.
+- date: '2026-01-20'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /distributionLists/contact now supports sorting by inserted and modified, and filtering by userid'
+- date: '2026-01-06'
+  version: '1.3'
+  breaking: false
+  additions:
+  - abn and acn exposed on contact objects (GET, POST, PUT /contacts)
+  highlights: >-
+    Australian Business Number / Australian Company Number storage; for New Zealand
+    accounts the abn field carries the GST registration number.
+- date: '2026-01-05'
+  version: '1.3'
+  breaking: false
+  additions:
+  - PUT for sale properties now accepts auctionDetails, tenderDetails and setSaleDateDetails
+  fixes:
+  - isConfirmed is now honoured when creating calendar events via POST /calendar/events (previously ignored and defaulted to false)
+- date: '2025-11-21'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'DELETE /properties/{id}/photos — bulk photo deletion with per-photo results and partial-success semantics'
+- date: '2025-11-14'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'PUT /properties/{id}/photos/order — reorder property photos'
+- date: '2025-11-04'
+  version: '1.3'
+  breaking: false
+  additions:
+  - isHouseLandPackage exposed on property sale objects for land and residential properties
+- date: '2025-10-13'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'POST /properties/{propertyid}/{salelease}/{lifeid}/externalFeedback can now create contacts on the fly by supplying a contact object instead of contactId'
+- date: '2025-09-15'
+  version: '1.3'
+  breaking: false
+  additions:
+  - salePricePercentSplit exposed on property sale life objects
+- date: '2025-08-27'
+  version: '1.3'
+  breaking: false
+  additions:
+  - New endpoints for managing AML requests
+  highlights: The AML/CTF surface (the `aml` tag, 7 operations) enters the public contract.
+- date: '2025-07-23'
+  version: '1.3'
+  breaking: false
+  additions:
+  - listingAuthorityFile exposed on property sale life objects
+- date: '2025-03-05'
+  version: '1.3'
+  breaking: false
+  additions:
+  - editableBy array included in the userID object on properties and contacts
+- date: '2025-01-10'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /types/advertising/payments'
+  - 'GET /types/advertising/transactions'
+  - 'POST /advertising/payments'
+- date: '2024-11-19'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /advertising/invoices and GET /advertising/invoices/{id}'
+- date: '2024-05-20'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /reinz/sales now filterable by insertedSince and insertedBefore'
+- date: '2024-04-15'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /properties/externalRefs/lookup — look up Vault properties from external reference IDs'
+- date: '2024-03-12'
+  version: '1.3'
+  breaking: false
+  additions:
+  - hideMobileFromPortal boolean on the user object
+- date: '2024-02-05'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /franchise/accounts/shareListings/users now accepts a comma-separated list of accountIds'
+- date: '2024-01-17'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /properties/{propertyid}/externalRefs — retrieve external reference IDs from a Vault property ID'
+- date: '2023-12-14'
+  version: '1.3'
+  breaking: false
+  additions:
+  - 'GET /properties/sale/fallenSaleWithdrawn — withdrawn and fallen property sales within a date range'
+observations:
+- >-
+  Cadence has slowed and narrowed: v1.2 shipped multiple entries a month through 2020,
+  while v1.3 now averages roughly one dated entry a month, nearly all of them additive
+  field or endpoint additions.
+- >-
+  Direction of travel is compliance and consent (GDPR opt-ins, AML request management,
+  ABN/ACN) plus media management (photo reorder, bulk delete, caption/type update).
+- No entry in the captured window announces a removal, a retype or a sunset.

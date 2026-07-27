@@ -1,0 +1,112 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for VaultRE API v1.2
+  version: 1.0.0
+extends: openapi/vaultre-api-v1-2-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-slug: vaultre
+    x-apievangelist-enriched: '2026-07-26'
+    x-apievangelist-source: https://docs.api.vaultre.com.au/swagger/index.html
+    x-apievangelist-harvest: spec downloaded verbatim from the provider, HTTP 200, unmodified
+- target: $.info
+  update:
+    x-access-model:
+      pricing: unknown
+      onboarding: approval
+      trial: false
+      public: false
+      label: Public docs and specs, approval-gated keys
+      steps:
+      - Approved integrator registration (reviewed, ~2 business days) yields the X-Api-Key
+      - Each agency mints a scoped, revocable access token for that integrator from inside its own account
+      signup: https://www.mrisoftware.com/au/products/vault/api-integrations/
+- target: $.info
+  update:
+    x-rate-limits:
+    - limit: 10
+      unit: requests
+      period: second
+      scope: per API key
+    - limit: 10000
+      unit: requests
+      period: day
+      scope: per API key
+      reset: 00:00 UTC
+    x-rate-limit-status: 429
+    x-rate-limit-docs: https://docs.api.vaultre.com.au/guide.html
+- target: $.info
+  update:
+    x-error-envelope:
+      schema: SuccessOrError
+      media_type: application/json
+      fields:
+      - success
+      - msg
+      - code
+      rfc9457: false
+      artifact: errors/vaultre-problem-types.yml
+- target: $.info
+  update:
+    x-idempotency:
+      supported: false
+      note: No Idempotency-Key header or parameter exists anywhere in this specification; retries of write
+        operations are not deduplicated.
+- target: $.info
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/vaultre-authentication.yml
+      conventions: conventions/vaultre-conventions.yml
+      errors: errors/vaultre-problem-types.yml
+      lifecycle: lifecycle/vaultre-lifecycle.yml
+      conformance: conformance/vaultre-conformance.yml
+      data_model: data-model/vaultre-data-model.yml
+      agentic_access: agentic-access/vaultre-agentic-access.yml
+- target: $.info
+  update:
+    x-pagination:
+      style: page-number
+      request:
+      - page
+      - pagesize
+      response:
+      - items
+      - totalItems
+      - totalPages
+      - urls.self
+      - urls.next
+      - urls.previous
+      default_pagesize: 50
+      cursor_exception: GET /eventStream uses eventsSince + cursor with 30-day retention
+- target: $.info
+  update:
+    x-versioning:
+      scheme: uri-path minor version
+      current: '1.2'
+      concurrent:
+      - '1.1'
+      - '1.2'
+      - '1.3'
+      policy: additive-only within a minor version; breaking changes only between versions
+      deprecated_operations: 0
+- target: $.info
+  update:
+    x-webhooks:
+      signature_header: X-VaultRE-Signature
+      algorithm: HMAC-SHA512
+      signed_payload: <timestamp-ms>.<raw JSON body>
+      secret: integrator API key
+      catalog_published: false
+      artifact: asyncapi/vaultre-webhooks.yml
+- target: $.info
+  update:
+    x-media-policy:
+      photo_hotlinking: prohibited
+      rule: Integrators must download property images and self-host them; hotlinking disables the feed.
+        Use the photo modtime to decide whether to re-download.
+- target: $.components.securitySchemes
+  update:
+    x-apievangelist-note: 'Both credentials are required on every request: X-Api-Key identifies the integrator,
+      Authorization: Bearer carries the per-account customer token (core API) or a self-signed HS512 JWT
+      (integrator and aggregator surfaces).'

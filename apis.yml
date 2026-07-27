@@ -103,6 +103,19 @@ apis:
     url: https://docs.api.vaultre.com.au/changelog.html
   - type: SourceCode
     url: https://github.com/VaultGroup/api-samples
+  - type: Overlay
+    name: API Evangelist enhancements for VaultRE API v1.3
+    url: overlays/vaultre-api-v1-3-overlay.yaml
+  - type: Overlay
+    name: API Evangelist enhancements for VaultRE API v1.2
+    url: overlays/vaultre-api-v1-2-overlay.yaml
+  - type: Overlay
+    name: API Evangelist enhancements for VaultRE API v1.1
+    url: overlays/vaultre-api-v1-1-overlay.yaml
+  - type: Webhooks
+    url: https://docs.api.vaultre.com.au/webhooks.html
+  - type: DataModel
+    url: data-model/vaultre-data-model.yml
 - aid: vaultre:vaultre-integrator-api
   name: VaultRE Integrator API
   description: >-
@@ -129,6 +142,10 @@ apis:
     url: https://docs.api.vaultre.com.au/swagger/index.html
   - type: SourceCode
     url: https://github.com/VaultGroup/api-samples/blob/master/python/create_jwt.py
+  - type: Authentication
+    url: authentication/vaultre-authentication.yml
+  - type: OAuthScopes
+    url: scopes/vaultre-scopes.yml
 - aid: vaultre:vaultre-aggregator-api
   name: VaultRE Aggregator API
   description: >-
@@ -156,9 +173,22 @@ apis:
     url: https://docs.api.vaultre.com.au/aggregator.html
   - type: SourceCode
     url: https://github.com/VaultGroup/api-samples/blob/master/aggregator/client.py
+  - type: Overlay
+    name: API Evangelist enhancements for VaultRE Aggregator API v1.0
+    url: overlays/vaultre-aggregator-api-v1-0-overlay.yaml
+  - type: Webhooks
+    url: https://docs.api.vaultre.com.au/aggregator.html
 common:
+- type: AgenticAccess
+  url: agentic-access/vaultre-agentic-access.yml
+- type: DomainSecurity
+  url: security/vaultre-domain-security.yml
+- type: Authentication
+  url: authentication/vaultre-authentication.yml
 - type: Website
   url: https://www.mrisoftware.com/au/products/vault/
+- type: DeveloperPortal
+  url: https://docs.api.vaultre.com.au/
 - type: Documentation
   url: https://docs.api.vaultre.com.au/
 - type: APIReference
@@ -173,14 +203,52 @@ common:
   url: https://docs.api.vaultre.com.au/changelog.html
 - type: CodeExamples
   url: https://docs.api.vaultre.com.au/samples.html
-- type: Signup
-  url: https://resources.vaultre.com.au/api-integrations
+- type: SignUp
+  url: https://www.mrisoftware.com/au/products/vault/api-integrations/
 - type: GitHubOrganization
   url: https://github.com/VaultGroup
 - type: SourceCode
   url: https://github.com/VaultGroup/api-samples
 - type: Login
   url: https://login.vaultre.com.au/
+- type: Support
+  url: https://docs.api.vaultre.com.au/guide.html#assistance
+- type: Blog
+  url: https://www.mrisoftware.com/au/blog/
+- type: Pricing
+  url: https://www.mrisoftware.com/au/products/vault/pricing/
+- type: TermsOfService
+  url: https://www.mrisoftware.com/terms-of-use/
+- type: PrivacyPolicy
+  url: https://www.mrisoftware.com/privacy-policy/
+- type: StatusPage
+  url: https://status.mrisoftware.com/
+- type: Lifecycle
+  url: lifecycle/vaultre-lifecycle.yml
+- type: ChangeLog
+  url: changelog/vaultre-changelog.yml
+- type: Conventions
+  url: conventions/vaultre-conventions.yml
+- type: ErrorCatalog
+  url: errors/vaultre-problem-types.yml
+- type: Conformance
+  url: conformance/vaultre-conformance.yml
+- type: OAuthScopes
+  url: scopes/vaultre-scopes.yml
+- type: Packages
+  url: packages/vaultre-packages.yml
+- type: DataModel
+  url: data-model/vaultre-data-model.yml
+- type: Webhooks
+  url: asyncapi/vaultre-webhooks.yml
+- type: MCPServer
+  url: mcp/vaultre-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/vaultre-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/vaultre-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

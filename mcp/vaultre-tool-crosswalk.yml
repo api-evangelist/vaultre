@@ -1,0 +1,511 @@
+generated: '2026-07-26'
+method: derived
+source: mcp/vaultre-mcp.yml + openapi/vaultre-api-v1-3-openapi.yml
+disclosure: 'VaultRE publishes no MCP server and no GraphQL surface. This crosswalk therefore binds an
+  API Evangelist-derived CANDIDATE tool set (mcp/vaultre-mcp.yml) to the operations it was projected from,
+  in the provider''s own OpenAPI 3.0.1 document. Every binding is exact and verified: each tool names
+  one operationId that exists verbatim in the spec, so each tool inherits that operation''s parameters
+  and requestBody as its real inputSchema. There is no name-matching guesswork here, and equally no provider-published
+  tool surface to reconcile against.'
+surfaces:
+  openapi:
+    file: openapi/vaultre-api-v1-3-openapi.yml
+    url: https://docs.api.vaultre.com.au/swagger/vaultre.yaml
+    status: public, anonymous HTTP 200
+    operations: 453
+  graphql:
+    endpoint: null
+    note: No GraphQL surface exists on any VaultRE host.
+  mcp:
+    url: null
+    status: not published by the provider
+    note: tools/list could not be probed because there is no server; the tool list here is derived, not
+      introspected.
+  webhooks:
+    artifact: asyncapi/vaultre-webhooks.yml
+    note: Event surface is real but has no published catalog, so no event-backed tools are claimed.
+crosswalk:
+- tool: search_contacts
+  category: contacts
+  rest:
+  - searchContacts
+  binding: rest
+  confidence: high
+- tool: list_contacts
+  category: contacts
+  rest:
+  - getContacts
+  binding: rest
+  confidence: high
+- tool: get_contact
+  category: contacts
+  rest:
+  - getContact
+  binding: rest
+  confidence: high
+- tool: get_contact_context
+  category: contacts
+  rest:
+  - getContactContext
+  binding: rest
+  confidence: high
+- tool: create_contact
+  category: contacts
+  rest:
+  - addContact
+  binding: rest
+  confidence: high
+  note: write operation — inherits the operation requestBody; requires human confirmation
+- tool: update_contact
+  category: contacts
+  rest:
+  - updateContact
+  binding: rest
+  confidence: high
+  note: write operation — inherits the operation requestBody; requires human confirmation
+- tool: add_contact_note
+  category: contacts
+  rest:
+  - addContactNote
+  binding: rest
+  confidence: high
+  note: write operation — inherits the operation requestBody; requires human confirmation
+- tool: list_contact_requirements
+  category: contacts
+  rest:
+  - getContactRequirements
+  binding: rest
+  confidence: high
+- tool: search_properties
+  category: properties
+  rest:
+  - searchProperties
+  binding: rest
+  confidence: high
+- tool: list_properties
+  category: properties
+  rest:
+  - getProperties
+  binding: rest
+  confidence: high
+- tool: get_property
+  category: properties
+  rest:
+  - getProperty
+  binding: rest
+  confidence: high
+- tool: list_residential_sale_listings
+  category: listings
+  rest:
+  - getResidentialSaleProperties
+  binding: rest
+  confidence: high
+- tool: list_available_residential_sale_listings
+  category: listings
+  rest:
+  - getAvailableResidentialSaleProperties
+  binding: rest
+  confidence: high
+- tool: list_available_residential_lease_listings
+  category: listings
+  rest:
+  - getAvailableResidentialLeaseProperties
+  binding: rest
+  confidence: high
+- tool: get_residential_sale_listing
+  category: listings
+  rest:
+  - getResidentialSaleProperty
+  binding: rest
+  confidence: high
+- tool: list_property_photos
+  category: media
+  rest:
+  - getPropertyPhotos
+  binding: rest
+  confidence: high
+- tool: submit_enquiry
+  category: enquiries
+  rest:
+  - addEnquiry
+  binding: rest
+  confidence: high
+  note: write operation — inherits the operation requestBody; requires human confirmation
+- tool: list_enquiries
+  category: enquiries
+  rest:
+  - getEnquiries
+  binding: rest
+  confidence: high
+- tool: list_open_homes
+  category: listings
+  rest:
+  - getAccountOpenHomes
+  binding: rest
+  confidence: high
+- tool: list_property_offers
+  category: offers
+  rest:
+  - getPropertyOffers
+  binding: rest
+  confidence: high
+- tool: list_property_feedback
+  category: feedback
+  rest:
+  - getPropertyFeedbackLife
+  binding: rest
+  confidence: high
+- tool: list_matching_contacts
+  category: matching
+  rest:
+  - getPropertyMatchingContacts
+  binding: rest
+  confidence: high
+- tool: list_maintenance_jobs
+  category: property-management
+  rest:
+  - getAllMaintenance
+  binding: rest
+  confidence: high
+- tool: list_tenancies
+  category: property-management
+  rest:
+  - getResidentialLeaseTenancies
+  binding: rest
+  confidence: high
+- tool: poll_event_stream
+  category: sync
+  rest:
+  - getEventStream
+  binding: rest
+  confidence: high
+- tool: get_token_scopes
+  category: auth
+  rest:
+  - getTokenScopes
+  binding: rest
+  confidence: high
+- tool: get_api_usage
+  category: auth
+  rest:
+  - getUsage
+  binding: rest
+  confidence: high
+- tool: get_corelogic_avm
+  category: valuation
+  rest:
+  - getCoreLogicAvm
+  binding: rest
+  confidence: high
+mcp_only: []
+mcp_only_note: None. Every candidate tool is backed by a public REST operation; there is no GraphQL or
+  composite surface to expose beyond REST.
+rest_only:
+- capability: properties
+  operations: 112
+  examples:
+  - deleteProperty
+  - getPropertiesLifeSale
+  - getFallenWithdrawnSales
+  - getPropertiesLifeLease
+  - getPropertyNotes
+  - addPropertyNote
+- capability: contacts
+  operations: 47
+  examples:
+  - deleteContact
+  - sendContactSMS
+  - sendBulkContactSMS
+  - sendContactEmail
+  - sendBulkContactEmail
+  - getRecentlyAccessedContacts
+- capability: user
+  operations: 37
+  examples:
+  - getUser
+  - updateMeUser
+  - getUserSubscriptions
+  - getUserTeams
+  - getUserSummaryGrossCommission
+  - getUserUpcomingOfferConditions
+- capability: types
+  operations: 17
+  examples:
+  - getResponseCodes
+  - getPropertyClasses
+  - getPropertyTypes
+  - getCustomUnsubscribeTypes
+  - getContactInterestTypes
+  - getContactEntityTypes
+- capability: categories
+  operations: 14
+  examples:
+  - getContactCategoryGroups
+  - addContactCategoryGroup
+  - getContactCategoryGroup
+  - updateContactCategoryGroup
+  - getContactCategoryGroupCategories
+  - addContactCategoryGroupCategory
+- capability: advertising
+  operations: 14
+  examples:
+  - getAdvertisingInvoices
+  - getAdvertisingInvoice
+  - getAdvertisingSchedules
+  - getAdvertisingSchedule
+  - getAdvertisingSuppliers
+  - addAdvertisingSupplier
+- capability: residentialProperties
+  operations: 9
+  examples:
+  - addResidentialSaleProperty
+  - updateResidentialSaleProperty
+  - getResidentialSoldProperties
+  - getResidentialLeaseProperties
+  - addResidentialLeaseProperty
+  - getResidentialLeaseProperty
+- capability: commercialProperties
+  operations: 13
+  examples:
+  - getCommercialSaleProperties
+  - addCommercialSaleProperty
+  - getAvailableCommercialSaleProperties
+  - getCommercialSaleProperty
+  - updateCommercialSaleProperty
+  - getCommercialSoldProperties
+- capability: integrator
+  operations: 10
+  examples:
+  - getIntegratorAccounts
+  - getIntegratorAccount
+  - getIntegratorAccountUsers
+  - getIntegratorAccountUser
+  - getIntegratorScopes
+  - getIntegratorTokens
+- capability: templates
+  operations: 12
+  examples:
+  - getEmailTemplates
+  - addEmailTemplate
+  - getEmailTemplate
+  - updateEmailTemplate
+  - getSMSTemplates
+  - addSMSTemplate
+- capability: deals
+  operations: 12
+  examples:
+  - getPropertySaleDeals
+  - addCommercialDealSale
+  - getPropertyLeaseDeals
+  - addCommercialDealLease
+  - getCommercialDealSale
+  - updateCommercialDealSale
+- capability: messages
+  operations: 12
+  examples:
+  - getMessagesReceived
+  - getMessagesSent
+  - getMessagesThreads
+  - addThreadFranchise
+  - addThreadUser
+  - updateMessageThread
+- capability: ruralProperties
+  operations: 11
+  examples:
+  - getRuralProperties
+  - addRuralProperty
+  - getAvailableRuralProperties
+  - getRuralProperty
+  - updateRuralProperty
+  - getRuralSoldProperties
+- capability: suppliers
+  operations: 8
+  examples:
+  - getSuppliers
+  - addSupplier
+  - getSupplier
+  - updateSupplier
+  - deleteSupplier
+  - getSupplierInsurance
+- capability: landProperties
+  operations: 7
+  examples:
+  - getLandProperties
+  - addLandProperty
+  - getAvailableLandProperties
+  - getLandProperty
+  - updateLandProperty
+  - getLandSoldProperties
+- capability: search
+  operations: 5
+  examples:
+  - searchContactsName
+  - searchContactsPhone
+  - searchContactsEmail
+  - searchBuildingsName
+  - searchContactCategoriesName
+- capability: tasks
+  operations: 7
+  examples:
+  - getTasks
+  - addTask
+  - getTask
+  - updateTask
+  - deleteTask
+  - completeTask
+- capability: aml
+  operations: 7
+  examples:
+  - getAMLChecks
+  - addAMLCheck
+  - getAMLCheck
+  - updateAMLCheck
+  - addAMLNote
+  - removeAMLNote
+- capability: businessProperties
+  operations: 6
+  examples:
+  - getBusinessProperties
+  - addBusinessProperty
+  - getAvailableBusinessProperties
+  - getBusinessProperty
+  - updateBusinessProperty
+  - getBusinessSoldProperties
+- capability: bulk
+  operations: 6
+  examples:
+  - retrieveBulkContactNotesExports
+  - retrieveBulkContactNotesExport
+  - requestBulkContactNotes
+  - deleteBulkContactNotesExport
+  - getBulkInspections
+  - getBulkFeedback
+- capability: buildings
+  operations: 5
+  examples:
+  - getBuildings
+  - addBuilding
+  - getBuilding
+  - updateBuilding
+  - deleteBuilding
+- capability: holidayRentalProperties
+  operations: 5
+  examples:
+  - getHolidayRentalProperties
+  - addHolidayRentalProperty
+  - getAvailableHolidayRentalProperties
+  - getHolidayRentalProperty
+  - updateHolidayRentalProperty
+- capability: calendar
+  operations: 5
+  examples:
+  - getCalendarEvents
+  - addCalendarEvent
+  - getCalendarEvent
+  - updateCalendarEvent
+  - deleteCalendarEvent
+- capability: livestockProperties
+  operations: 5
+  examples:
+  - getLivestockSoldProperties
+  - getLivestockProperties
+  - addLivestockProperty
+  - getLivestockProperty
+  - updateLivestockProperty
+- capability: clearingSalesProperties
+  operations: 5
+  examples:
+  - getClearingSalesSoldProperties
+  - getClearingSalesProperties
+  - addClearingSalesProperty
+  - getClearingSalesProperty
+  - updateClearingSalesProperty
+- capability: corelogic
+  operations: 3
+  examples:
+  - getCoreLogicProperty
+  - getCoreLogicRentalAvm
+  - getCoreLogicDisclaimers
+- capability: enquiries
+  operations: 2
+  examples:
+  - getEnquiry
+  - getHoldingAreaTypes
+- capability: keys
+  operations: 4
+  examples:
+  - getPropertyKeys
+  - addPropertyKey
+  - getPropertyKey
+  - updatePropertyKey
+- capability: propertyOffer
+  operations: 3
+  examples:
+  - addPropertyOffer
+  - getPropertyOffer
+  - updatePropertyOffer
+- capability: campaigns
+  operations: 4
+  examples:
+  - getCampaigns
+  - getCampaign
+  - getCampaignTracking
+  - getCampaignTrackingSummary
+- capability: suggest
+  operations: 3
+  examples:
+  - suggestSuburb
+  - suggestDistrict
+  - suggestAddressCoreLogic
+- capability: propertyStats
+  operations: 3
+  examples:
+  - updatePortalStatsCumulative
+  - updatePortalStatsTotal
+  - getPortalStats
+- capability: suburbs
+  operations: 2
+  examples:
+  - getSuburbs
+  - getCustomRegions
+- capability: lists
+  operations: 2
+  examples:
+  - getContactDistributionLists
+  - getContactDistributionList
+- capability: precincts
+  operations: 2
+  examples:
+  - getAccountPrecincts
+  - getPrecinct
+- capability: fmsleads
+  operations: 2
+  examples:
+  - getFMSLeads
+  - addFMSLead
+- capability: mergeFields
+  operations: 1
+  examples:
+  - getMergeFields
+- capability: conjunctionals
+  operations: 1
+  examples:
+  - getConjunctionals
+- capability: invoices
+  operations: 1
+  examples:
+  - getSaleSummary
+- capability: reinz
+  operations: 1
+  examples:
+  - getReinzSales
+coverage:
+  tools_named: 28
+  tools_bound: 28
+  mcp_only: 0
+  rest_operations_total: 453
+  rest_operations_with_a_tool: 28
+  rest_operations_without_a_tool: 425
+  note: The candidate tool set deliberately covers the integration surface a website, portal or agent
+    actually needs — search, listings, enquiry capture, sync and quota — rather than fanning 453 operations
+    into 453 tools. The uncovered remainder below is real capability, not an oversight.

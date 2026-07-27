@@ -1,0 +1,75 @@
+generated: '2026-07-26'
+method: searched
+source: >-
+  npm registry search, PyPI, RubyGems, Packagist, NuGet, pkg.go.dev, crates.io,
+  github.com/VaultGroup and https://docs.api.vaultre.com.au/samples.html
+summary:
+  official_packages: 0
+  third_party_packages: 1
+  note: >-
+    VaultRE publishes no first-party client library in any package registry. The only
+    code VaultRE ships is a sample repository (curl / PHP / Perl / Python request
+    samples, no package manifest, no licence file, last pushed 2024-07-24). One
+    abandoned third-party PHP abstraction exists on Packagist. No `SDKs` pointer is
+    emitted in apis.yml because there is no official SDK to point at.
+registries_probed:
+- registry: npm
+  query: vaultre
+  url: https://registry.npmjs.org/-/v1/search?text=vaultre
+  results: 0
+- registry: pypi
+  query: vaultre
+  url: https://pypi.org/pypi/vaultre/json
+  status: 404
+  results: 0
+- registry: rubygems
+  query: vaultre
+  results: 0
+- registry: packagist
+  query: vaultre
+  results: 1
+  note: One third-party package, marked abandoned by its author.
+- registry: nuget
+  query: vaultre
+  results: 0
+  note: Only unrelated HashiCorp-Vault packages matched.
+- registry: pkg.go.dev
+  query: vaultre
+  results: 0
+- registry: crates.io
+  query: vaultre
+  results: 0
+packages:
+- language: php
+  registry: packagist
+  name: mihaikelemen/vaultre
+  url: https://packagist.org/packages/mihaikelemen/vaultre
+  repository: https://github.com/mihaikelemen/vaultre
+  install: composer require mihaikelemen/vaultre
+  description: Abstraction layer for the VaultRE API endpoint.
+  official: false
+  abandoned: true
+  note: Community package, not published or endorsed by VaultRE / MRI Software.
+samples:
+- name: VaultGroup/api-samples
+  url: https://github.com/VaultGroup/api-samples
+  languages: [php, python, perl, shell]
+  official: true
+  packaged: false
+  last_push: '2024-07-24'
+  licence: none
+  note: >-
+    Sample request scripts referenced from the OpenAPI `info.description` and from
+    https://docs.api.vaultre.com.au/samples.html — including
+    aggregator/client.py and python/create_jwt.py (HS512 integrator JWT). Not a
+    distributable library and not published to any registry.
+- name: VaultGroup/wp-plugin-contact-form-7
+  url: https://github.com/VaultGroup/wp-plugin-contact-form-7
+  languages: [php]
+  official: true
+  packaged: false
+  last_push: '2021-08-27'
+  note: >-
+    First-party WordPress plugin that captures Contact Form 7 submissions into VaultRE
+    via the enquiries surface. A site integration, not a client library, and not
+    published to the WordPress plugin directory under this repository.

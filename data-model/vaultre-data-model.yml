@@ -1,0 +1,243 @@
+generated: '2026-07-26'
+method: derived
+source: openapi/vaultre-api-v1-3-openapi.yml
+enriched_from: https://docs.api.vaultre.com.au/swagger/index.html
+summary:
+  schemas_in_spec: 356
+  entities_modelled: 22
+  identifier_style: >-
+    Opaque int64 integers. There are no typed/prefixed identifiers (no `cus_`-style
+    prefixes) — every `id` is a bare integer scoped to the account, so an integrator
+    must carry the entity type alongside the id in its own store.
+  central_abstraction: >-
+    Property + property "life". A Property is the physical asset; a LIFE is one
+    marketing episode of that asset on one side of the market. The Property object
+    carries `saleLifeId` and `leaseLifeId`, and most listing-level operations address the
+    triple /properties/{propertyid}/{salelease}/{lifeid}/… where {salelease} is the
+    literal string `sale` or `lease`. Feedback, open homes, offers, files, owners,
+    landlords, tenancies and portal stats all hang off the LIFE, not off the Property.
+    Getting this wrong is the single most common integration error against this API.
+  vertical_split: >-
+    Above the shared Property/life core, the model forks by property class into parallel
+    typed schemas — Residential, Commercial, Rural, Land, Business, HolidayRental,
+    Livestock and ClearingSales — each with Sale / Lease / Sold / Extended variants
+    (e.g. ResidentialSaleProperty allOf ResidentialProperty + SaleProperty). That fork
+    is why 356 schemas describe roughly 22 real entities.
+
+entities:
+- name: Account
+  schema: Account
+  description: One agency office. Every other record is scoped to an account.
+  relationships:
+  - {type: has_many, target: User, via: account}
+  - {type: belongs_to, target: AccountFranchise, via: franchise}
+  - {type: has_many, target: AccountBranch, via: branch}
+  integrator_view: 'GET /integrator/accounts — the accounts that granted this integrator a token'
+- name: User
+  schema: User
+  description: A staff member of the account. Carries permissions, teams and photo.
+  relationships:
+  - {type: belongs_to, target: Account, via: account}
+  - {type: has_many, target: Team, via: teams}
+  - {type: has_many, target: PhoneNumber, via: phoneNumbers}
+  operations: [getUser, updateMeUser, getUserTeams, getUserSubscriptions]
+- name: Contact
+  schema: Contact
+  description: >-
+    The CRM core — a person or company. Plays every counterparty role in the system
+    (vendor/owner, purchaser, landlord, tenant, enquirer, supplier contact).
+  relationships:
+  - {type: has_one, target: Address, via: address}
+  - {type: has_one, target: Address, via: postalAddress}
+  - {type: has_many, target: PhoneNumber, via: phoneNumbers}
+  - {type: has_one, target: EntityType, via: entityType}
+  - {type: has_many, target: MarketingUser, via: marketingUsers}
+  - {type: has_many, target: ContactNote, via: '/contacts/{id}/notes'}
+  - {type: has_many, target: ContactRequirement, via: '/contacts/{id}/requirements'}
+  - {type: has_many, target: ContactFile, via: '/contacts/{id}/files'}
+  - {type: has_many, target: Category, via: '/contacts/{id}/categories'}
+  - {type: has_one, target: ContactBankAccount, via: '/contacts/{contactid}/bankAccounts/default'}
+  - {type: has_many, target: GdprOptin, via: '/contacts/{contactid}/gdpr'}
+  identity_notes:
+  - 'External identifier field: remoteId'
+  - 'Merges are asynchronous (POST /contacts/merge -> contact.merge webhook); merged-away ids remain resolvable via GET /contacts/{contactid}/merged'
+  operations: [getContacts, getContact, addContact, updateContact, deleteContact, mergeContacts]
+- name: Property
+  schema: Property
+  description: The physical asset — address, class, type, land area, title details, photos.
+  relationships:
+  - {type: has_one, target: Address, via: address}
+  - {type: has_one, target: PropertyClass, via: class}
+  - {type: has_one, target: PropertyType, via: type}
+  - {type: has_one, target: Building, via: building}
+  - {type: has_one, target: Geolocation, via: geolocation}
+  - {type: has_many, target: PropertyPhoto, via: photos}
+  - {type: has_one, target: SaleLife, via: saleLifeId}
+  - {type: has_one, target: LeaseLife, via: leaseLifeId}
+  - {type: has_many, target: PropertyNote, via: '/properties/{id}/notes'}
+  - {type: has_many, target: PropertyKey, via: keys}
+  external_ids:
+  - {field: corelogicId, target: CoreLogicProperty, note: 'the join into CoreLogic — GET /corelogic/properties/{id}'}
+  - {field: referenceID, note: agency-facing reference}
+  - {via: 'GET /properties/externalRefs/lookup (getPropertiesFromExternalReference)', note: resolve a Vault property from an external system id}
+  operations: [getProperties, getProperty, deleteProperty]
+- name: PropertyLife
+  schema: 'SaleProperty / LeaseProperty (+ per-class variants)'
+  description: >-
+    One marketing episode of a property on one side of the market. Addressed as
+    /properties/{propertyid}/{salelease}/{lifeid} with {salelease} = `sale` | `lease`.
+    Carries authority, method of sale, price qualifier, auction/tender/set-sale-date
+    details, branch, commission and portal state.
+  relationships:
+  - {type: belongs_to, target: Property, via: propertyid}
+  - {type: has_many, target: Contact, via: 'owners | landlords | purchasers (role join)'}
+  - {type: has_many, target: PropertyFeedback, via: '/{salelease}/{lifeid}/feedback'}
+  - {type: has_many, target: OpenHome, via: '/{salelease}/{lifeid}/openHomes'}
+  - {type: has_many, target: PropertyFile, via: '/{salelease}/{lifeid}/files'}
+  - {type: has_many, target: Tenancy, via: '/lease/{lifeid}/tenancy'}
+  - {type: has_one, target: AuthorityType, via: authority}
+  - {type: has_one, target: MethodOfSale, via: methodOfSale}
+  - {type: has_one, target: PriceQualifier, via: priceQualifier}
+  - {type: has_many, target: PortalStats, via: '/{salelease}/{lifeid}/externalStats'}
+  class_variants: [Residential, Commercial, Rural, Land, Business, HolidayRental, Livestock, ClearingSales]
+  lifecycle_transitions:
+  - {operationId: convertToListing, path: 'PUT /properties/{id}/sale/statusChange/listing'}
+  - {operationId: convertToManagement, path: 'PUT /properties/{id}/lease/statusChange/management'}
+- name: Tenancy
+  schema: Tenancy
+  description: A lease agreement over a lease life — rent, frequency, start/end, arrears, vacate date.
+  relationships:
+  - {type: belongs_to, target: PropertyLife, via: '/properties/{id}/lease/{lifeid}'}
+  - {type: has_many, target: Contact, via: 'tenants (/tenancy/{tenancyid}/tenants)'}
+  - {type: has_one, target: RentFrequency, via: rentFrequency}
+- name: PropertyOffer
+  schema: PropertyOffer
+  description: An offer made on a sale or lease life by a contact.
+  relationships:
+  - {type: belongs_to, target: Contact, via: contact}
+  - {type: belongs_to, target: PropertyLife, via: 'saleLifeId | leaseLifeId'}
+  - {type: has_one, target: PropertyOfferStatus, via: status}
+  - {type: has_many, target: PropertyOfferCondition, via: '/properties/{id}/sale/{lifeid}/offerConditions'}
+  operations: [getPropertyOffers, getPropertyOffer, addPropertyOffer, updatePropertyOffer]
+- name: Enquiry
+  schema: Enquiry
+  description: >-
+    An inbound listing or agent enquiry landing in the holding area before it is
+    processed into a contact.
+  relationships:
+  - {type: belongs_to, target: Contact, via: contactId}
+  - {type: belongs_to, target: PropertyLife, via: 'saleLifeId | leaseLifeId'}
+  - {type: has_one, target: EnquirySource, via: source}
+  - {type: has_many, target: Category, via: categories}
+  - {type: belongs_to, target: User, via: user}
+  operations: [getEnquiries, getEnquiry, addEnquiry]
+  note: The primary write surface for a website integration.
+- name: PropertyFeedback
+  schema: 'PropertyFeedback / ExternalFeedback'
+  description: Buyer/tenant feedback recorded against a life; external feedback carries a source of enquiry.
+  relationships:
+  - {type: belongs_to, target: PropertyLife, via: '/{salelease}/{lifeid}/feedback'}
+  - {type: belongs_to, target: Contact, via: contact}
+- name: OpenHome
+  schema: OpenHome
+  description: A scheduled inspection window on a life; attendees are contacts.
+  relationships:
+  - {type: belongs_to, target: PropertyLife, via: '/{salelease}/{lifeid}/openHomes'}
+  - {type: belongs_to, target: User, via: user}
+- name: ContactRequirement
+  schema: ContactRequirement
+  description: A buyer's or renter's search criteria — the matching key between contacts and listings.
+  relationships:
+  - {type: belongs_to, target: Contact, via: '/contacts/{id}/requirements'}
+  - {type: matches, target: PropertyLife, via: 'GET /properties/{id}/{salelease}/{lifeid}/matchingContacts'}
+- name: AMLCheck
+  schema: AMLCheck
+  description: An anti-money-laundering check against a contact, with status, notes, files and property linkage.
+  relationships:
+  - {type: belongs_to, target: Contact, via: contact}
+  - {type: has_many, target: AMLNote, via: '/aml/{id}/notes'}
+  - {type: has_many, target: AMLFile, via: '/aml/{id}/files'}
+  - {type: has_one, target: AMLStatus, via: status}
+  - {type: has_many, target: AMLProperty, via: properties}
+- name: Maintenance
+  schema: 'Maintenance / MaintenanceRequest'
+  description: A property-management maintenance job, its request, notes, photos and supplier.
+  relationships:
+  - {type: belongs_to, target: Property, via: property}
+  - {type: belongs_to, target: Supplier, via: supplier}
+  - {type: has_many, target: MaintenanceNote, via: notes}
+  - {type: has_many, target: MaintenancePhoto, via: photos}
+- name: Supplier
+  schema: Supplier
+  description: A trades/services supplier; wraps a Contact.
+  relationships:
+  - {type: has_one, target: Contact, via: contact}
+- name: Deal
+  schema: 'CommercialDeal / CommercialDealSale / CommercialDealLease'
+  description: A commercial transaction with commission splits and deductions.
+  relationships:
+  - {type: belongs_to, target: PropertyLife, via: life}
+  - {type: has_many, target: CommissionSplit, via: commissionSplits}
+  - {type: has_many, target: OfficeDeduction, via: deductions}
+- name: Campaign
+  schema: Campaign
+  description: A marketing campaign with tracking and comments.
+  relationships:
+  - {type: has_many, target: CampaignTracking, via: tracking}
+  - {type: belongs_to, target: User, via: user}
+- name: Advertising
+  schema: 'AdvertisingSchedule / AdvertisingScheduleItem / AdvertisingInvoice / AdvertisingTransaction'
+  description: Vendor-paid advertising — schedules, line items, suppliers, invoices, payments.
+  relationships:
+  - {type: belongs_to, target: PropertyLife, via: life}
+  - {type: has_many, target: AdvertisingScheduleItem, via: items}
+  - {type: belongs_to, target: AdvertisingSupplier, via: supplier}
+- name: TrustLedger
+  schema: 'TrustAccount / TrustLedgerTransaction / TrustLedgerCategory'
+  description: Trust accounting records behind property management.
+  relationships:
+  - {type: has_many, target: TrustLedgerTransaction, via: transactions}
+- name: MessageThread
+  schema: 'MessageThread / Message'
+  description: Internal messaging between users and franchise offices.
+  relationships:
+  - {type: has_many, target: Message, via: '/threads/{id}/messages'}
+  - {type: has_many, target: MessageRecipient, via: recipients}
+- name: CalendarEvent
+  schema: CalendarEvent
+  description: Diary events, optionally attached to contacts and properties.
+  relationships:
+  - {type: has_many, target: CalendarContact, via: contacts}
+  - {type: has_one, target: Access, via: access}
+- name: EventStreamItem
+  schema: EventStreamItem
+  description: >-
+    A change record on the polling event stream — {id, timestamp, type, action, data}.
+    The pull-side mirror of the webhook `<type>.<action>` event name. 30-day retention.
+  relationships:
+  - {type: references, target: any, via: 'type + data.id'}
+  artifact: asyncapi/vaultre-webhooks.yml
+- name: CoreLogicProperty
+  schema: 'CoreLogicProperty / CoreLogicAvm / CoreLogicRentalAvm'
+  description: >-
+    Third-party valuation data proxied through VaultRE rather than owned by it. Joined
+    to the Property via the corelogicId field. Access is gated on the customer's own
+    CoreLogic subscription level (403 otherwise).
+  relationships:
+  - {type: belongs_to, target: Property, via: corelogicId}
+
+reference_data:
+  note: >-
+    Roughly a third of the surface is enumerated reference data served from /types/* —
+    property classes and types, methods of sale, auction types, price qualifiers, tenure
+    or title types, contact interest types, entity types, note types, holding-area types,
+    external-link types, advertising payment and transaction types, unsubscribe types.
+    An integrator should cache these rather than hard-code values.
+  operations: [getPropertyClasses, getPropertyTypes, getMethodOfSaleTypes, getAuctionTypes, getPriceQualifierTypes, getTenureOrTitleTypes, getContactEntityTypes, getContactInterestTypes, getContactNoteTypes, getPropertyNoteTypes, getHoldingAreaTypes, getExternalLinkTypes, getCustomUnsubscribeTypes, getAdvertisingPaymentTypes, getAdvertisingTransactionTypes]
+
+geography:
+  entities: [Country, State, District, NZDistrict, Region, Suburb, Precinct, CustomRegion]
+  note: Suburb -> District -> State hierarchy, with a separate NZDistrict for New Zealand accounts.
+
+render: null
+render_note: No subway/ or ERD visual exists in this repo yet.

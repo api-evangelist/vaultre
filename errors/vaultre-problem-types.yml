@@ -1,0 +1,126 @@
+generated: '2026-07-26'
+method: derived
+source: openapi/vaultre-api-v1-3-openapi.yml
+enriched_from: https://docs.api.vaultre.com.au/guide.html
+format: proprietary
+format_note: >-
+  VaultRE does not use RFC 9457 problem+json. Every documented error response is
+  application/json carrying components.schemas.SuccessOrError.
+envelope:
+  schema: '#/components/schemas/SuccessOrError'
+  media_type: application/json
+  fields:
+  - {name: success, type: boolean, description: false on an error response}
+  - {name: msg, type: string, description: Human-readable message}
+  - {name: code, type: string, description: VaultRE response code}
+  runtime_registry:
+    operationId: getResponseCodes
+    path: GET /responseCodes
+    summary: Retrieve a list of response codes used in this API
+    note: >-
+      The `code` vocabulary is discoverable only at runtime from an authenticated call
+      to /responseCodes. It is not published in the docs or enumerated in any spec, so
+      no code values are listed here — none were invented.
+counts_in_spec:
+  '400': 177
+  '403': 34
+  '404': 6
+  '422': 3
+  '500': 1
+problems:
+- status: 400
+  title: Invalid data
+  envelope: SuccessOrError
+  occurrences: 177
+  meaning: >-
+    Request body or query parameters failed validation. By far the dominant error in the
+    contract — VaultRE returns 400 rather than 422 for most malformed input.
+  remediation: Validate the request against the operation schema before retrying; do not retry unchanged.
+  examples:
+  - {status: 400, description: Status could not be changed., source_operation: 'openapi/vaultre-api-v1-3-openapi.yml#convertToListing'}
+  - {status: 400, description: 'account_id is required, or an invalid parameter value was supplied', source_operation: 'openapi/vaultre-api-v1-3-openapi.yml#getIntegratorMergeFields'}
+  - {status: 400, description: Some or all photos could not be deleted, schema: PropertyPhotoBulkDeleteResponse, source_operation: 'openapi/vaultre-api-v1-3-openapi.yml#deletePropertyPhotos'}
+- status: 401
+  title: Unauthorized
+  envelope: SuccessOrError
+  documented_in_spec: false
+  meaning: >-
+    Missing or invalid Authorization bearer token. Not declared on operations in the
+    OpenAPI, but observed live: an anonymous GET on
+    https://ap-southeast-2.api.vaultre.com.au/api/v1.3/contacts returns 401.
+  remediation: >-
+    Obtain a current customer access token (or mint a fresh HS512 integrator JWT — they
+    expire after 300 seconds) and retry.
+  evidence: review.yml sources — APIBaseURL probe, HTTP 401
+- status: 403
+  title: Forbidden
+  envelope: SuccessOrError
+  occurrences: 34
+  meaning: >-
+    Two distinct causes. (1) Missing or invalid X-Api-Key — the technical guide states
+    "All requests must include a header X-Api-Key ... or a 403 Forbidden error will be
+    returned". (2) The customer's user/token lacks the specific permission for the
+    operation; the spec spells these out per operation.
+  remediation: >-
+    Confirm the integrator key header is present, then confirm the token's granted
+    scopes via GET /scopes and ask the customer to re-issue a token with the required
+    permission.
+  known_permission_denials:
+  - User does not have access to property financials
+  - User does not have permission to delete contacts
+  - User does not have permission to send SMS
+  - User does not have permission to send email
+  - User does not have correct CoreLogic subscription level
+  - User does not have access to contact bank accounts
+  - User does not have permission to modify contact notes or note is read-only
+  - User does not have permission to delete contact notes or note is read-only
+  - User does not have permission to modify property notes or note is read-only
+  - User does not have permission to delete property notes or note is read-only
+  - User does not have permission to delete photos from this property
+- status: 404
+  title: Not found
+  envelope: SuccessOrError
+  occurrences: 6
+  meaning: Addressed resource does not exist, or is not visible to this account/integrator.
+  remediation: Do not retry; re-resolve the identifier.
+  examples:
+  - {description: Property not found}
+  - {description: Account not found or not enabled for this integrator}
+- status: 422
+  title: Unprocessable entity
+  envelope: SuccessOrError
+  occurrences: 3
+  meaning: >-
+    Used on the bulk endpoints for input that is well-formed but unprocessable — e.g.
+    "Invalid input data (e.g., empty items list, too many items)".
+  remediation: Reduce the batch size or supply a non-empty items list.
+- status: 429
+  title: Too many requests
+  documented_in_spec: false
+  meaning: >-
+    Rate limit exceeded. Published limits are 10 requests/second and 10,000
+    requests/day per API key, with the daily quota resetting at 00:00 UTC.
+  remediation: >-
+    Back off and cache. VaultRE's published guidance is to synchronise periodically
+    rather than call the API per page load. GET /integrator/usage reports remaining
+    daily quota.
+  docs: https://docs.api.vaultre.com.au/guide.html
+- status: 500
+  title: Internal server error
+  envelope: SuccessOrError
+  occurrences: 1
+  meaning: Server-side failure.
+  remediation: Retry with backoff; escalate to api@vaultre.com.au if persistent.
+aggregator_errors:
+  source: openapi/vaultre-aggregator-api-v1-0-openapi.yml
+  note: >-
+    The Aggregator API acknowledges receipt with HTTP 202 and processes asynchronously.
+    Validation and processing failures are therefore NOT returned on the request —
+    they are delivered out of band to the aggregator's nominated webhook URL.
+  docs: https://docs.api.vaultre.com.au/aggregator.html
+gaps:
+- >-
+  No RFC 9457 application/problem+json, no `type` URIs, and no published error-code
+  registry — the `code` field's vocabulary is only readable at runtime from
+  GET /responseCodes with a live token.
+- No 401 or 429 response is declared on any operation in the OpenAPI even though both are real.

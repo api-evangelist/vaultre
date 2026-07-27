@@ -1,0 +1,141 @@
+generated: '2026-07-26'
+method: derived
+source: openapi/vaultre-api-v1-3-openapi.yml, openapi/vaultre-aggregator-api-v1-0-openapi.yml
+searched:
+- https://docs.api.vaultre.com.au/guide.html
+- https://docs.api.vaultre.com.au/oauth.html
+- https://docs.api.vaultre.com.au/webhooks.html
+- https://docs.api.vaultre.com.au/integrator.html
+summary: >-
+  VaultRE conforms to the base HTTP/OpenAPI layer and to JWT/HMAC primitives, and to
+  nothing above them. There is no OpenID Connect, no RFC 8414 metadata, no RFC 9457
+  errors, no RFC 9116 security.txt, no RFC 8594 sunset signalling, and — correctly for
+  an Australian CRM — no RESO or OData. No compliance certification (SOC 2, ISO 27001,
+  PCI DSS, HIPAA) is claimed anywhere on VaultRE's own developer or product surface, so
+  no `Compliance` pointer is wired into apis.yml.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    Four OpenAPI 3.0.1 documents published and downloadable anonymously with HTTP 200;
+    all four parse. 453 operations in v1.3 with 100% unique operationIds and 356
+    component schemas.
+- id: json
+  conforms: true
+  evidence: 'info/guide: "The API transfers data in the JSON format." All responses application/json.'
+- id: iso-8601
+  conforms: true
+  evidence: >-
+    Documented date format YYYY-MM-DD and datetime format YYYY-MM-DDThh:mm:ss+z;
+    date/date-time schema formats used throughout the spec.
+- id: rfc6750-bearer
+  conforms: partial
+  evidence: >-
+    Uses the Authorization: Bearer scheme (http/bearer securityScheme), but tokens are
+    issued out of band or via a bespoke CGI exchange, and no WWW-Authenticate challenge
+    semantics are documented.
+- id: oauth2-authorization-code
+  conforms: partial
+  evidence: >-
+    Docs describe an "OAuth2 style flow" with authorization-code semantics
+    (client_id, redirect_uri, response_type=code, optional state, 60-second code TTL,
+    server-side-only exchange) at
+    https://login.vaultre.com.au/cgi-bin/clientvault/oauth-authorize.cgi and
+    .../integrations/oauthexchange.cgi. It diverges from RFC 6749: no client_secret in
+    the documented exchange, no token endpoint at a standard location, no refresh
+    tokens, no scope request parameter (scopes are chosen by the customer, not asked for
+    by the client), and no dynamic client registration — client_id is issued by email.
+    The OpenAPI declares no oauth2 securityScheme.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 404 on login.vaultre.com.au and on the API host.
+- id: openid-connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on login.vaultre.com.au and on the API host.
+- id: jwt-rfc7519
+  conforms: true
+  evidence: >-
+    Integrator endpoints and the Aggregator API require a self-signed HS512 JWT
+    ({"apiKey"|"crmKey", "timestamp"}), valid 300s and 120s respectively.
+- id: hmac-webhook-signing
+  conforms: true
+  evidence: >-
+    X-VaultRE-Signature: t=<ms>,sha512=<hmac> over "<timestamp>.<raw body>" keyed with
+    the integrator API key, with timestamp-based replay rejection. Modelled explicitly
+    on Stripe's signature scheme. Not RFC 9421 HTTP Message Signatures.
+- id: rfc9421-http-message-signatures
+  conforms: false
+  evidence: Webhook signing is a bespoke header format, not RFC 9421.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use a proprietary {success, msg, code} envelope
+    (components.schemas.SuccessOrError) as application/json; no application/problem+json
+    appears in any spec.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt absent on every VaultRE host (404/403).
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog absent on every VaultRE host.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header support documented; no deprecated operations in any spec.
+- id: idempotency-key
+  conforms: false
+  evidence: No Idempotency-Key header, parameter or extension in any of the four specs.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Consistent page/pagesize request parameters with items/totalItems/totalPages/urls
+    response envelope across list operations; cursor pagination on GET /eventStream.
+- id: json-api
+  conforms: false
+  evidence: Response envelope is bespoke, not JSON:API.
+- id: odata
+  conforms: false
+  evidence: 'GET https://ap-southeast-2.api.vaultre.com.au/api/v1.3/$metadata returns 404; no $-query options in any spec.'
+- id: reso-web-api
+  conforms: false
+  evidence: >-
+    Zero occurrences of RESO, OData, $metadata, Data Dictionary or UPI across all nine
+    documentation pages and all four OpenAPI documents. Expected and correct: RESO is a
+    North American MLS construct and Australia has no MLS or RESO mandate. The local
+    listing-distribution seam is REAXML plus portal-specific feeds.
+- id: reaxml
+  conforms: unknown
+  evidence: >-
+    The docs reference "XML Feeds" in the photo-hotlinking rule, implying REAXML-style
+    portal feeds exist alongside the API, but no REAXML schema, endpoint or mapping is
+    published on the developer site.
+- id: fhir-r4
+  conforms: false
+  evidence: Out of domain.
+- id: scim2
+  conforms: false
+  evidence: No /Users or /Groups SCIM surface; user records are proprietary.
+- id: fapi
+  conforms: false
+  evidence: Out of domain; no FAPI security profile claimed.
+- id: psd2
+  conforms: false
+  evidence: Out of domain.
+- id: gdpr
+  conforms: partial
+  evidence: >-
+    Not a certification claim — but the API exposes GDPR consent records via
+    GET /contacts/{contactid}/gdpr (operationId getContactGdprOptins), returning email,
+    SMS and phone consent opt-in flags, added to the changelog on 2026-03-12.
+- id: aml-ctf
+  conforms: partial
+  evidence: >-
+    The API carries a first-class `aml` tag (7 operations — GET/POST /aml,
+    GET/PUT /aml/{id}, notes and file attachment) supporting the AML/CTF obligations
+    that apply to Australian and New Zealand real estate agencies. VaultRE documents the
+    surface; it makes no certification claim about it.
+certifications: []
+certifications_note: >-
+  No SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP or CSA STAR claim is published on
+  docs.api.vaultre.com.au, on the MRI Vault product pages, or at any probed trust-centre
+  URL (trust.mrisoftware.com does not resolve; /trust-center/, /security-and-compliance/
+  and /legal/security/ all return 404 on mrisoftware.com).

@@ -1,0 +1,106 @@
+generated: '2026-07-26'
+method: searched
+source: https://docs.api.vaultre.com.au/webhooks.html
+spec_type: none
+spec_note: >-
+  VaultRE publishes no AsyncAPI document. Probed: docs.api.vaultre.com.au/asyncapi.yaml
+  and /asyncapi.json (403 AccessDenied = not present), the nine-page documentation
+  sitemap (no event-catalog page), and github.com/VaultGroup (15 public repos, none
+  event-related). The event surface below is real and documented in prose; no AsyncAPI
+  was authored from it because VaultRE does not publish the event catalog, and inventing
+  channels would fabricate the contract.
+docs:
+- https://docs.api.vaultre.com.au/webhooks.html
+- https://docs.api.vaultre.com.au/guide.html
+- https://docs.api.vaultre.com.au/aggregator.html
+
+surfaces:
+- kind: webhooks
+  direction: outbound (VaultRE -> integrator)
+  transport: HTTP POST
+  content_type: application/json
+  subscription: >-
+    Out of band. "You can register a URL with VaultRE and that URL will receive a JSON
+    payload notification when a certain event occurs." There is no self-serve
+    subscription endpoint in any harvested spec — registration goes through
+    api@vaultre.com.au.
+  retries: not documented
+  ordering: not documented
+- kind: polling event stream
+  direction: pull (integrator -> VaultRE)
+  operationId: getEventStream
+  path: GET /eventStream
+  summary: Poll the event stream
+  parameters:
+  - {name: eventsSince, in: query, description: 'Retrieve events since this date. Events expire after 30 days.'}
+  - {name: cursor, in: query, description: Cursor position for pagination.}
+  response_schema: '#/components/schemas/EventStreamItem'
+  item_fields: [id, timestamp, type, action, data]
+  retention_days: 30
+  source: openapi/vaultre-api-v1-3-openapi.yml
+  note: >-
+    The pull-based alternative to webhooks, released 2020-08-03. `type` + `action`
+    carry the same semantics the webhook `event` string encodes as "<type>.<action>".
+- kind: aggregator error webhook
+  direction: outbound (VaultRE -> aggregator)
+  purpose: >-
+    The Aggregator API returns HTTP 202 and processes asynchronously; validation and
+    processing errors are delivered to an aggregator-nominated webhook URL rather than
+    on the request.
+  source: https://docs.api.vaultre.com.au/aggregator.html
+
+payload:
+  shape:
+    event: '<object>.<action> string, e.g. user.update'
+    data: '{ "id": <int> } — the identifier of the referenced object'
+    accountid: integer — the VaultRE account the event belongs to
+    timestamp: ISO 8601 datetime
+    itemBodies: >-
+      array of { dataModel, data } where `data` is the full object serialised as a JSON
+      STRING (not a nested object). Multiple entries are possible — the docs give the
+      example of a property that is both for sale and for lease.
+  note: >-
+    Shape transcribed from the published example payload on webhooks.html. Field types
+    are read off that example; VaultRE publishes no webhook payload schema.
+
+security:
+  signature_header: X-VaultRE-Signature
+  format: 't=<timestamp in milliseconds>,sha512=<hmac_sha512 hash>'
+  algorithm: HMAC-SHA512
+  signed_payload: '<timestamp-ms>.<raw JSON body>'
+  secret: the integrator's API key
+  replay_protection: >-
+    Reject calls whose timestamp falls outside your own threshold.
+  byte_exactness: >-
+    Critical. "The hash payload is strictly the above, without parsing, filtering, or
+    adjustments; any modification to the JSON body will cause the match to fail" —
+    including whitespace normalisation. Hash the raw body before deserialising it.
+  other_authentication: >-
+    None. "Webhook requests are not sent with any other form of authentication or
+    authorisation, so your receiving endpoint will need to accept requests without
+    requiring other authorisation checks."
+  modelled_on: Stripe webhook signatures (the docs make the comparison explicitly).
+
+events_documented:
+- event: user.update
+  object: User
+  source: 'published example payload, https://docs.api.vaultre.com.au/webhooks.html'
+- event: property.update
+  object: Property
+  source: 'published signature example, https://docs.api.vaultre.com.au/webhooks.html'
+- event: contact.merge
+  object: Contact
+  fires_when: An asynchronous contact merge submitted via POST /contacts/merge completes.
+  source: 'openapi/vaultre-api-v1-3-openapi.yml — description of operationId mergeContacts'
+events_note: >-
+  These three are the only event names VaultRE publishes anywhere. The naming convention
+  is clearly `<object>.<action>` and the platform plainly emits far more (the docs
+  mention "when a new contact is added, or when a property is updated"), but no event
+  catalog is published, so the full list is not reproduced here and none was guessed.
+
+gaps:
+- No AsyncAPI document.
+- No published event catalog — three event names are documented out of an unknown total.
+- No webhook payload schema; only one worked example.
+- No subscription, delivery-log, retry or replay API — registration is by email.
+- No documented retry policy, delivery guarantee or ordering guarantee.

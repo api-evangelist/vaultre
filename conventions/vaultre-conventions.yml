@@ -1,0 +1,183 @@
+generated: '2026-07-26'
+method: searched
+source: https://docs.api.vaultre.com.au/guide.html
+also_derived_from:
+- openapi/vaultre-api-v1-3-openapi.yml
+- openapi/vaultre-aggregator-api-v1-0-openapi.yml
+docs:
+- https://docs.api.vaultre.com.au/guide.html
+- https://docs.api.vaultre.com.au/oauth.html
+- https://docs.api.vaultre.com.au/integrator.html
+- https://docs.api.vaultre.com.au/aggregator.html
+- https://docs.api.vaultre.com.au/webhooks.html
+
+transport:
+  protocol: HTTPS only
+  http_version: >-
+    HTTP/1.1 required. Both OpenAPI documents carry the instruction "Please ensure all
+    API requests use HTTP/1.1." in info.description.
+  media_type: application/json
+  base_url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3/
+  regions: [ap-southeast-2]
+  region_note: One documented region only; there is no second core-API host.
+
+authentication:
+  style: two-factor header pair — integrator key AND per-account bearer token
+  headers:
+  - name: X-Api-Key
+    value: integrator API key
+    required: true
+    failure: HTTP 403 Forbidden when missing or invalid
+  - name: Authorization
+    value: 'Bearer {customer access token}'
+    required: true
+  variants:
+  - surface: core API
+    bearer: customer-generated access token, scoped and revocable by the customer
+  - surface: integrator endpoints (/integrator/*, /scopes)
+    bearer: 'self-signed HS512 JWT, payload {"apiKey": ..., "timestamp": <epoch s>}, TTL 300s'
+  - surface: Aggregator API
+    bearer: 'self-signed HS512 JWT, payload {"crmKey": ..., "timestamp": <epoch s>}, TTL 120s'
+  artifact: authentication/vaultre-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    No Idempotency-Key header, parameter or extension appears in any of the four
+    harvested OpenAPI documents, and the technical guide documents no retry-safety
+    contract. Writes are plain POST/PUT/DELETE. The only asynchronous-write safety net
+    is the Aggregator API's HTTP 202 queued-processing model, which acknowledges receipt
+    rather than deduplicating a repeat submission. No `Idempotency` pointer is wired in
+    apis.yml because the provider publishes no idempotency contract.
+
+pagination:
+  style: page-number
+  request:
+  - name: page
+    in: query
+    description: Page number of results.
+  - name: pagesize
+    in: query
+    default: 50
+    description: Number of records returned in each page.
+  response_fields:
+  - items
+  - totalItems
+  - totalPages
+  - urls.self
+  - urls.next
+  - urls.previous
+  cursor_variant:
+    applies_to: GET /eventStream
+    params: [eventsSince, cursor]
+    response_fields: [items, urls.next]
+    note: >-
+      The event-stream poll endpoint is the one cursor-paginated surface; events expire
+      after 30 days.
+  sorting:
+    params: [sort, sortOrder]
+    sortOrder_values: [asc, desc]
+    note: >-
+      `sort` is enumerated per resource (e.g. contacts accept firstName, lastName,
+      inserted, modified, touched); `sortOrder` is a shared component parameter.
+  filtering:
+    shared_components:
+    - modifiedSince / modifiedBefore
+    - insertedSince / insertedBefore
+    - leasedSince / leasedBefore
+    - listingAuthoritySince / listingAuthorityBefore
+    - webLiveDateSince / webLiveDateBefore
+    - conditionalSince / conditionalBefore
+    - unconditionalSince / unconditionalBefore
+    note: >-
+      Date-window filters are declared as reusable components.parameters and applied
+      across list operations — this is the intended incremental-sync mechanism.
+
+field_selection:
+  expansion: not supported
+  sparse_fieldsets: not supported
+  note: >-
+    No expand / fields / include parameter exists. Related records are fetched through
+    sub-resource paths instead (e.g. /contacts/{id}/notes, /properties/{id}/photos).
+
+metadata:
+  custom_fields:
+    supported: true
+    operations: [getContactCustomFields, updateContactCustomFields]
+    note: Account-defined custom fields, not free-form key/value metadata on every object.
+  external_references:
+    supported: true
+    operations: [getPropertiesFromExternalReference]
+    note: >-
+      External reference IDs let an integrator map its own identifiers onto Vault
+      property IDs; see GET /properties/externalRefs/lookup
+      (operationId getPropertiesFromExternalReference).
+
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id / correlation-id header is documented. The one traceable handle is the
+    `requestid` returned by POST /contacts/merge, which the docs describe as usable by
+    the MRI Vault team for technical investigation.
+
+versioning:
+  scheme: uri-path minor version
+  current: v1.3
+  supported_versions: [v1.1, v1.2, v1.3]
+  compatibility_promise: >-
+    Within a minor version fields may be added but VaultRE undertakes never to remove a
+    field or change its data type; breaking changes are reserved for a version bump.
+    Consumers are explicitly told their application must tolerate arbitrary new fields.
+  artifact: lifecycle/vaultre-lifecycle.yml
+
+error_envelope:
+  shape: proprietary JSON object (not RFC 9457 problem+json)
+  media_type: application/json
+  schema: '#/components/schemas/SuccessOrError'
+  fields:
+  - {name: success, type: boolean}
+  - {name: msg, type: string}
+  - {name: code, type: string}
+  runtime_registry: 'GET /responseCodes (operationId getResponseCodes) — "Retrieve a list of response codes used in this API"'
+  artifact: errors/vaultre-problem-types.yml
+
+rate_limiting:
+  limits:
+  - {scope: per API key, limit: 10, unit: requests, period: second}
+  - {scope: per API key, limit: 10000, unit: requests, period: day}
+  quota_reset: 00:00 UTC
+  exceeded_status: 429
+  headers: >-
+    No RateLimit / X-RateLimit response headers are documented. The only programmatic
+    quota signal is GET /integrator/usage (operationId getUsage), "Retrieve daily quota
+    for this API key".
+  guidance: >-
+    VaultRE explicitly advises against calling the API live on each page load and
+    recommends periodic synchronisation with local caching.
+  docs: https://docs.api.vaultre.com.au/guide.html
+
+date_time:
+  date_format: YYYY-MM-DD
+  datetime_format: YYYY-MM-DDThh:mm:ss+z
+  timezone: 24-hour, usually UTC on output; any offset accepted on input
+
+media_and_assets:
+  photo_hotlinking: prohibited
+  rule: >-
+    Integrators using the API, webhooks or XML feeds must download image files and host
+    them locally; hotlinking results in the feed being disabled until resolved and image
+    access may be removed at any time. Use the photo `modtime` to decide whether to
+    re-download.
+
+events:
+  webhooks: true
+  signature_header: X-VaultRE-Signature
+  polling_alternative: GET /eventStream
+  artifact: asyncapi/vaultre-webhooks.yml
+
+support:
+  contact: api@vaultre.com.au
+  note: >-
+    "We can't build your integration for you but we're happy to assist you wherever
+    possible."

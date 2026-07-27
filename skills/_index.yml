@@ -1,0 +1,82 @@
+generated: '2026-07-26'
+method: generated
+source: openapi/vaultre-api-v1-3-openapi.yml + https://docs.api.vaultre.com.au/
+note: Provider-published agent skills were searched for first — docs.api.vaultre.com.au (9-page sitemap),
+  github.com/VaultGroup (15 public repos) and the docs host root carry no AGENTS.md, skills/ directory
+  or llms.txt. These skills are therefore API Evangelist-generated, and every operationId named in them
+  was verified to exist verbatim in VaultRE's own OpenAPI 3.0.1 document.
+skills:
+- file: vaultre-capture-website-enquiry.md
+  name: Capture a website enquiry into VaultRE
+  description: Take a form submission from an agency website (listing enquiry, appraisal request, newsletter
+    signup) and land it in VaultRE as an enquiry and a contact, without creating duplicates.
+  api: openapi/vaultre-api-v1-3-openapi.yml
+  operations:
+  - searchContactsEmail
+  - searchContactsPhone
+  - getContact
+  - addContact
+  - updateContact
+  - addEnquiry
+  - getEnquiries
+  - addContactNote
+  - addContactRequirement
+  - getTokenScopes
+- file: vaultre-incremental-sync.md
+  name: Keep a local copy of a VaultRE account in sync
+  description: Mirror an agency's contacts and properties into your own store and keep them current using
+    the event stream or webhooks, inside VaultRE's 10/second and 10,000/day quota.
+  api: openapi/vaultre-api-v1-3-openapi.yml
+  operations:
+  - getEventStream
+  - getContacts
+  - getProperties
+  - getPropertiesLifeSale
+  - getPropertiesLifeLease
+  - getUsage
+  - getTokenScopes
+- file: vaultre-integrator-onboarding.md
+  name: Onboard agencies as a multi-tenant VaultRE integrator
+  description: Operate at the integrator level — mint HS512 JWTs, enumerate the accounts that granted
+    you a token, drive the OAuth flow so agencies self-serve their token, and audit scopes and quota.
+  api: openapi/vaultre-api-v1-3-openapi.yml
+  operations:
+  - getIntegratorAccounts
+  - getIntegratorAccount
+  - getIntegratorAccountUsers
+  - getIntegratorAccountUser
+  - getIntegratorTokens
+  - getIntegratorScopes
+  - getTokenScopes
+  - validateIntegratorUser
+  - getIntegratorMergeFields
+  - getUsage
+- file: vaultre-listing-campaign-feedback.md
+  name: Run open homes and vendor feedback on a VaultRE listing
+  description: Work a live listing the way an agency does — schedule open homes, record buyer feedback
+    against the property life, surface matching buyers, and read the offers that follow.
+  api: openapi/vaultre-api-v1-3-openapi.yml
+  operations:
+  - getAccountOpenHomes
+  - getPropertyOpenHomes
+  - addOpenHome
+  - updateOpenHome
+  - attachFeedbackToPropertyLife
+  - getPropertyFeedbackLife
+  - getPropertyFeedbackLifeSummary
+  - getPropertyMatchingContacts
+  - getPropertyOffers
+  - getPropertyLifeOfferConditions
+- file: vaultre-website-listing-feed.md
+  name: Publish VaultRE listings on an agency website
+  description: Pull an agency's currently available sale and lease listings out of VaultRE, with photos,
+    and render them on the agency's own website — the single most common VaultRE integration.
+  api: openapi/vaultre-api-v1-3-openapi.yml
+  operations:
+  - getAvailableResidentialSaleProperties
+  - getAvailableResidentialLeaseProperties
+  - getResidentialSaleProperty
+  - getPropertyPhotos
+  - getResidentialSoldProperties
+  - getTokenScopes
+  - getUsage

@@ -1,0 +1,73 @@
+generated: '2026-07-26'
+method: searched
+source: https://docs.api.vaultre.com.au/oauth.html
+docs:
+- https://docs.api.vaultre.com.au/oauth.html
+- https://docs.api.vaultre.com.au/guide.html
+- https://docs.api.vaultre.com.au/basics.html
+spec_declares_oauth2: false
+spec_note: >-
+  None of the four harvested OpenAPI documents declares an oauth2 securityScheme —
+  running 0-working/derive-oauth-scopes.py against this repo yields nothing. The OAuth
+  surface exists only in the documentation, so this file is searched rather than derived.
+model:
+  authorization_model: >-
+    Scopes are chosen by the VaultRE customer, not requested by the integrator. When an
+    agency grants an integrator access (Office Integrations > Third-Party Access >
+    Create Token, or by completing the OAuth flow) it selects the set of scopes applied
+    to that token. There is no `scope` request parameter in the authorization URL and no
+    incremental-consent mechanism: the client cannot ask for a permission, it can only
+    read what it was given.
+  revocation: The customer can delete/revoke the token at any time from inside their VaultRE account.
+  token_cardinality: One access token per customer account; an integrator serving many agencies holds many tokens.
+scopes_documented: false
+scopes: []
+scopes_note: >-
+  VaultRE publishes no scope vocabulary. The scope names are discoverable only at
+  runtime, with live credentials, from the two endpoints below. No scope names were
+  invented here — an empty list is the honest and complete result of this search.
+discovery_endpoints:
+- operationId: getTokenScopes
+  path: GET /scopes
+  summary: Retrieve a list of granted scopes for this bearer token
+  auth: customer access token
+  response: array of strings
+  source: openapi/vaultre-api-v1-3-openapi.yml
+- operationId: getIntegratorScopes
+  path: GET /integrator/scopes
+  summary: Retrieve a list of possible scopes for your API key
+  auth: integrator HS512 JWT
+  note: >-
+    This is the closest thing to a published scope registry — the full vocabulary
+    available to an integrator's key — but it is authenticated, so the vocabulary cannot
+    be captured anonymously.
+  source: openapi/vaultre-api-v1-3-openapi.yml
+flows:
+- flow: authorizationCode
+  style: OAuth2-style (not RFC 6749 conformant — see conformance/vaultre-conformance.yml)
+  token_type: third-party / office-account token
+  authorizationUrl: https://login.vaultre.com.au/cgi-bin/clientvault/oauth-authorize.cgi
+  tokenUrl: https://login.vaultre.com.au/cgi-bin/clientvault/integrations/oauthexchange.cgi
+  parameters: [client_id, redirect_uri, response_type=code, state]
+  note: Account-level access; only a system-admin user can complete this flow.
+- flow: authorizationCode
+  style: OAuth2-style
+  token_type: user/person-level token
+  authorizationUrl: https://login.vaultre.com.au/cgi-bin/clientvault/oauth-authorize-user.cgi
+  tokenUrl: https://login.vaultre.com.au/cgi-bin/clientvault/integrations/oauthexchange.cgi
+  parameters: [client_id, redirect_uri, response_type=code, state]
+constraints:
+  authorization_code_ttl_seconds: 60
+  exchange: Server-side only — CORS blocks a browser-side exchange.
+  redirect_uris: >-
+    Matched literally, including any query string. Every variant (including each
+    parameter value) must be pre-registered; prefix matching is not supported.
+  client_id_issuance: Out of band, by emailing api@vaultre.com.au. Different value from the API key.
+  dynamic_client_registration: false
+  refresh_tokens: not documented
+  cancel_behaviour: 'Redirects to redirect_uri with ?reason=User%20denied%20request'
+  success_behaviour: 'Redirects to redirect_uri with ?reason=success&code=<code>'
+  exchange_response: '{"token": "<token>", "message": "Token generated successfully"}'
+related:
+  authentication: authentication/vaultre-authentication.yml
+  conformance: conformance/vaultre-conformance.yml

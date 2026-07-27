@@ -1,0 +1,63 @@
+generated: '2026-07-26'
+method: searched
+source: live probes of every apis.yml baseURL host, OpenAPI servers[] host, the docs host and the login/auth host
+summary:
+  documents_found: 0
+  note: >-
+    VaultRE exposes no /.well-known/ discovery surface on any host. This is a recorded
+    negative result, not an un-run probe: every path below was requested on 2026-07-26.
+    The docs and aggregator hosts are static S3/CDN origins that answer any unknown key
+    with HTTP 403 (AccessDenied); the API host and the login host answer 404. No
+    security.txt, no OIDC discovery document, no RFC 8414 authorization-server metadata,
+    no RFC 9727 api-catalog, no ai-plugin.json. Consistent with the review finding that
+    VaultRE's OAuth implementation is a hand-rolled CGI flow rather than a
+    standards-discoverable OpenID Provider. No `WellKnown` or `SecurityTxt` pointer is
+    wired into apis.yml because there is nothing to point at.
+hosts:
+- host: https://ap-southeast-2.api.vaultre.com.au
+  role: core API (OpenAPI servers[] for v1.1, v1.2, v1.3)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /security.txt, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://aggregator.api.vaultre.com.au
+  role: Aggregator API (OpenAPI servers[] for aggregator v1.0)
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /.well-known/openid-configuration, status: 403}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/oauth-protected-resource, status: 403}
+  - {path: /.well-known/api-catalog, status: 403}
+  - {path: /.well-known/ai-plugin.json, status: 403}
+  note: 403 is the origin's AccessDenied for an unknown object key, i.e. not present.
+- host: https://docs.api.vaultre.com.au
+  role: developer documentation + Swagger UI + downloadable OpenAPI
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /.well-known/api-catalog, status: 403}
+  - {path: /.well-known/ai-plugin.json, status: 403}
+  - {path: /llms.txt, status: 403}
+  note: 403 is the origin's AccessDenied for an unknown object key, i.e. not present.
+- host: https://login.vaultre.com.au
+  role: OAuth authorize + token-exchange host
+  documents:
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/security.txt, status: 404}
+- host: https://www.mrisoftware.com
+  role: parent-company marketing site (Website in apis.yml)
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+- host: https://resources.vaultre.com.au
+  role: integrator registration (Signup in apis.yml)
+  documents:
+  - {path: /.well-known/security.txt, status: 301}
+  note: Host 301-redirects every path to www.mrisoftware.com; no own well-known surface.

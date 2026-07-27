@@ -1,0 +1,186 @@
+generated: '2026-07-26'
+method: derived
+status: candidate
+source: openapi/vaultre-api-v1-3-openapi.yml
+searched:
+- https://docs.api.vaultre.com.au/ (9-page sitemap — no MCP, agent or AI page)
+- https://github.com/VaultGroup (15 public repos)
+- https://registry.npmjs.org — no @vaultre / vaultre MCP package
+provider_publishes_mcp: false
+provider_note: >-
+  VaultRE publishes NO MCP server for its product API. The VaultGroup GitHub org does
+  host https://vaultgroup.github.io/vaultre-mcp-registry/registry.json (HTTP 200), but
+  inspection shows it is internal engineering tooling for a "vaultre-copilot-bot" — the
+  registered servers wrap Atlassian, Zendesk, GitHub and Elasticsearch, not the VaultRE
+  API. It is deliberately excluded here and from apis.yml.
+disclosure: >-
+  This manifest is API Evangelist-derived, not provider-published. It is a candidate
+  tool surface projected from VaultRE's own OpenAPI 3.0.1 document — every tool below
+  binds to a real operationId that exists verbatim in that spec, and each tool's true
+  input schema is that operation's parameters + requestBody. Nothing here is hosted by
+  VaultRE and no endpoint is invented.
+server:
+  name: vaultre
+  transport: http
+  url: null
+  status: not published
+auth_model:
+  note: >-
+    Any MCP server fronting this API must carry BOTH credentials on every call —
+    X-Api-Key (integrator key) and Authorization: Bearer (per-agency customer access
+    token). Because the customer token is per-account and customer-revocable, a
+    multi-tenant server needs one credential pair per agency, and should call
+    getTokenScopes at session start to learn what the token is actually allowed to do.
+  artifact: authentication/vaultre-authentication.yml
+safety:
+  note: >-
+    This is an agency system of record holding private CRM data — contacts, offers,
+    tenancies, trust records and AML checks. The read tools below are the safe default
+    surface; the write tools are marked and should require human confirmation. Per-op
+    execution contracts are classified in agentic-access/vaultre-agentic-access.yml.
+tools:
+- name: search_contacts
+  description: Search contacts by name, phone or email.
+  category: contacts
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#searchContacts
+- name: list_contacts
+  description: List contacts with date-window, category, list and marketing-user filters.
+  category: contacts
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getContacts
+- name: get_contact
+  description: Retrieve a single contact by id.
+  category: contacts
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getContact
+- name: get_contact_context
+  description: Retrieve contextual information about a contact.
+  category: contacts
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getContactContext
+- name: create_contact
+  description: Create a contact.
+  category: contacts
+  access: write
+  confirm: true
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#addContact
+- name: update_contact
+  description: Update a contact.
+  category: contacts
+  access: write
+  confirm: true
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#updateContact
+- name: add_contact_note
+  description: Add a note to a contact.
+  category: contacts
+  access: write
+  confirm: true
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#addContactNote
+- name: list_contact_requirements
+  description: List a contact's buying/renting requirements.
+  category: contacts
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getContactRequirements
+- name: search_properties
+  description: Search properties by address.
+  category: properties
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#searchProperties
+- name: list_properties
+  description: List properties across the account.
+  category: properties
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getProperties
+- name: get_property
+  description: Retrieve a single property by id.
+  category: properties
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getProperty
+- name: list_residential_sale_listings
+  description: List residential sale properties.
+  category: listings
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getResidentialSaleProperties
+- name: list_available_residential_sale_listings
+  description: List currently available residential sale properties — the website-feed surface.
+  category: listings
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getAvailableResidentialSaleProperties
+- name: list_available_residential_lease_listings
+  description: List currently available residential lease properties.
+  category: listings
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getAvailableResidentialLeaseProperties
+- name: get_residential_sale_listing
+  description: Retrieve a single residential sale property.
+  category: listings
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getResidentialSaleProperty
+- name: list_property_photos
+  description: List the photos attached to a property (download and self-host — hotlinking is prohibited).
+  category: media
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getPropertyPhotos
+- name: submit_enquiry
+  description: Submit a listing or agent enquiry into the holding area.
+  category: enquiries
+  access: write
+  confirm: true
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#addEnquiry
+- name: list_enquiries
+  description: List enquiries in the holding area.
+  category: enquiries
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getEnquiries
+- name: list_open_homes
+  description: List open homes across the account.
+  category: listings
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getAccountOpenHomes
+- name: list_property_offers
+  description: List property offers for the account.
+  category: offers
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getPropertyOffers
+- name: list_property_feedback
+  description: List feedback recorded against a property life.
+  category: feedback
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getPropertyFeedbackLife
+- name: list_matching_contacts
+  description: List contacts whose requirements match a property life.
+  category: matching
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getPropertyMatchingContacts
+- name: list_maintenance_jobs
+  description: List maintenance jobs for the account.
+  category: property-management
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getAllMaintenance
+- name: list_tenancies
+  description: List residential lease tenancies.
+  category: property-management
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getResidentialLeaseTenancies
+- name: poll_event_stream
+  description: Poll the change event stream since a timestamp or cursor (30-day retention).
+  category: sync
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getEventStream
+- name: get_token_scopes
+  description: Retrieve the scopes granted to the current bearer token — call this first.
+  category: auth
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getTokenScopes
+- name: get_api_usage
+  description: Retrieve remaining daily quota for the API key (10,000/day, reset 00:00 UTC).
+  category: auth
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getUsage
+- name: get_corelogic_avm
+  description: Retrieve a CoreLogic AVM estimate for a property (requires the customer's CoreLogic subscription).
+  category: valuation
+  access: read
+  source_operation: openapi/vaultre-api-v1-3-openapi.yml#getCoreLogicAvm
+crosswalk: mcp/vaultre-tool-crosswalk.yml

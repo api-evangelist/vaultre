@@ -1,0 +1,117 @@
+generated: '2026-07-26'
+method: searched
+source: >-
+  https://docs.api.vaultre.com.au/guide.html (upgraded from a derived pass over
+  openapi/vaultre-api-v1-1-openapi.yml, openapi/vaultre-api-v1-2-openapi.yml,
+  openapi/vaultre-api-v1-3-openapi.yml, openapi/vaultre-aggregator-api-v1-0-openapi.yml)
+docs:
+- https://docs.api.vaultre.com.au/guide.html
+- https://docs.api.vaultre.com.au/basics.html
+- https://docs.api.vaultre.com.au/oauth.html
+- https://docs.api.vaultre.com.au/integrator.html
+- https://docs.api.vaultre.com.au/aggregator.html
+summary:
+  types: [apiKey, http]
+  api_key_in: [header]
+  oauth2_flows: []
+  model: >-
+    Every request carries TWO credentials: an integrator-level API key in X-Api-Key and
+    a bearer token in Authorization. Which bearer token depends on the surface — a
+    customer-granted access token for the core API, or a short-lived self-signed HS512
+    JWT for integrator-level and Aggregator endpoints. Neither credential is self-serve:
+    the key requires integrator approval, the customer token requires the agency to
+    grant it.
+  gate: approval + per-account customer consent
+schemes:
+- name: Api-Key
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  description: >-
+    Integrator API key. Identifies the integrator to VaultRE, issued only after an
+    integration request is reviewed and approved. Must be kept secret and not shared.
+  failure: HTTP 403 Forbidden when missing or invalid.
+  sources:
+  - openapi/vaultre-api-v1-1-openapi.yml
+  - openapi/vaultre-api-v1-2-openapi.yml
+  - openapi/vaultre-api-v1-3-openapi.yml
+- name: ApiKey
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  description: >-
+    Aggregator variant. "This value is provided to you by VaultRE and identifies you as
+    a CRM" — the aggregator's Secret Key rather than the core integrator key.
+  sources:
+  - openapi/vaultre-aggregator-api-v1-0-openapi.yml
+- name: Bearer
+  type: http
+  scheme: bearer
+  description: >-
+    Customer access token on the core API; HS512 JWT on integrator and aggregator
+    endpoints. The aggregator spec states: "This value is a JWT token signed with the
+    HS512 algorithm using your X-Api-Key value as the secret."
+  sources:
+  - openapi/vaultre-api-v1-3-openapi.yml
+  - openapi/vaultre-aggregator-api-v1-0-openapi.yml
+- name: Bearer
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: "Use format 'Bearer [token]'. Modelled as an apiKey header in the older specs."
+  sources:
+  - openapi/vaultre-api-v1-1-openapi.yml
+  - openapi/vaultre-api-v1-2-openapi.yml
+surfaces:
+- surface: core API
+  base_url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  headers:
+  - 'X-Api-Key: <integrator API key>'
+  - 'Authorization: Bearer <customer access token>'
+  token_source: >-
+    Issued by the customer from Office Integrations > Third-Party Access > Create Token,
+    or generated through the OAuth flow. Scoped by the customer and revocable at any
+    time. One token per customer account.
+  scopes_readable_at: GET /scopes (operationId getTokenScopes)
+- surface: integrator endpoints
+  base_url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3/integrator
+  headers:
+  - 'X-Api-Key: <integrator API key>'
+  - 'Authorization: Bearer <self-signed JWT>'
+  jwt:
+    algorithm: HS512
+    payload: '{"apiKey": "<your API key>", "timestamp": <current epoch seconds>}'
+    secret: secret key provided by VaultRE
+    ttl_seconds: 300
+  sample_code: https://github.com/VaultGroup/api-samples/blob/master/python/create_jwt.py
+- surface: Aggregator API
+  base_url: https://aggregator.api.vaultre.com.au/api/v1.0
+  headers:
+  - 'X-Api-Key: <Secret Key>'
+  - 'Authorization: Bearer <self-signed JWT>'
+  jwt:
+    algorithm: HS512
+    payload: '{"crmKey": "<your provided CRM key>", "timestamp": <current epoch seconds>}'
+    secret: secret key provided by VaultRE
+    ttl_seconds: 120
+  note: Registration for Aggregator access is separate from core API integrator registration.
+  sample_code: https://github.com/VaultGroup/api-samples/blob/master/aggregator/client.py
+- surface: webhooks (inbound to the integrator)
+  authentication: >-
+    None. VaultRE states webhook requests "are not sent with any other form of
+    authentication or authorisation" — the receiving endpoint must accept unauthenticated
+    requests and verify the X-VaultRE-Signature HMAC-SHA512 header instead.
+  artifact: asyncapi/vaultre-webhooks.yml
+token_minting:
+  manual: Customer creates the token inside their VaultRE account and hands it to the developer.
+  oauth: >-
+    OAuth2-style authorization-code flow for minting customer tokens without handling
+    VaultRE credentials — see scopes/vaultre-scopes.yml for endpoints, the 60-second
+    code TTL and the literal redirect-URI matching rule.
+  artifact: scopes/vaultre-scopes.yml
+discovery:
+  openid_configuration: absent (404 on login.vaultre.com.au and the API host)
+  oauth_authorization_server_metadata: absent (404)
+  dynamic_client_registration: not supported
+  artifact: well-known/vaultre-well-known.yml
+contact: api@vaultre.com.au
