@@ -11,7 +11,8 @@ surfaces:
   openapi:
     file: openapi/vaultre-api-v1-3-openapi.yml
     url: https://docs.api.vaultre.com.au/swagger/vaultre.yaml
-    status: public, anonymous HTTP 200
+    status: published
+    status_raw: published
     operations: 453
   graphql:
     endpoint: null
