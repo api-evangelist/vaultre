@@ -1,0 +1,124 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "VaultRE Aggregator",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "staff",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add/Update a staff member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://aggregator.api.vaultre.com.au/api/v1.0/staff",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add/Update a staff member"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add/Update an appraisal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://aggregator.api.vaultre.com.au/api/v1.0/appraisal",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add/Update an appraisal"
+        },
+        {
+          "info": {
+            "name": "Add/Update a listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://aggregator.api.vaultre.com.au/api/v1.0/listing",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add/Update a listing"
+        },
+        {
+          "info": {
+            "name": "Add/Update an unconditional sale",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://aggregator.api.vaultre.com.au/api/v1.0/unconditional",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add/Update an unconditional sale"
+        },
+        {
+          "info": {
+            "name": "Add/Update a settlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://aggregator.api.vaultre.com.au/api/v1.0/settlement",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add/Update a settlement"
+        },
+        {
+          "info": {
+            "name": "Add/Update a withdrawn listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://aggregator.api.vaultre.com.au/api/v1.0/withdrawn",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add/Update a withdrawn listing"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

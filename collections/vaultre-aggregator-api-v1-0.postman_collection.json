@@ -1,0 +1,936 @@
+{
+  "item": [
+    {
+      "id": "930015ce-cf50-409b-8901-563a36c482be",
+      "name": "staff",
+      "description": {
+        "content": "Operations related to staff",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fd19fa86-6f4b-4ec5-a425-efa3568cc118",
+          "name": "Add/Update a staff member",
+          "request": {
+            "name": "Add/Update a staff member",
+            "description": {
+              "content": "Add/Update a staff member",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "staff"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"staffId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"position\": \"<string>\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<email>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4e852d1d-f70b-48e1-975b-978a8943b76d",
+              "name": "Data received successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "staff"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"staffId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"position\": \"<string>\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<email>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"msg\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b00d177f-abe8-4d6c-b39f-214271ba424f",
+              "name": "Invalid data payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "staff"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"staffId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"position\": \"<string>\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<email>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e7bbe56a-81e6-4aa0-96b2-515a590816e1",
+      "name": "properties",
+      "description": {
+        "content": "Operations related to properties",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c722b411-11a6-4465-a748-c94dbe931f5e",
+          "name": "Add/Update an appraisal",
+          "request": {
+            "name": "Add/Update an appraisal",
+            "description": {
+              "content": "Add/Update an appraisal",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "appraisal"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"appraisalDate\": \"<dateTime>\",\n  \"appraisalPrice\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e5ae4a36-0dff-49fd-a6e1-a39c211a6d80",
+              "name": "Data received successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "appraisal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"appraisalDate\": \"<dateTime>\",\n  \"appraisalPrice\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"msg\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0bf3359d-468d-4f62-a5e2-79b2a3bf660f",
+              "name": "Invalid data payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "appraisal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"appraisalDate\": \"<dateTime>\",\n  \"appraisalPrice\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b1b84857-89db-4d80-acca-bac3059662f0",
+          "name": "Add/Update a listing",
+          "request": {
+            "name": "Add/Update a listing",
+            "description": {
+              "content": "Add/Update a listing",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "listing"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"listingId\": \"<string>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"auctionDate\": \"<dateTime>\",\n  \"auctionVenue\": \"<string>\",\n  \"tenderDate\": \"<dateTime>\",\n  \"listingAuthorityDate\": \"<dateTime>\",\n  \"listingPrice\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"listingAuthorityType\": \"<string>\",\n  \"methodOfSale\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "941611aa-e5fe-4a57-a96f-b8903a11a8cd",
+              "name": "Data received successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "listing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"listingId\": \"<string>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"auctionDate\": \"<dateTime>\",\n  \"auctionVenue\": \"<string>\",\n  \"tenderDate\": \"<dateTime>\",\n  \"listingAuthorityDate\": \"<dateTime>\",\n  \"listingPrice\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"listingAuthorityType\": \"<string>\",\n  \"methodOfSale\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"msg\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7abe68e-54b4-480b-b33b-7ee1edd118c2",
+              "name": "Invalid data payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "listing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"listingId\": \"<string>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"auctionDate\": \"<dateTime>\",\n  \"auctionVenue\": \"<string>\",\n  \"tenderDate\": \"<dateTime>\",\n  \"listingAuthorityDate\": \"<dateTime>\",\n  \"listingPrice\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"listingAuthorityType\": \"<string>\",\n  \"methodOfSale\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ca7f380-5f18-498b-bbb0-667f7191675e",
+          "name": "Add/Update an unconditional sale",
+          "request": {
+            "name": "Add/Update an unconditional sale",
+            "description": {
+              "content": "Add/Update an unconditional sale",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "unconditional"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"unconditionalId\": \"<string>\",\n  \"listingId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"commissionSplits\": [\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    },\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    }\n  ],\n  \"unconditionalDate\": \"<dateTime>\",\n  \"proposedSettlementDate\": \"<dateTime>\",\n  \"salePrice\": \"<float>\",\n  \"grossCommissionExGST\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"soldType\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "74957fac-743d-4356-a123-da416abcc3f9",
+              "name": "Data received successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "unconditional"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"unconditionalId\": \"<string>\",\n  \"listingId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"commissionSplits\": [\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    },\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    }\n  ],\n  \"unconditionalDate\": \"<dateTime>\",\n  \"proposedSettlementDate\": \"<dateTime>\",\n  \"salePrice\": \"<float>\",\n  \"grossCommissionExGST\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"soldType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"msg\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83da83d2-6787-4744-938d-543a40372674",
+              "name": "Invalid data payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "unconditional"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"unconditionalId\": \"<string>\",\n  \"listingId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"commissionSplits\": [\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    },\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    }\n  ],\n  \"unconditionalDate\": \"<dateTime>\",\n  \"proposedSettlementDate\": \"<dateTime>\",\n  \"salePrice\": \"<float>\",\n  \"grossCommissionExGST\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"soldType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e50f961-9dda-4ff0-817d-87914f4db194",
+          "name": "Add/Update a settlement",
+          "request": {
+            "name": "Add/Update a settlement",
+            "description": {
+              "content": "Add/Update a settlement",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "settlement"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"unconditionalId\": \"<string>\",\n  \"settlementId\": \"<string>\",\n  \"listingId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"commissionSplits\": [\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    },\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    }\n  ],\n  \"unconditionalDate\": \"<dateTime>\",\n  \"settlementDate\": \"<dateTime>\",\n  \"salePrice\": \"<float>\",\n  \"grossCommissionExGST\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"soldType\": \"<string>\",\n  \"vendorPaidAdvertising\": \"<float>\",\n  \"agentPaidAdvertising\": \"<float>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c32ed3f0-f17e-485a-9f98-356fcd770d51",
+              "name": "Data received successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settlement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"unconditionalId\": \"<string>\",\n  \"settlementId\": \"<string>\",\n  \"listingId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"commissionSplits\": [\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    },\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    }\n  ],\n  \"unconditionalDate\": \"<dateTime>\",\n  \"settlementDate\": \"<dateTime>\",\n  \"salePrice\": \"<float>\",\n  \"grossCommissionExGST\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"soldType\": \"<string>\",\n  \"vendorPaidAdvertising\": \"<float>\",\n  \"agentPaidAdvertising\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"msg\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c465f8eb-cd26-4df7-86ec-93db78247261",
+              "name": "Invalid data payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "settlement"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"unconditionalId\": \"<string>\",\n  \"settlementId\": \"<string>\",\n  \"listingId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"commissionSplits\": [\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    },\n    {\n      \"staffId\": \"<string>\",\n      \"conjunctingAgentName\": \"<string>\",\n      \"type\": \"<string>\",\n      \"amountExGST\": \"<float>\"\n    }\n  ],\n  \"unconditionalDate\": \"<dateTime>\",\n  \"settlementDate\": \"<dateTime>\",\n  \"salePrice\": \"<float>\",\n  \"grossCommissionExGST\": \"<float>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"soldType\": \"<string>\",\n  \"vendorPaidAdvertising\": \"<float>\",\n  \"agentPaidAdvertising\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e9c65acf-11a1-47c5-ab52-ddb4e376b512",
+          "name": "Add/Update a withdrawn listing",
+          "request": {
+            "name": "Add/Update a withdrawn listing",
+            "description": {
+              "content": "Add/Update a withdrawn listing",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "withdrawn"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"listingId\": \"<string>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"withdrawnId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"withdrawnDate\": \"<dateTime>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"vendorPaidAdvertising\": \"<float>\",\n  \"agentPaidAdvertising\": \"<float>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b5a3a76d-0a75-48f5-9691-d3cbafb19d55",
+              "name": "Data received successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "withdrawn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"listingId\": \"<string>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"withdrawnId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"withdrawnDate\": \"<dateTime>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"vendorPaidAdvertising\": \"<float>\",\n  \"agentPaidAdvertising\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"msg\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "224fceed-f8cf-41c4-8f29-2c679f20bdc8",
+              "name": "Invalid data payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "withdrawn"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transactionId\": \"<uuid>\",\n  \"transactionDate\": \"<dateTime>\",\n  \"listingId\": \"<string>\",\n  \"appraisalId\": \"<string>\",\n  \"propertyId\": \"<string>\",\n  \"officeId\": \"<string>\",\n  \"withdrawnId\": \"<string>\",\n  \"staff\": [\n    {\n      \"staffId\": \"<string>\"\n    },\n    {\n      \"staffId\": \"<string>\"\n    }\n  ],\n  \"withdrawnDate\": \"<dateTime>\",\n  \"address\": {\n    \"level\": \"<string>\",\n    \"unitNumber\": \"<string>\",\n    \"streetNumber\": \"<string>\",\n    \"street\": \"<string>\",\n    \"suburb\": \"<string>\",\n    \"postcode\": \"<string>\",\n    \"state\": \"<string>\"\n  },\n  \"classification\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"vendorPaidAdvertising\": \"<float>\",\n  \"agentPaidAdvertising\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://aggregator.api.vaultre.com.au/api/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ca151f4e-0f83-49fb-b65a-dc01bf717fe4",
+    "name": "VaultRE Aggregator",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Please ensure all API requests use HTTP/1.1.\n\nContact Support:\n Name: VaultRE\n Email: api@vaultre.com.au",
+      "type": "text/plain"
+    }
+  }
+}
