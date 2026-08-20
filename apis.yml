@@ -42,6 +42,17 @@ accessModel:
   method: manual
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vaultre.png
 tags:
+- Real-Estate
+- Australia
+- New Zealand
+- PropTech
+- CRM
+- Property Listings
+- Property Management
+- Rentals
+- Commercial Real Estate
+- Webhook
+tags_raw:
 - Real Estate
 - Australia
 - New Zealand
@@ -129,6 +140,11 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/integrator.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3/integrator
   tags:
+  - Integrator
+  - Account
+  - Scopes
+  - Usage
+  tags_raw:
   - Integrator
   - Accounts
   - Scopes
