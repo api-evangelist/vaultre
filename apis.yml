@@ -27,6 +27,18 @@ description: >-
   OAuth2-style authorisation-code flow available for token minting, scoped tokens
   readable via GET /scopes, HMAC-SHA512-signed webhooks, and published rate limits of 10
   requests per second and 10,000 requests per day.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: approval
@@ -2368,6 +2380,9 @@ apis:
   - type: Webhooks
     url: https://docs.api.vaultre.com.au/aggregator.html
 common:
+- type: CapabilityMap
+  url: capabilities/vaultre-capability-edges.yml
+  name: VaultRE Business Capability Map
 - type: Overlay
   url: overlays/vaultre-api-v1-3-overlay.yaml
 - type: Overlay
