@@ -1,0 +1,113 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Invoices API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: invoices
+  description: Operations related to invoices
+paths:
+  /invoices/saleSummary:
+    get:
+      tags:
+      - invoices
+      summary: Retrieve sale summary
+      operationId: getSaleSummary
+      parameters:
+      - name: includeMultiOffice
+        in: query
+        description: Include multi office sales
+        required: false
+        schema:
+          type: boolean
+      - name: createdSince
+        in: query
+        description: Filter results since this datetime
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: createdBefore
+        in: query
+        description: Filter results before this datetime
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: Sale Summary retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SaleSummary'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+components:
+  schemas:
+    SaleSummary:
+      type: object
+      properties:
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        balance:
+          type: number
+          format: float
+        contractNumber:
+          type: string
+        created:
+          type: string
+          format: date-time
+        invoiceNumber:
+          type: string
+        invoiceToText:
+          type: string
+        saleLifeId:
+          type: integer
+          format: int64
+        totalFees:
+          type: number
+          format: float
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Tenancies API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged tenancies across 2 of this provider''s published API definitions: vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: tenancies
+paths:
+  /properties/residential/lease/tenancies:
+    get:
+      tags:
+      - tenancies
+      summary: Retrieve a list of residential tenancies
+      description: Retrieve a list of residential tenancies
+      operationId: getResidentialLeaseTenancies
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Tenancies retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    RentFrequency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    TenancyAndProperty:
+      type: object
+      properties:
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+        tenancy:
+          $ref: '#/components/schemas/TenancyExtended'
+    TenancyExtended:
+      allOf:
+      - $ref: '#/components/schemas/Tenancy'
+      - type: object
+        properties:
+          bondReceipted:
+            type: number
+            format: float
+          paymentType:
+            type: string
+          paymentReference:
+            type: string
+    Tenancy:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        rent:
+          type: number
+          format: float
+        rentFrequency:
+          $ref: '#/components/schemas/RentFrequency'
+        archived:
+          type: boolean
+        letAgreed:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        rentPaidUntil:
+          type: string
+          format: date-time
+        arrearsAmount:
+          type: number
+          format: float
+        vacateDate:
+          type: string
+          format: date-time
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

@@ -1,0 +1,619 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Aml API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: aml
+  description: Operations related to AML checks
+paths:
+  /aml:
+    get:
+      tags:
+      - aml
+      summary: Retrieve a list of AML checks
+      description: Retrieve a list of AML checks. Currently only allows retrieving AML checks by contactId
+      operationId: getAMLChecks
+      parameters:
+      - name: contactId
+        in: query
+        description: Filter AML checks by contact ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - inserted
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: AML Checks retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AMLCheck'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - aml
+      summary: Create a new AML check for a contact
+      description: Create a new AML check for a contact, and attach one or more properties. For each property provided, either a saleLifeId or leaseLifeId must be provided, and it must be the current sale/lease life for the property.
+      operationId: addAMLCheck
+      requestBody:
+        description: AML Check details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAMLCheck'
+        required: true
+      responses:
+        201:
+          description: AML Check added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AMLCheck'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+  /aml/{id}:
+    get:
+      tags:
+      - aml
+      summary: Retrieve a single AML check
+      description: Retrieve a single AML check by its ID
+      operationId: getAMLCheck
+      parameters:
+      - name: id
+        in: path
+        description: ID of the AML check
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: AML check retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AMLCheck'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - aml
+      summary: Update an existing AML check
+      description: Update an existing AML check. Currently, only updating the status is permitted. Other endpoints are available for managing files and notes.
+      operationId: updateAMLCheck
+      parameters:
+      - name: id
+        in: path
+        description: ID of the AML check
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: AML Check details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAMLCheck'
+        required: true
+      responses:
+        200:
+          description: AML Check updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AMLCheck'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+  /aml/{id}/notes:
+    post:
+      tags:
+      - aml
+      summary: Add a new note to the AML check
+      description: Add a new note to the AML check. The note will be associated with the AML check and can be used to provide additional information or context.
+      operationId: addAMLNote
+      parameters:
+      - name: id
+        in: path
+        description: ID of the AML check
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: AML Note details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAMLNote'
+        required: true
+      responses:
+        201:
+          description: AML Note added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AMLNote'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+  /aml/{amlid}/files/{id}:
+    delete:
+      tags:
+      - aml
+      summary: Remove an attached file from an AML check
+      description: Remove an attached file from an AML check. This will delete the file from the system.
+      operationId: removeAMLNote
+      parameters:
+      - name: amlid
+        in: path
+        description: ID of the AML check
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the AML file
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: AML file removed successfully
+  /aml/{id}/files/upload:
+    post:
+      tags:
+      - aml
+      summary: Attach a file to this AML check
+      description: Attach a file to this AML check. This endpoint returns an upload_url where the file data can be PUT.
+      operationId: addAMLFile
+      parameters:
+      - name: id
+        in: path
+        description: ID of the AML check
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: File upload object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAMLFileUpload'
+        required: true
+      responses:
+        201:
+          description: File record created. File data can now be posted to the returned URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileToBeUploaded'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+components:
+  schemas:
+    AMLStatus:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        abbreviation:
+          type: string
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        isocode:
+          type: string
+        gstRate:
+          type: number
+          format: float
+    UpdateAMLCheck:
+      type: object
+      properties:
+        status:
+          type: object
+          $ref: '#/components/schemas/ID'
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    FileToBeUploaded:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        upload_url:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    AMLFile:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        filename:
+          type: string
+        contentType:
+          type: string
+        url:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+    AddAMLCheck:
+      type: object
+      properties:
+        contact:
+          type: object
+          $ref: '#/components/schemas/ID'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddAMLProperty'
+    CustomAddress:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+    AddAMLFileUpload:
+      type: object
+      properties:
+        filename:
+          type: string
+        contentType:
+          type: string
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
+    RoyalMail:
+      type: object
+      properties:
+        buildingName:
+          type: string
+        buildingNumber:
+          type: string
+        department:
+          type: string
+        locality:
+          type: string
+        locality2:
+          type: string
+        organisation:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+        subbuildingName:
+          type: string
+        subbuildingNumber:
+          type: string
+        thoroughfare:
+          type: string
+        thoroughfare2:
+          type: string
+        udprn:
+          type: integer
+          format: int64
+    AMLCheck:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        contact:
+          type: object
+          $ref: '#/components/schemas/ID'
+        inserted:
+          type: string
+          format: date-time
+        insertedBy:
+          type: object
+          $ref: '#/components/schemas/Access'
+        status:
+          type: object
+          $ref: '#/components/schemas/AMLStatus'
+        approved:
+          type: string
+          format: date-time
+        approvedBy:
+          type: object
+          $ref: '#/components/schemas/Access'
+        rejected:
+          type: string
+          format: date-time
+        rejectedBy:
+          type: object
+          $ref: '#/components/schemas/Access'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/AMLProperty'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/AMLFile'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AMLNote'
+    AddAMLNote:
+      type: object
+      properties:
+        note:
+          type: string
+    PropertyType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    AMLProperty:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        address:
+          type: object
+          $ref: '#/components/schemas/Address'
+        displayAddress:
+          type: string
+        class:
+          type: object
+          $ref: '#/components/schemas/PropertyClass'
+        type:
+          type: object
+          $ref: '#/components/schemas/PropertyType'
+    AMLNote:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        note:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        insertedBy:
+          type: object
+          $ref: '#/components/schemas/Access'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    AddAMLProperty:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

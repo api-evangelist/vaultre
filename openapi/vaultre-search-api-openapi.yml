@@ -1,0 +1,798 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Search API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged search across 3 of this provider''s published API definitions: vaultre-api-v1-1-openapi.yml, vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: search
+  description: Operations related to performing searches
+paths:
+  /search/properties/address:
+    get:
+      tags:
+      - search
+      summary: Search for properties by address
+      description: Search for properties by address
+      operationId: searchProperties
+      parameters:
+      - name: term
+        in: query
+        description: The term to search by
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Search results retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /search/contacts/name:
+    get:
+      tags:
+      - search
+      summary: Search for contacts by name
+      description: Search for contacts by name
+      operationId: searchContactsName
+      parameters:
+      - name: term
+        in: query
+        description: The term to search by
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Search results retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /search/contacts/phone:
+    get:
+      tags:
+      - search
+      summary: Search for contacts by phone number (exact match)
+      description: Search for contacts by phone number (exact match)
+      operationId: searchContactsPhone
+      parameters:
+      - name: term
+        in: query
+        description: The term to search by
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Search results retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /search/contacts/email:
+    get:
+      tags:
+      - search
+      summary: Search for contacts by email address (exact match)
+      description: Search for contacts by email address (exact match)
+      operationId: searchContactsEmail
+      parameters:
+      - name: term
+        in: query
+        description: The term to search by
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Search results retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /search/buildings/name:
+    get:
+      tags:
+      - search
+      summary: Search for buildings by name
+      description: Search for buildings by name
+      operationId: searchBuildingsName
+      parameters:
+      - name: term
+        in: query
+        description: The term to search by
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Search results retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /search/contactCategories/name:
+    get:
+      tags:
+      - search
+      summary: Search for contact categories by name
+      description: Search for contact categories by name
+      operationId: searchContactCategoriesName
+      parameters:
+      - name: term
+        in: query
+        description: The term to search by
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Search results retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /search/threads/recipients:
+    get:
+      tags:
+      - search
+      summary: Get all threads with the supplied recipients
+      description: Get all threads with the supplied recipients. The user will be added automatically if not supplied.
+      operationId: getSearchThreadsRecipients
+      parameters:
+      - name: recipients
+        in: query
+        description: Recipient ID
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - modified
+          - created
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Message threads retrieved
+          content: {}
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /search/threads/staffTypes:
+    get:
+      tags:
+      - search
+      summary: Get all threads with the supplied recipients
+      description: Get all threads with the supplied recipients.
+      operationId: getSearchThreadsStaffTypes
+      parameters:
+      - name: staffTypes
+        in: query
+        description: Staff Type ID
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - modified
+          - created
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Message threads retrieved
+          content: {}
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /search/threads/term:
+    get:
+      tags:
+      - search
+      summary: Search for message threads containing term
+      description: Search for message threads containing term
+      operationId: getSearchThreadsTerm
+      parameters:
+      - name: term
+        in: query
+        description: The term to search for.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - modified
+          - created
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Message threads retrieved
+          content: {}
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /search/contacts:
+    get:
+      tags:
+      - search
+      summary: Search for contacts by a variety of criteria
+      description: Search for contacts by a variety of criteria
+      operationId: searchContacts
+      parameters:
+      - name: name
+        in: query
+        description: Min 4 chars - The persons name or their partner's name
+        schema:
+          type: string
+      - name: phone
+        in: query
+        description: Min 4 chars - The persons phone number
+        schema:
+          type: string
+      - name: email
+        in: query
+        description: Min 4 chars - The persons emails
+        schema:
+          type: string
+      - name: categories
+        in: query
+        description: Categories the person is part of
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: fuzzy
+        in: query
+        description: If true the person can match on any of the queried parameters and not necessarily all of them. If false, they must match all queried parameters.
+        schema:
+          type: boolean
+          default: true
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: archived
+        in: query
+        description: Filter by archived status
+        schema:
+          type: boolean
+      - name: marketingUser
+        in: query
+        description: Filter by marketing user
+        schema:
+          type: integer
+          format: int64
+      - name: marketingUserPosition
+        in: query
+        description: Used in conjuction with marketingUser, filter by marketing user position ID
+        schema:
+          type: integer
+          format: int64
+      - name: editableOnly
+        in: query
+        description: If true, only return contacts that are editable by the user
+        schema:
+          type: boolean
+      - name: streetName
+        in: query
+        description: Filter by street name
+        schema:
+          type: string
+      - name: suburb
+        in: query
+        description: Filter by suburb ID
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: contactType
+        in: query
+        description: Filter by entity type
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: company
+        in: query
+        description: Filter by company name
+        schema:
+          type: string
+      - name: propertyRelationship
+        in: query
+        description: Filter by property relationship
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - owner
+            - pastOwner
+            - purchaser
+            - landlord
+            - tenant
+      responses:
+        200:
+          description: Search results retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContactSearchResult'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+components:
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        abbreviation:
+          type: string
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        isocode:
+          type: string
+        gstRate:
+          type: number
+          format: float
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ContactSearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        greeting:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketingUser'
+        editableBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    PropertySearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        saleLifeId:
+          type: integer
+          format: int64
+        leaseLifeId:
+          type: integer
+          format: int64
+        address:
+          $ref: '#/components/schemas/Address'
+        displayAddress:
+          type: string
+        commercialListingType:
+          type: string
+          enum:
+          - sale
+          - lease
+          - both
+        salePrice:
+          type:
+          - number
+          - 'null'
+          format: float
+        showSalePrice:
+          type: boolean
+        unconditional:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        class:
+          $ref: '#/components/schemas/PropertyClass'
+        saleLife:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            status:
+              type: string
+            portalStatus:
+              type: string
+        leaseLife:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            status:
+              type: string
+            portalStatus:
+              type: string
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    BuildingSearchResult:
+      allOf:
+      - $ref: '#/components/schemas/Building'
+      - type: object
+    CustomAddress:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
+    RoyalMail:
+      type: object
+      properties:
+        buildingName:
+          type: string
+        buildingNumber:
+          type: string
+        department:
+          type: string
+        locality:
+          type: string
+        locality2:
+          type: string
+        organisation:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+        subbuildingName:
+          type: string
+        subbuildingNumber:
+          type: string
+        thoroughfare:
+          type: string
+        thoroughfare2:
+          type: string
+        udprn:
+          type: integer
+          format: int64
+    CategoryGrouping:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    MarketingUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/Access'
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    Building:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-1-openapi.yml
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

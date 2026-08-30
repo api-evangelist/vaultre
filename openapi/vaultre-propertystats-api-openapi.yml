@@ -1,0 +1,363 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Property Stats API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged propertyStats across 3 of this provider''s published API definitions: vaultre-api-v1-1-openapi.yml, vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: propertyStats
+  description: Operations related to property portal stats
+paths:
+  /property/portalStats:
+    put:
+      tags:
+      - propertyStats
+      summary: Update portal stats for a property
+      description: Update portal stats for a property (e.g. listing views)
+      operationId: updatePortalStats
+      requestBody:
+        description: Property Portal Stats object. Please note that "statDate" is a Date field (YYYY-MM-DD) and "total" represents the total figures for that date
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePortalStats'
+        required: true
+      responses:
+        200:
+          description: Stats updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    get:
+      tags:
+      - propertyStats
+      summary: Retrieve previously submitted portal stats for a given property and portal
+      description: Retrieve previously submitted portal stats for a given property and portal
+      operationId: getPortalStats
+      parameters:
+      - name: statDateSince
+        in: query
+        description: Filter metrics occuring on or after this date
+        schema:
+          type: string
+          format: date-time
+      - name: statDateBefore
+        in: query
+        description: Filter metrics occuring before this date
+        schema:
+          type: string
+          format: date-time
+      - name: saleLifeId
+        in: query
+        description: Filter metrics for this sale life ID
+        schema:
+          type: integer
+          format: int64
+      - name: leaseLifeId
+        in: query
+        description: Filter metrics for this lease life ID
+        schema:
+          type: integer
+          format: int64
+      - name: propertyReference
+        in: query
+        description: Filter metrics by property portal reference (unique ID)
+        schema:
+          type: string
+      - name: source
+        in: query
+        description: The source (portal) of the stats.
+        schema:
+          type: string
+        required: true
+      - $ref: '#/components/parameters/modifiedSince'
+      - $ref: '#/components/parameters/modifiedBefore'
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - modified
+          - statDate
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Stats retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PortalStats'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /property/portalStats/cumulative:
+    put:
+      tags:
+      - propertyStats
+      summary: Update cumulative portal stats for a property
+      description: Update cumulative portal stats for a property (e.g. listing views). If you want to track views day by day, use this endpoint.
+      operationId: updatePortalStatsCumulative
+      requestBody:
+        description: Property Portal Stats object. Please note that "statDate" is a Date field (YYYY-MM-DD) and "total" represents the total figures for that date
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePortalStatsCumulative'
+        required: true
+      responses:
+        200:
+          description: Stats updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /property/portalStats/total:
+    put:
+      tags:
+      - propertyStats
+      summary: Update total portal stats for a property
+      description: Update total portal stats for a property (e.g. listing views). If you only track a total figure for stats, use this endpoint.
+      operationId: updatePortalStatsTotal
+      requestBody:
+        description: Property Portal Stats object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePortalStatsTotal'
+        required: true
+      responses:
+        200:
+          description: Stats updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    UpdatePortalStats:
+      type: object
+      properties:
+        statDate:
+          type: string
+          format: date-time
+        statType:
+          type: string
+          enum:
+          - propertyView
+        source:
+          type: string
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        propertyReference:
+          type: string
+        total:
+          type: number
+          format: int64
+    Metric:
+      type: object
+      properties:
+        statType:
+          type: string
+          enum:
+          - propertyView
+          - emailAgent
+          - callAgent
+          - brochureView
+        total:
+          type: number
+          format: int64
+    UpdatePortalStatsTotal:
+      type: object
+      properties:
+        source:
+          type: string
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        propertyReference:
+          type: string
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metric'
+    UpdatePortalStatsCumulative:
+      allOf:
+      - $ref: '#/components/schemas/UpdatePortalStatsTotal'
+      - type: object
+        properties:
+          statDate:
+            type: string
+            format: date-time
+    PortalStats:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        source:
+          $ref: '#/components/schemas/Portal'
+        saleLifeId:
+          type: integer
+          format: int64
+        leaseLifeId:
+          type: integer
+          format: int64
+        statDate:
+          type: string
+          format: date-time
+        statType:
+          type: string
+        modified:
+          type: string
+          format: date-time
+        isTotalFigure:
+          type: boolean
+        total:
+          type: integer
+          format: int64
+    Portal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    modifiedSince:
+      name: modifiedSince
+      in: query
+      description: Filter results modified since this datetime
+      schema:
+        type: string
+        format: date-time
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    modifiedBefore:
+      name: modifiedBefore
+      in: query
+      description: Filter results modified before this datetime
+      schema:
+        type: string
+        format: date-time
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-1-openapi.yml
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

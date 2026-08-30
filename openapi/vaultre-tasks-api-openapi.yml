@@ -1,0 +1,1041 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Tasks API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged tasks across 3 of this provider''s published API definitions: vaultre-api-v1-1-openapi.yml, vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: tasks
+  description: Operations related to tasks
+paths:
+  /tasks:
+    get:
+      tags:
+      - tasks
+      summary: Get a list of tasks for the user
+      description: Get a list of tasks for the user
+      operationId: getTasks
+      parameters:
+      - name: startingAfter
+        in: query
+        description: Filter tasks starting on or after this datetime
+        schema:
+          type: string
+          format: date-time
+      - name: startingBefore
+        in: query
+        description: Filter tasks starting before this datetime
+        schema:
+          type: string
+          format: date-time
+      - name: completed
+        in: query
+        description: Filter tasks by completed status
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - start
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Tasks retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - tasks
+      summary: Add a task
+      description: Add a task
+      operationId: addTask
+      requestBody:
+        description: Task object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUpdateTask'
+        required: true
+      responses:
+        201:
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /tasks/{id}:
+    get:
+      tags:
+      - tasks
+      summary: Get a single task
+      description: Get a single task
+      operationId: getTask
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the task
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Task retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - tasks
+      summary: Update a task
+      description: Update a task
+      operationId: updateTask
+      parameters:
+      - name: id
+        in: path
+        description: ID of the task
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Task object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUpdateTask'
+        required: true
+      responses:
+        200:
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - tasks
+      summary: Delete a task
+      description: Delete a task
+      operationId: deleteTask
+      parameters:
+      - name: id
+        in: path
+        description: ID of the task
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Task deleted
+          content: {}
+        400:
+          description: Invalid data
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /tasks/{id}/complete:
+    put:
+      tags:
+      - tasks
+      summary: Mark the task as completed
+      description: Mark the task as uncompleted
+      operationId: completeTask
+      parameters:
+      - name: id
+        in: path
+        description: ID of the task
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Task completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /tasks/{id}/uncomplete:
+    put:
+      tags:
+      - tasks
+      summary: Mark the task as incomplete
+      description: Mark the task as incomplete
+      operationId: uncompleteTask
+      parameters:
+      - name: id
+        in: path
+        description: ID of the task
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Task marked as incomplete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+components:
+  schemas:
+    ContactNoteTypePurpose:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ContactNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    ContactNoteReminder:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+    Task:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        subject:
+          type: string
+        description:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        contact:
+          $ref: '#/components/schemas/TaskContact'
+        contactNote:
+          $ref: '#/components/schemas/ContactNote'
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass'
+    ContactNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        insertedBy:
+          $ref: '#/components/schemas/User'
+        type:
+          $ref: '#/components/schemas/ContactNoteType'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    AddUpdateTask:
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        start:
+          type: string
+          format: date-time
+    TaskContact:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Task_2:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        subject:
+          type: string
+        description:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        contact:
+          $ref: '#/components/schemas/TaskContact'
+        contactNote:
+          $ref: '#/components/schemas/ContactNote_2'
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass_2'
+        user:
+          $ref: '#/components/schemas/Access'
+    ContactNoteType_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    ContactNote_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        contact:
+          $ref: '#/components/schemas/ID'
+        insertedBy:
+          $ref: '#/components/schemas/User_2'
+        type:
+          $ref: '#/components/schemas/ContactNoteType_2'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
+        propertyFeedback:
+          $ref: '#/components/schemas/PropertyFeedback'
+    User_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_2'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+        websiteUrl:
+          type: string
+    PhoneNumber_2:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    AddTask:
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        start:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/ID'
+    PropertyClass_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    PropertyFeedback:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass_2'
+        feedbackDate:
+          type: string
+          format: date-time
+        priceOpinion:
+          type: number
+          format: float
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        contractRequested:
+          type: boolean
+        contractSent:
+          type: string
+          format: date-time
+    UpdateTask:
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        start:
+          type: string
+          format: date-time
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    Task_3:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        subject:
+          type: string
+        description:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        contact:
+          $ref: '#/components/schemas/TaskContact'
+        contactNote:
+          $ref: '#/components/schemas/ContactNote_3'
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass_3'
+        user:
+          $ref: '#/components/schemas/Access_2'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    ContactNoteType_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    ContactNote_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        contact:
+          $ref: '#/components/schemas/ID'
+        insertedBy:
+          $ref: '#/components/schemas/User_3'
+        type:
+          $ref: '#/components/schemas/ContactNoteType_3'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
+        propertyFeedback:
+          $ref: '#/components/schemas/PropertyFeedback_2'
+    User_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_3'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            deleteProperties:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+            accessPropertyFinancials:
+              type: boolean
+            accessAlarmDetails:
+              type: boolean
+            modifyWebsiteContent:
+              type: boolean
+            editMarketingContact:
+              type: boolean
+        websiteUrl:
+          type: string
+        showOnWeb:
+          type: boolean
+        externalReference:
+          type: string
+        ssoIdentifier:
+          type: string
+        signature:
+          type: string
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        hideMobileFromPortal:
+          type: boolean
+    PhoneNumber_3:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    PropertyClass_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    PropertyFeedback_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass_3'
+        feedbackDate:
+          type: string
+          format: date-time
+        priceOpinion:
+          type: number
+          format: float
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        contractRequested:
+          type: boolean
+        contractSent:
+          type: string
+          format: date-time
+    Access_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    insertedBefore:
+      name: insertedBefore
+      in: query
+      description: Filter results inserted before this datetime
+      schema:
+        type: string
+        format: date-time
+    insertedSince:
+      name: insertedSince
+      in: query
+      description: Filter results inserted since this datetime
+      schema:
+        type: string
+        format: date-time
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-1-openapi.yml
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

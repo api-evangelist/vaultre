@@ -1,0 +1,371 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Keys API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: keys
+  description: Operations related to property keys
+paths:
+  /properties/{propertyid}/keys:
+    get:
+      tags:
+      - keys
+      summary: Retrieve a list of keys for this property
+      description: Retrieve a list of keys for this property
+      operationId: getPropertyKeys
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - keyname
+          - iskeyout
+          - propertyid
+      - $ref: '#/components/parameters/sortOrder'
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Keys retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PropertyKey'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - keys
+      summary: Add a new key to this property
+      description: Add a new key to this property
+      operationId: addPropertyKey
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property to add this key to
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: AddUpdatePropertyKey object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUpdatePropertyKey'
+        required: true
+      responses:
+        201:
+          description: Add Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyKey'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+  /properties/{propertyid}/keys/{id}:
+    get:
+      tags:
+      - keys
+      summary: Retrieve a key from this property
+      description: Retrieve a key from this property
+      operationId: getPropertyKey
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the property key
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Key retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyKey'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - keys
+      summary: Update a property key
+      description: Update a property key
+      operationId: updatePropertyKey
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the property key
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: AddUpdatePropertyKey object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUpdatePropertyKey'
+        required: true
+      responses:
+        200:
+          description: Key update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyKey'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    AddUpdatePropertyKey:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+        isKeyOut:
+          type: boolean
+        details:
+          type: string
+        hexColour:
+          type: string
+        keyOutUser:
+          $ref: '#/components/schemas/ID'
+        keyOutContact:
+          $ref: '#/components/schemas/ID'
+    PropertyKey:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        propertyId:
+          type: number
+          format: int64
+        name:
+          type: string
+        isKeyOut:
+          type: boolean
+        details:
+          type: string
+        hexColour:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        keyOutUser:
+          $ref: '#/components/schemas/Access'
+        keyOutContact:
+          $ref: '#/components/schemas/ContactSearchResult'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    MarketingUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/Access'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    ContactSearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        greeting:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketingUser'
+        editableBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

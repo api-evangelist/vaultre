@@ -1,0 +1,79 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Event Stream API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: eventStream
+  description: Operations related to the event stream
+paths:
+  /eventStream:
+    get:
+      tags:
+      - eventStream
+      summary: Poll the event stream
+      description: Retrieve events from the event stream.
+      operationId: getEventStream
+      parameters:
+      - name: eventsSince
+        in: query
+        description: Retrieve events since this date. Note that events expire after 30 days.
+        schema:
+          type: string
+          format: date-time
+      - name: cursor
+        in: query
+        description: Used for pagination. Retrieve results starting from this cursor position.
+        schema:
+          type: string
+      responses:
+        200:
+          description: Events retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EventStreamItem'
+                  urls:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+      security:
+      - Api-Key: []
+        Bearer: []
+components:
+  schemas:
+    EventStreamItem:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        type:
+          type: string
+        action:
+          type: string
+        data:
+          type: object
+        id:
+          type: integer
+          format: int64
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

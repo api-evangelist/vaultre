@@ -1,0 +1,688 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Deals API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged deals across 2 of this provider''s published API definitions: vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: deals
+  description: Operations related to commercial deals
+paths:
+  /properties/{propertyid}/deals/sale:
+    get:
+      tags:
+      - deals
+      summary: Retrieve a list of sale deals for this (commercial) property
+      description: Retrieve a list of sale deals for this (commercial) property. This includes the agency's deals and external deals that have been tracked.
+      operationId: getPropertySaleDeals
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Sale deals retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - deals
+      summary: Add a commercial sale deal
+      description: Add a commercial sale deal
+      operationId: addCommercialDealSale
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Commercial Deal Details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommercialDealSale'
+        required: true
+      responses:
+        201:
+          description: Commercial Deal Added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialDealSale'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/deals/lease:
+    get:
+      tags:
+      - deals
+      summary: Retrieve a list of lease deals for this (commercial) property
+      description: Retrieve a list of lease deals for this (commercial) property. This includes the agency's deals and external deals that have been tracked.
+      operationId: getPropertyLeaseDeals
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Lease deals retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - deals
+      summary: Add a commercial lease deal
+      description: Add a commercial lease deal
+      operationId: addCommercialDealLease
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Commercial Deal Details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommercialDealLease'
+        required: true
+      responses:
+        201:
+          description: Commercial Deal Added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialDealLease'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/deals/sale/{dealid}:
+    get:
+      tags:
+      - deals
+      summary: Retrieve a commercial sale deal
+      description: Retrieve a commercial sale deal
+      operationId: getCommercialDealSale
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: dealid
+        in: path
+        description: ID of the commercial deal
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Commercial deal retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialDealSale'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - deals
+      summary: Update a commercial sale deal
+      description: Update a commercial sale deal
+      operationId: updateCommercialDealSale
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: dealid
+        in: path
+        description: ID of the commercial deal
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Commercial Deal Details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommercialDealSale'
+        required: true
+      responses:
+        200:
+          description: Commercial Deal updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialDealSale'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+    delete:
+      tags:
+      - deals
+      summary: Delete a commercial sale deal
+      description: Delete a commercial sale deal
+      operationId: deleteCommercialDealSale
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: dealid
+        in: path
+        description: ID of the commercial deal
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Commercial Deal deleted
+          content: {}
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /properties/{propertyid}/deals/lease/{dealid}:
+    get:
+      tags:
+      - deals
+      summary: Retrieve a commercial lease deal
+      description: Retrieve a commercial lease deal
+      operationId: getCommercialDealLease
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: dealid
+        in: path
+        description: ID of the commercial deal
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Commercial deal retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialDealLease'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - deals
+      summary: Update a commercial lease deal
+      description: Update a commercial lease deal
+      operationId: updateCommercialDealLease
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: dealid
+        in: path
+        description: ID of the commercial deal
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Commercial Deal Details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommercialDealLease'
+        required: true
+      responses:
+        200:
+          description: Commercial Deal updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialDealLease'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+    delete:
+      tags:
+      - deals
+      summary: Delete a commercial lease deal
+      description: Delete a commercial lease deal
+      operationId: deleteCommercialDealLease
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: dealid
+        in: path
+        description: ID of the commercial deal
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Commercial Deal deleted
+          content: {}
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /properties/deals/sale:
+    get:
+      tags:
+      - deals
+      summary: Retrieve a list of commercial sale deals for this account.
+      description: Retrieve a list of commercial sale deals for this account. This includes the agency's deals and external deals that have been tracked.
+      operationId: getCommercialSaleDeals
+      parameters:
+      - name: settlementSince
+        in: query
+        description: Filter commercial deals occurring on or after this date
+        schema:
+          type: string
+          format: date
+      - name: settlementBefore
+        in: query
+        description: Filter commercial deals occurring before this date
+        schema:
+          type: string
+          format: date
+      - name: unconditionalSince
+        in: query
+        description: Filter commercial deals occurring on or after this date
+        schema:
+          type: string
+          format: date
+      - name: unconditionalBefore
+        in: query
+        description: Filter commercial deals occurring before this date
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        description: Filter commercial deals by status
+        schema:
+          type: string
+          enum:
+          - Sent for Approval
+          - Pending
+          - Rejected
+          - Approved
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Sale deals retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommercialDealSale'
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /properties/deals/lease:
+    get:
+      tags:
+      - deals
+      summary: Retrieve a list of commercial lease deals for this account.
+      description: Retrieve a list of commercial lease deals for this account. This includes the agency's deals and external deals that have been tracked.
+      operationId: getCommercialLeaseDeals
+      parameters:
+      - name: leaseStartSince
+        in: query
+        description: Filter commercial deals occurring on or after this date
+        schema:
+          type: string
+          format: date
+      - name: leaseStartBefore
+        in: query
+        description: Filter commercial deals occurring before this date
+        schema:
+          type: string
+          format: date
+      - name: leaseExpirySince
+        in: query
+        description: Filter commercial deals occurring on or after this date
+        schema:
+          type: string
+          format: date
+      - name: leaseExpiryBefore
+        in: query
+        description: Filter commercial deals occurring before this date
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        description: Filter commercial deals by status
+        schema:
+          type: string
+          enum:
+          - Sent for Approval
+          - Pending
+          - Rejected
+          - Approved
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Lease deals retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommercialDealLease'
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+components:
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+    CommercialDealSale:
+      allOf:
+      - $ref: '#/components/schemas/CommercialDeal'
+      - type: object
+        properties:
+          purchasers:
+            type: array
+            items:
+              $ref: '#/components/schemas/ContactMinimal'
+          salePrice:
+            type: number
+            format: float
+          vacantPossession:
+            type: boolean
+    CommercialDeal:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactMinimal'
+        tenants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactMinimal'
+        unconditional:
+          type: string
+          format: date-time
+        settlement:
+          type: string
+          format: date-time
+        grossCommissionExcGST:
+          type: number
+          format: float
+        outgoingsPerAnnum:
+          type: number
+          format: float
+        outgoingsText:
+          type: string
+        parkingBays:
+          type: number
+          format: int64
+        parkingInfo:
+          type: string
+        externalAgency:
+          $ref: '#/components/schemas/ContactMinimal'
+        ourDeal:
+          type: boolean
+        status:
+          type: string
+          enum:
+          - Sent for Approval
+          - Pending
+          - Rejected
+          - Approved
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    CommercialDealLease:
+      allOf:
+      - $ref: '#/components/schemas/CommercialDeal'
+      - type: object
+        properties:
+          leaseStart:
+            type: string
+            format: date-time
+          leaseExpiry:
+            type: string
+            format: date-time
+          leaseExpiryReminder:
+            type: string
+            format: date-time
+          leaseExpiryReminderUser:
+            $ref: '#/components/schemas/Access'
+          annualRent:
+            type: number
+            format: float
+          initialTermYears:
+            type: integer
+            format: int64
+          renewal1Years:
+            type: integer
+            format: int64
+          renewal2Years:
+            type: integer
+            format: int64
+          renewal3Years:
+            type: integer
+            format: int64
+          fitoutEstimate:
+            type: number
+            format: float
+          otherIncentives:
+            type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

@@ -1,0 +1,578 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Templates API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged templates across 3 of this provider''s published API definitions: vaultre-api-v1-1-openapi.yml, vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: templates
+  description: Operations related to SMS and email templates
+paths:
+  /templates/email:
+    get:
+      tags:
+      - templates
+      summary: Retrieve a list of email templates
+      description: Retrieve a list of email templates
+      operationId: getEmailTemplates
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Email templates retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - templates
+      summary: Create an email template
+      description: Create an email template
+      operationId: addEmailTemplate
+      requestBody:
+        description: Email template object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddEmailTemplate'
+        required: true
+      responses:
+        201:
+          description: Email template created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailTemplate'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /templates/sms:
+    get:
+      tags:
+      - templates
+      summary: Retrieve a list of SMS templates
+      description: Retrieve a list of SMS templates
+      operationId: getSMSTemplates
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: SMS templates retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - templates
+      summary: Create an SMS template
+      description: Create an SMS template
+      operationId: addSMSTemplate
+      requestBody:
+        description: SMS template object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddSMSTemplate'
+        required: true
+      responses:
+        201:
+          description: SMS template created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SMSTemplate'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /templates/email/{id}:
+    get:
+      tags:
+      - templates
+      summary: Retrieve a single email template
+      description: Retrieve a single email template
+      operationId: getEmailTemplate
+      parameters:
+      - name: id
+        in: path
+        description: ID of the template
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Email Template retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailTemplate'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - templates
+      summary: Update an email template
+      description: Update an email template
+      operationId: updateEmailTemplate
+      parameters:
+      - name: id
+        in: path
+        description: ID of the template
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Email template object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddUpdateEmailTemplate'
+        required: true
+      responses:
+        200:
+          description: Email template updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailTemplate'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /templates/sms/{id}:
+    get:
+      tags:
+      - templates
+      summary: Retrieve a single SMS template
+      description: Retrieve a single SMS template
+      operationId: getSMSTemplate
+      parameters:
+      - name: id
+        in: path
+        description: ID of the template
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: SMS Template retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SMSTemplate'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - templates
+      summary: Update an SMS template
+      description: Update an SMS template
+      operationId: updateSMSTemplate
+      parameters:
+      - name: id
+        in: path
+        description: ID of the template
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: SMS template object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddUpdateSMSTemplate'
+        required: true
+      responses:
+        200:
+          description: SMS template updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SMSTemplate'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /templates/ownerSummary:
+    get:
+      tags:
+      - templates
+      summary: Retrieve a list of owner summary templates
+      description: Retrieve a list of owner summary templates
+      operationId: getOwnerSummaryTemplates
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Owner Summary templates retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - templates
+      summary: Create an Owner Summary template
+      description: Create an Owner Summary template
+      operationId: addOwnerSummaryTemplate
+      requestBody:
+        description: Owner Summary template object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddUpdateOwnerSummaryTemplate'
+        required: true
+      responses:
+        201:
+          description: Owner Summary template created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerSummaryTemplate'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /templates/ownerSummary/{id}:
+    get:
+      tags:
+      - templates
+      summary: Retrieve a single Owner Summary template
+      description: Retrieve a single Owner Summary template
+      operationId: getOwnerSummaryTemplate
+      parameters:
+      - name: id
+        in: path
+        description: ID of the template
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Owner Summary Template retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerSummaryTemplate'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - templates
+      summary: Update an Owner Summary template
+      description: Update an Owner Summary template
+      operationId: updateOwnerSummaryTemplate
+      parameters:
+      - name: id
+        in: path
+        description: ID of the template
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Owner Summary template object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddUpdateOwnerSummaryTemplate'
+        required: true
+      responses:
+        200:
+          description: Owner Summary template updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerSummaryTemplate'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  schemas:
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    AddEmailTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    SMSTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+        inserted:
+          type: string
+          format: date-time
+    AddSMSTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    EmailTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+        inserted:
+          type: string
+          format: date-time
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    AddUpdateOwnerSummaryTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    OwnerSummaryTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+        inserted:
+          type: string
+          format: date-time
+    AddUpdateSMSTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    AddUpdateEmailTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    Access_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-1-openapi.yml
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

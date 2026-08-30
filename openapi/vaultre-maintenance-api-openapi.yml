@@ -1,0 +1,1125 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Maintenance API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged maintenance across 2 of this provider''s published API definitions: vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: maintenance
+  description: Operations related to maintenance jobs
+paths:
+  /maintenance:
+    get:
+      tags:
+      - maintenance
+      summary: Retrieve a list of all maintenance jobs for this account
+      description: Retrieve a list of all maintenance jobs for this account
+      operationId: getAllMaintenance
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: completed
+        in: query
+        description: Filter maintenance jobs by their completed status
+        schema:
+          type: boolean
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - inserted
+          - modified
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Maintenance jobs retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance:
+    get:
+      tags:
+      - maintenance
+      summary: Retrieve a list of maintenance jobs for this property life
+      description: Retrieve a list of maintenance jobs for this property life
+      operationId: getMaintenance
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: tenancy
+        in: query
+        description: Filter maintenance jobs for this tenancy id
+        schema:
+          type: integer
+          format: int64
+      - name: completed
+        in: query
+        description: Filter maintenance jobs by their completed status
+        schema:
+          type: boolean
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - inserted
+          - modified
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Maintenance jobs retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - maintenance
+      summary: Create a maintenance job
+      description: Create a maintenance job
+      operationId: addMaintenance
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Maintenance job object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddMaintenance'
+        required: true
+      responses:
+        201:
+          description: Maintenance job created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}:
+    get:
+      tags:
+      - maintenance
+      summary: Retrieve a single maintenance job
+      description: Retrieve a single maintenance job
+      operationId: getMaintenanceJob
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Maintenance job retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - maintenance
+      summary: Update a single maintenance job
+      description: Update a single maintenance job
+      operationId: updateMaintenance
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Maintenance job object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMaintenance'
+        required: true
+      responses:
+        200:
+          description: Maintenance job updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - maintenance
+      summary: Delete a maintenance job
+      description: Delete a maintenance job
+      operationId: deleteMaintenance
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Maintenance job deleted
+          content: {}
+        400:
+          description: Invalid data
+          content: {}
+        403:
+          description: User does not have permission to delete maintenance jobs
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/photos:
+    post:
+      tags:
+      - maintenance
+      summary: Add a maintenance job photo
+      description: Add a maintenance job photo
+      operationId: addMaintenancePhoto
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - photo
+              properties:
+                description:
+                  type: string
+                  description: The description of the maintenance photo
+                photo:
+                  type: string
+                  description: The photo to be uploaded
+                  format: binary
+        required: true
+      responses:
+        201:
+          description: Maintenance job photo created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenancePhoto'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/photos/{id}:
+    get:
+      tags:
+      - maintenance
+      summary: Retrieve a single maintenance job photo
+      description: Retrieve a single maintenance job photo
+      operationId: getMaintenanceJob
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the maintenance job photo
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Maintenance job photo retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenancePhoto'
+      security:
+      - Api-Key: []
+        Bearer: []
+    delete:
+      tags:
+      - maintenance
+      summary: Delete a maintenance job photo
+      description: Delete a maintenance job photo
+      operationId: deleteMaintenancePhoto
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the maintenance job photo
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Maintenance job photo deleted
+          content: {}
+        400:
+          description: Invalid data
+          content: {}
+        403:
+          description: User does not have permission to delete maintenance job photos
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/requests:
+    get:
+      tags:
+      - maintenance
+      summary: Retrieve a list of requests for a maintenance job
+      description: Retrieve a list of requests for a maintenance job
+      operationId: getMaintenanceRequests
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: workOrders
+        in: query
+        description: Filter maintenance job requests by work order status
+        schema:
+          type: boolean
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - inserted
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Maintenance requests retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - maintenance
+      summary: Create a maintenance job request
+      description: Create a maintenance request
+      operationId: addMaintenanceRequest
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Maintenance request object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddMaintenanceRequest'
+        required: true
+      responses:
+        201:
+          description: Maintenance request created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceRequest'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/requests/{id}/initiateWorkOrder:
+    put:
+      tags:
+      - maintenance
+      summary: Initiate a maintenance work order
+      description: Initiate a maintenance work order
+      operationId: initiateMaintenceWorkOrder
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the maintenance request
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Work order object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                bodyHTML:
+                  type: string
+                sender:
+                  $ref: '#/components/schemas/ID'
+        required: true
+      responses:
+        200:
+          description: Work order initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/requests/{id}/complete:
+    put:
+      tags:
+      - maintenance
+      summary: Complete a maintenance work order
+      description: Complete a maintenance work order
+      operationId: completeMaintenceWorkOrder
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the maintenance request
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Work order completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Maintenance'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/notes:
+    get:
+      tags:
+      - maintenance
+      summary: Retrieve a list of notes for a maintenance job
+      description: Retrieve a list of notes for a maintenance job
+      operationId: getMaintenanceNotes
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: jobid
+        in: path
+        description: ID of the maintenance job
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - inserted
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Maintenance notes retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  schemas:
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+    PropertyFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        contentType:
+          type: string
+        url:
+          type: string
+    AddMaintenanceRequest:
+      type: object
+      properties:
+        supplier:
+          $ref: '#/components/schemas/ID'
+        subject:
+          type: string
+        bodyHTML:
+          type: string
+        isWorkOrder:
+          type: boolean
+        sender:
+          $ref: '#/components/schemas/ID'
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    UpdateMaintenance:
+      type: object
+      properties:
+        summary:
+          type: string
+        description:
+          type: string
+        requestedBy:
+          $ref: '#/components/schemas/ID'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    MaintenancePhoto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+        description:
+          type: string
+        userFileName:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    MaintenanceRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        supplier:
+          $ref: '#/components/schemas/ContactMinimal'
+        status:
+          type: string
+          enum:
+          - requested
+          - viewed
+          - notInterested
+          - received
+        jobId:
+          type: integer
+          format: int64
+        quote:
+          $ref: '#/components/schemas/PropertyFile'
+        invoice:
+          $ref: '#/components/schemas/PropertyFile'
+        isWorkOrder:
+          type: boolean
+    RentFrequency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    AddMaintenance:
+      type: object
+      properties:
+        summary:
+          type: string
+        description:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        requestedBy:
+          $ref: '#/components/schemas/ID'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        tenancy:
+          $ref: '#/components/schemas/ID'
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    Maintenance:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        summary:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+          - open
+          - requested
+          - sent
+          - completed
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        insertedBy:
+          $ref: '#/components/schemas/Access'
+        requestedBy:
+          $ref: '#/components/schemas/ContactMinimal'
+        tenancy:
+          $ref: '#/components/schemas/Tenancy'
+        leaseLifeId:
+          type: integer
+          format: int64
+        photos:
+          type: array
+          items:
+            $ref: '#/components/schemas/MaintenancePhoto'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+    Tenancy:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        rent:
+          type: number
+          format: float
+        rentFrequency:
+          $ref: '#/components/schemas/RentFrequency'
+        archived:
+          type: boolean
+        letAgreed:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        rentPaidUntil:
+          type: string
+          format: date-time
+        arrearsAmount:
+          type: number
+          format: float
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    Tenancy_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        rent:
+          type: number
+          format: float
+        rentFrequency:
+          $ref: '#/components/schemas/RentFrequency'
+        archived:
+          type: boolean
+        letAgreed:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        rentPaidUntil:
+          type: string
+          format: date-time
+        arrearsAmount:
+          type: number
+          format: float
+        vacateDate:
+          type: string
+          format: date-time
+    PropertyFile_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        contentType:
+          type: string
+        url:
+          type: string
+        electronicTable:
+          type: boolean
+        isPublic:
+          type: boolean
+    MaintenanceNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        note:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        insertedBy:
+          $ref: '#/components/schemas/Access_2'
+    Access_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

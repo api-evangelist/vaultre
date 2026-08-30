@@ -1,0 +1,385 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Campaigns API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: campaigns
+  description: Operations related to marketing campaigns
+paths:
+  /campaigns:
+    get:
+      tags:
+      - campaigns
+      summary: Retrieve a list of marketing campaigns for this account
+      description: Retrieve a list of marketing campaigns for this account
+      operationId: getCampaigns
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Campaigns retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Campaign'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+  /campaigns/{id}:
+    get:
+      tags:
+      - campaigns
+      summary: Retrieve a single marketing campaign
+      description: Retrieve a single marketing campaign
+      operationId: getCampaign
+      parameters:
+      - name: id
+        in: path
+        description: ID of the marketing campaign
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Campaign retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+      security:
+      - Api-Key: []
+        Bearer: []
+  /campaigns/{id}/tracking:
+    get:
+      tags:
+      - campaigns
+      summary: Retrieve a campaign tracking data
+      description: Retrieve a campaign tracking data
+      operationId: getCampaignTracking
+      parameters:
+      - name: id
+        in: path
+        description: ID of the marketing campaign
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Campaign Tracking retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CampaignTracking'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+  /campaigns/{id}/tracking/summary:
+    get:
+      tags:
+      - campaigns
+      summary: Retrieve campaign stats (totals)
+      description: Retrieve campaign stats (totals)
+      operationId: getCampaignTrackingSummary
+      parameters:
+      - name: id
+        in: path
+        description: ID of the marketing campaign
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Campaign Tracking Summary retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignTrackingSummary'
+      security:
+      - Api-Key: []
+        Bearer: []
+components:
+  schemas:
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+    CampaignTrackingSummary:
+      type: object
+      properties:
+        readPenetration:
+          type: string
+        totalClicks:
+          type: integer
+          format: int64
+        totalRecipients:
+          type: integer
+          format: int64
+        totalRecipientsRead:
+          type: integer
+          format: int64
+        totalUnsubscribers:
+          type: integer
+          format: int64
+        totalViews:
+          type: integer
+          format: int64
+    CampaignTracking:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        remoteAddress:
+          type: string
+        url:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        contact:
+          type: object
+          $ref: '#/components/schemas/ContactMinimal'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            deleteProperties:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+            accessPropertyFinancials:
+              type: boolean
+            accessAlarmDetails:
+              type: boolean
+            modifyWebsiteContent:
+              type: boolean
+            editMarketingContact:
+              type: boolean
+        websiteUrl:
+          type: string
+        showOnWeb:
+          type: boolean
+        externalReference:
+          type: string
+        ssoIdentifier:
+          type: string
+        signature:
+          type: string
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        hideMobileFromPortal:
+          type: boolean
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    CampaignComments:
+      type: object
+      properties:
+        categories:
+          type: string
+        from:
+          type: string
+        lists:
+          type: string
+        precincts:
+          type: string
+        subject:
+          type: string
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        title:
+          type: string
+        bulkEmail:
+          type: boolean
+        inserted:
+          type: string
+          format: date-time
+        comments:
+          $ref: '#/components/schemas/CampaignComments'
+        user:
+          $ref: '#/components/schemas/User'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

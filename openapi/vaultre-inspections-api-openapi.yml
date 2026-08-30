@@ -1,0 +1,510 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Inspections API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged inspections across 2 of this provider''s published API definitions: vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: inspections
+  description: Operations related to inspections
+paths:
+  /properties/{propertyid}/lease/{lifeid}/tenancy/{id}/inspections:
+    get:
+      tags:
+      - inspections
+      summary: Retrieve a list of inspections for a tenancy
+      description: Retrieve a list of inspections for a tenancy
+      operationId: getInspections
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the tenancy
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - inserted
+      - $ref: '#/components/parameters/sortOrder'
+      - name: completed
+        in: query
+        description: Filter inspections by their completed status
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: Inspections retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - inspections
+      summary: Create an inspection
+      description: Create an inspection
+      operationId: addInspection
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the tenancy
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Inspection object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddInspection'
+        required: true
+      responses:
+        201:
+          description: Inspection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/lease/{lifeid}/tenancy/{tenancyid}/inspections/{id}:
+    get:
+      tags:
+      - inspections
+      summary: Retrieve a single inspection for a tenancy
+      description: Retrieve a single inspection for a tenancy
+      operationId: getInspection
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: tenancyid
+        in: path
+        description: ID of the tenancy
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the inspection
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Inspection retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - inspections
+      summary: Update an inspection
+      description: Update an inspection
+      operationId: updateInspection
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: tenancyid
+        in: path
+        description: ID of the tenancy
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the inspection
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Inspection object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInspection'
+        required: true
+      responses:
+        200:
+          description: Inspection Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspection'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - inspections
+      summary: Delete an inspection
+      description: Delete an inspection
+      operationId: deleteInspection
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the lease life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: tenancyid
+        in: path
+        description: ID of the tenancy
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the inspection
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Inspection deleted
+          content: {}
+        400:
+          description: Invalid data
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  schemas:
+    AddInspection:
+      type: object
+      properties:
+        inserted:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - proposed
+          - scheduled
+          - confirmed
+        type:
+          type: string
+          enum:
+          - routine
+          - ingoing
+          - outgoing
+        insertedBy:
+          $ref: '#/components/schemas/#definitions/ID'
+    UpdateInspection:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - proposed
+          - scheduled
+          - confirmed
+        type:
+          type: string
+          enum:
+          - routine
+          - ingoing
+          - outgoing
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Inspection:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        insertedBy:
+          $ref: '#/components/schemas/#definitions/Access'
+        inserted:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - proposed
+          - scheduled
+          - confirmed
+        type:
+          type: string
+          enum:
+          - routine
+          - ingoing
+          - outgoing
+        timeOfDay:
+          type: string
+          enum:
+          - morning
+          - afternoon
+        tenancy:
+          $ref: '#/components/schemas/#definitions/ID'
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    AddInspection_2:
+      type: object
+      properties:
+        inserted:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - proposed
+          - scheduled
+          - confirmed
+        type:
+          type: string
+          enum:
+          - routine
+          - ingoing
+          - outgoing
+        insertedBy:
+          $ref: '#/components/schemas/ID'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    Inspection_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        insertedBy:
+          $ref: '#/components/schemas/Access'
+        inserted:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - proposed
+          - scheduled
+          - confirmed
+        type:
+          type: string
+          enum:
+          - routine
+          - ingoing
+          - outgoing
+        timeOfDay:
+          type: string
+          enum:
+          - morning
+          - afternoon
+        tenancy:
+          $ref: '#/components/schemas/ID'
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

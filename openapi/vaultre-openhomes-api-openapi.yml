@@ -1,0 +1,305 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Openhomes API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: openhomes
+  description: Operations related to open homes
+paths:
+  /openHomes:
+    get:
+      tags:
+      - openhomes
+      summary: Retrieve a list of property open homes
+      description: Retrieve a list of property open homes
+      operationId: getAccountOpenHomes
+      parameters:
+      - name: startingAfter
+        in: query
+        description: Filter open homes occurring on or after this date
+        schema:
+          type: string
+          format: date
+      - name: startingBefore
+        in: query
+        description: Filter open homes occurring before this date
+        schema:
+          type: string
+          format: date
+      - name: userid
+        in: query
+        description: Filter open homes attached to this user
+        schema:
+          type: integer
+          format: int64
+      - name: properties
+        in: query
+        description: Filter open homes by property ID
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Open Homes retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OpenHomeWithProperty'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+components:
+  schemas:
+    OpenHomeWithProperty:
+      allOf:
+      - $ref: '#/components/schemas/OpenHome'
+      - type: object
+        properties:
+          property:
+            type: object
+            properties:
+              id:
+                type: number
+                format: int64
+              displayAddress:
+                type: string
+              saleLifeId:
+                type: number
+                format: int64
+              leaseLifeId:
+                type: number
+                format: int64
+              class:
+                $ref: '#/components/schemas/PropertyClass'
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            deleteProperties:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+            accessPropertyFinancials:
+              type: boolean
+            accessAlarmDetails:
+              type: boolean
+            modifyWebsiteContent:
+              type: boolean
+            editMarketingContact:
+              type: boolean
+        websiteUrl:
+          type: string
+        showOnWeb:
+          type: boolean
+        externalReference:
+          type: string
+        ssoIdentifier:
+          type: string
+        signature:
+          type: string
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        hideMobileFromPortal:
+          type: boolean
+    OpenHome:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+        isRental:
+          type: boolean
+        extraAgents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

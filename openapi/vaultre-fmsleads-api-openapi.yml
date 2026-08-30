@@ -1,0 +1,188 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Fmsleads API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: fmsleads
+  description: Operations related to FMS leads
+paths:
+  /fms/leads:
+    get:
+      tags:
+      - fmsleads
+      summary: Get a list of FMS leads
+      description: Get a list of FMS leads
+      operationId: getFMSLeads
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Leads retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FMSLead'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - fmsleads
+      summary: Submit a new FMS lead
+      description: Submit a new FMS lead.
+      operationId: addFMSLead
+      requestBody:
+        description: FMS Lead object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddFMSLead'
+        required: true
+      responses:
+        201:
+          description: Lead received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FMSLead'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    AddFMSLead:
+      type: object
+      properties:
+        contact:
+          type: string
+          $ref: '#/components/schemas/FMSLeadContact'
+        property:
+          type: string
+          $ref: '#/components/schemas/FMSLeadProperty'
+        appraisalRequired:
+          type: boolean
+        appraisalType:
+          type: string
+        source:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    FMSLeadProperty:
+      type: object
+      properties:
+        streetAddress:
+          type: string
+        suburb:
+          type: string
+        state:
+          type: string
+        bedrooms:
+          type: integer
+          format: int64
+        bathrooms:
+          type: integer
+          format: int64
+        carParkingSpaces:
+          type: integer
+          format: int64
+        contactIsOwner:
+          type: boolean
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    FMSLeadContact:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        doNotMail:
+          type: boolean
+        description:
+          type: string
+    FMSLead:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        contact:
+          type: string
+          $ref: '#/components/schemas/FMSLeadContact'
+        property:
+          type: string
+          $ref: '#/components/schemas/FMSLeadProperty'
+        appraisalRequired:
+          type: boolean
+        appraisalType:
+          type: string
+        source:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,165 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Conjunctionals API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: conjunctionals
+  description: Operations related to conjunctional property deals
+paths:
+  /conjunctionals:
+    get:
+      tags:
+      - conjunctionals
+      summary: Retrieve a list of conjunctional property deals for this account
+      description: Retrieve a list of conjunctional property deals for this account
+      operationId: getConjunctionals
+      parameters:
+      - name: sourceAccountId
+        in: query
+        description: Filter by deals with this account as the source
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: destinationAccountId
+        in: query
+        description: Filter by deals with this account as the destination
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/insertedSince'
+      - $ref: '#/components/parameters/insertedBefore'
+      - $ref: '#/components/parameters/modifiedSince'
+      - $ref: '#/components/parameters/modifiedBefore'
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Conjunctional deals retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConjunctionalSale'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+components:
+  parameters:
+    modifiedSince:
+      name: modifiedSince
+      in: query
+      description: Filter results modified since this datetime
+      schema:
+        type: string
+        format: date-time
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    insertedSince:
+      name: insertedSince
+      in: query
+      description: Filter results inserted since this datetime
+      schema:
+        type: string
+        format: date-time
+    modifiedBefore:
+      name: modifiedBefore
+      in: query
+      description: Filter results modified before this datetime
+      schema:
+        type: string
+        format: date-time
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    insertedBefore:
+      name: insertedBefore
+      in: query
+      description: Filter results inserted before this datetime
+      schema:
+        type: string
+        format: date-time
+  schemas:
+    ConjunctionalSale:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        parties:
+          type: array
+          items:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                format: int64
+              accountName:
+                type: string
+              saleLifeId:
+                type: integer
+                format: int64
+        sourceAccount:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        sourceSaleLifeId:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

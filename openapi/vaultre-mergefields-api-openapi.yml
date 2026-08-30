@@ -1,0 +1,245 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Merge Fields API
+  description: Please ensure all API requests use HTTP/1.1. See https://github.com/VaultGroup/api-samples for code samples.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.3'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: mergeFields
+  description: Operations related to merge fields for SMS and email templates
+paths:
+  /merge-fields:
+    get:
+      tags:
+      - mergeFields
+      summary: Retrieve available merge fields
+      description: 'Returns available merge fields for a given template type and delivery method.
+
+        When `context` is omitted, returns a tiered response grouping fields by their availability requirements.
+
+        When `context` is provided, returns a flat response containing only the fields usable in that context.'
+      operationId: getMergeFields
+      parameters:
+      - name: template_type
+        in: query
+        description: Template type ID (e.g. market_report, buyer_match, property_alert).
+        required: true
+        schema:
+          type: string
+      - name: delivery_method
+        in: query
+        description: Delivery method to filter fields by. Defaults to email.
+        schema:
+          type: string
+          enum:
+          - email
+          - sms
+          - cloud_letter
+          default: email
+      - name: context
+        in: query
+        description: 'Context ID (e.g. contact_only, contact_property_sale). When provided the response
+
+          is a flat list of fields usable in that context. When omitted the response is tiered
+
+          showing all availability levels.'
+        schema:
+          type: string
+      - name: include_custom
+        in: query
+        description: Include account-specific custom contact and property merge fields.
+        schema:
+          type: boolean
+          default: false
+      - name: search
+        in: query
+        description: Filter fields by matching against the field name, description, or token.
+        schema:
+          type: string
+      responses:
+        200:
+          description: Merge fields retrieved
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/MergeFieldsTieredResponse'
+                - $ref: '#/components/schemas/MergeFieldsFlatResponse'
+        400:
+          description: template_type is required, or an invalid parameter value was supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+components:
+  schemas:
+    MergeFieldsTieredResponse:
+      type: object
+      description: Returned when no context is provided. Shows all availability tiers.
+      required:
+      - meta
+      - tiers
+      properties:
+        meta:
+          type: object
+          required:
+          - response_type
+          properties:
+            template_type:
+              type: string
+              description: The template type used to filter the fields
+            delivery_method:
+              type: string
+              description: The delivery method used to filter the fields
+            response_type:
+              type: string
+              enum:
+              - tiered
+            total_fields:
+              type: integer
+              format: int32
+              description: Total number of fields returned across all tiers
+            registry_version:
+              type: string
+              description: Version of the merge field registry
+        tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldTier'
+    MergeFieldsFlatResponse:
+      type: object
+      description: Returned when a context is provided. Shows only fields usable in that context.
+      required:
+      - meta
+      - categories
+      properties:
+        meta:
+          type: object
+          required:
+          - response_type
+          properties:
+            context:
+              type: string
+              description: The context used to filter the fields
+            template_type:
+              type: string
+              description: The template type used to filter the fields
+            delivery_method:
+              type: string
+              description: The delivery method used to filter the fields
+            response_type:
+              type: string
+              enum:
+              - flat
+            total_fields:
+              type: integer
+              format: int32
+              description: Total number of fields returned
+            registry_version:
+              type: string
+              description: Version of the merge field registry
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldCategory'
+    MergeFieldCategory:
+      type: object
+      required:
+      - id
+      - name
+      - fields
+      properties:
+        id:
+          type: string
+          description: Category identifier
+        name:
+          type: string
+          description: Human-readable category name
+        description:
+          type: string
+          description: Description of the category
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeField'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    MergeField:
+      type: object
+      required:
+      - token
+      - name
+      properties:
+        token:
+          type: string
+          description: The merge field token (e.g. $$ContactFirstName$$)
+        name:
+          type: string
+          description: Human-readable name of the field
+        description:
+          type: string
+          description: Description of the field
+        category:
+          type: string
+          description: Category ID this field belongs to
+        engines:
+          type: array
+          description: Delivery engines that support this field
+          items:
+            type: string
+            enum:
+            - email
+            - sms
+            - cloud_letter
+        in_editor:
+          type: boolean
+          description: Whether the field is available in the template editor
+        deprecated:
+          type: boolean
+          description: Whether the field is deprecated
+        custom_field:
+          type: boolean
+          description: Whether the field is a custom account-specific field
+    MergeFieldTier:
+      type: object
+      required:
+      - id
+      - name
+      - categories
+      properties:
+        id:
+          type: string
+          description: Tier identifier (e.g. always_available, requires_property)
+        name:
+          type: string
+          description: Human-readable tier name
+        description:
+          type: string
+          description: Description of the tier
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldCategory'
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: http
+      scheme: bearer

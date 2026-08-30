@@ -1,0 +1,88 @@
+openapi: 3.2.0
+info:
+  title: VaultRE Aggregator Staff API
+  description: Please ensure all API requests use HTTP/1.1.
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+servers:
+- url: https://aggregator.api.vaultre.com.au/api/v1.0
+security:
+- ApiKey: []
+- Bearer: []
+tags:
+- name: staff
+  description: Operations related to staff
+paths:
+  /staff:
+    post:
+      tags:
+      - staff
+      summary: Add/Update a staff member
+      description: Add/Update a staff member
+      operationId: addUpdateStaff
+      requestBody:
+        description: Staff object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Staff'
+        required: true
+      responses:
+        202:
+          description: Data received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data payload
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    Staff:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          format: uuid
+        transactionDate:
+          type: string
+          format: date-time
+        staffId:
+          type: string
+        officeId:
+          type: string
+        active:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        position:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+          format: email
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+      description: This value is provided to you by VaultRE and identifies you as a CRM
+    Bearer:
+      type: http
+      scheme: bearer
+      description: This value is a JWT token signed with the HS512 algorithm using your X-Api-Key value as the secret.

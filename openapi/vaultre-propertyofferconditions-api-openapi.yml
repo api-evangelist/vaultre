@@ -1,0 +1,541 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Property Offer Conditions API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged propertyOfferConditions across 2 of this provider''s published API definitions: vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: propertyOfferConditions
+  description: Operations related to property offer conditions
+paths:
+  /properties/{id}/sale/{lifeid}/offerConditions:
+    get:
+      tags:
+      - propertyOfferConditions
+      summary: Retrieve a list of offer conditions for this property life
+      description: Retrieve a list of offer conditions for this property life
+      operationId: getPropertyLifeOfferConditions
+      parameters:
+      - name: id
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the property life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: userid
+        in: query
+        description: Items related to this user ID
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Sort items by field
+        schema:
+          type: string
+          enum:
+          - due
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Offer Conditions retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/sale/{lifeid}/offerConditions/{id}:
+    get:
+      tags:
+      - propertyOfferConditions
+      summary: Retrieve an offer condition for this property life
+      description: Retrieve an offer condition for this property life
+      operationId: getPropertyLifeOfferCondition
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the property life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the offer condition
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Offer Condition retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyOfferCondition'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - propertyOfferConditions
+      summary: Update a property's offer condition
+      description: Update a property's offer condition
+      operationId: updatePropertyOfferCondition
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the property life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the offer condition
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: PropertyOfferCondition object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePropertyOfferCondition'
+        required: true
+      responses:
+        200:
+          description: Offer Condition updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyOfferCondition'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/sale/{lifeid}/offerConditions/{id}/complete:
+    put:
+      tags:
+      - propertyOfferConditions
+      summary: Complete a property's offer condition
+      description: Complete a property's offer condition
+      operationId: completePropertyOfferCondition
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the property life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the offer condition
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Offer Condition updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/sale/{lifeid}/offerConditions/{id}/uncomplete:
+    put:
+      tags:
+      - propertyOfferConditions
+      summary: Uncomplete a property's offer condition
+      description: Uncomplete a property's offer condition
+      operationId: uncompletePropertyOfferCondition
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: lifeid
+        in: path
+        description: ID of the property life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the offer condition
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Offer Condition updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  schemas:
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    PropertyOfferCondition:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        condition:
+          $ref: '#/components/schemas/OfferCondition'
+        user:
+          $ref: '#/components/schemas/User'
+        due:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+        websiteUrl:
+          type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    UpdatePropertyOfferCondition:
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/ID'
+        user:
+          $ref: '#/components/schemas/ID'
+        due:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    OfferCondition:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    User_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            deleteProperties:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+            accessPropertyFinancials:
+              type: boolean
+            accessAlarmDetails:
+              type: boolean
+            modifyWebsiteContent:
+              type: boolean
+            editMarketingContact:
+              type: boolean
+        websiteUrl:
+          type: string
+        showOnWeb:
+          type: boolean
+        externalReference:
+          type: string
+        ssoIdentifier:
+          type: string
+        signature:
+          type: string
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        hideMobileFromPortal:
+          type: boolean
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

@@ -1,0 +1,1275 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Integrator API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged integrator across 3 of this provider''s published API definitions: vaultre-api-v1-1-openapi.yml, vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: integrator
+  description: Special endpoints for access by integrating partners
+paths:
+  /integrator/accounts:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve a list of accounts linked to this integrator
+      description: Retrieve a list of accounts linked to this integrator
+      operationId: getIntegratorAccounts
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Accounts retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /integrator/accounts/{id}:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve an account linked to this integrator
+      description: Retrieve an account linked to this integrator
+      operationId: getIntegratorAccount
+      parameters:
+      - name: id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Account retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /integrator/accounts/{id}/users:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve a list of users for this account
+      description: Retrieve a list of users for this account
+      operationId: getIntegratorAccountUsers
+      parameters:
+      - name: id
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - firstName
+          - lastName
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Users retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /integrator/accounts/{accountid}/users/{id}:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve a user for this account
+      description: Retrieve a user for this account
+      operationId: getIntegratorAccountUser
+      parameters:
+      - name: accountid
+        in: path
+        description: ID of the account
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: User retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /integrator/scopes:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve a list of possible scopes for your API key
+      description: Retrieve a list of possible scopes for your API key. Note that individual bearer tokens may have fewer scopes applied.
+      operationId: getIntegratorScopes
+      responses:
+        200:
+          description: Scopes retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /integrator/tokens:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve a list of bearer tokens, with accounts, linked to this integrator
+      description: Retrieve a list of bearer tokens, with accounts, linked to this integrator
+      operationId: getIntegratorTokens
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      responses:
+        200:
+          description: Tokens retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /scopes:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve a list of granted scopes for this bearer token
+      description: Retrieve a list of granted scopes for this bearer token
+      operationId: getTokenScopes
+      responses:
+        200:
+          description: Scopes retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /integrator/validateUser:
+    post:
+      tags:
+      - integrator
+      summary: Validate a user's credentials
+      description: Validate a user's credentials
+      operationId: validateIntegratorUser
+      requestBody:
+        description: Credential object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credential'
+        required: true
+      responses:
+        200:
+          description: API Call completed successfully
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /properties/{propertyid}/{salelease}/{lifeid}/externalStats:
+    put:
+      tags:
+      - integrator
+      summary: Integrator property statistics
+      description: Update the property stats
+      operationId: updateExternalPropertyStats
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: salelease
+        in: path
+        description: Sale or lease
+        required: true
+        schema:
+          type: string
+      - name: lifeid
+        in: path
+        description: ID of the property life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: List of property stats
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIntegratorPropertyStats'
+        required: true
+      responses:
+        200:
+          $ref: '#/definitions/UpdateIntegratorPropertyStats'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - integrator
+      summary: Integrator property statistics
+      description: Add or update a property stat
+      operationId: updateExternalPropertyStat
+      parameters:
+      - name: propertyid
+        in: path
+        description: ID of the property
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: salelease
+        in: path
+        description: Sale or lease
+        required: true
+        schema:
+          type: string
+      - name: lifeid
+        in: path
+        description: ID of the property life
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Property stat to add or update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegratorPropertyStat'
+        required: true
+      responses:
+        200:
+          description: Property stats updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegratorPropertyStat'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /integrator/merge-fields:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve available merge fields for an account
+      description: 'Integrator-authenticated version of the merge fields endpoint.
+
+        Returns available merge fields for a given template type and delivery method for the specified account.
+
+        The account must be enabled for the integrator.
+
+        When `context` is omitted, returns a tiered response grouping fields by their availability requirements.
+
+        When `context` is provided, returns a flat response containing only the fields usable in that context.'
+      operationId: getIntegratorMergeFields
+      parameters:
+      - name: account_id
+        in: query
+        description: ID of the account to fetch merge fields for. Must be enabled for this integrator.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: template_type
+        in: query
+        description: Template type ID (e.g. market_report, buyer_match, property_alert).
+        required: true
+        schema:
+          type: string
+      - name: delivery_method
+        in: query
+        description: Delivery method to filter fields by. Defaults to email.
+        schema:
+          type: string
+          enum:
+          - email
+          - sms
+          - cloud_letter
+          default: email
+      - name: context
+        in: query
+        description: 'Context ID (e.g. contact_only, contact_property_sale). When provided the response
+
+          is a flat list of fields usable in that context. When omitted the response is tiered
+
+          showing all availability levels.'
+        schema:
+          type: string
+      - name: include_custom
+        in: query
+        description: Include account-specific custom contact and property merge fields.
+        schema:
+          type: boolean
+          default: false
+      - name: search
+        in: query
+        description: Filter fields by matching against the field name, description, or token.
+        schema:
+          type: string
+      responses:
+        200:
+          description: Merge fields retrieved
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/MergeFieldsTieredResponse'
+                - $ref: '#/components/schemas/MergeFieldsFlatResponse'
+        400:
+          description: account_id is required, or an invalid parameter value was supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        404:
+          description: Account not found or not enabled for this integrator
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /integrator/usage:
+    get:
+      tags:
+      - integrator
+      summary: Retrieve daily quota for this API key
+      operationId: getUsage
+      responses:
+        200:
+          description: Usage retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remaining:
+                    type: integer
+                    format: int64
+                  used:
+                    type: integer
+                    format: int64
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        businessName:
+          type: string
+        timezone:
+          type: string
+        openDatabase:
+          type: boolean
+        email:
+          type: string
+          format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        address:
+          $ref: '#/components/schemas/Address'
+        franchise:
+          $ref: '#/components/schemas/AccountFranchise'
+        speciality:
+          type: string
+          enum:
+          - commercial
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+    AccountFranchise:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        abbreviation:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        isocode:
+          type: string
+        gstRate:
+          type: number
+          format: float
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+    Account_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        businessName:
+          type: string
+        eMarketingName:
+          type: string
+        timezone:
+          type: string
+        openDatabase:
+          type: boolean
+        email:
+          type: string
+          format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_2'
+        address:
+          $ref: '#/components/schemas/Address'
+        franchise:
+          $ref: '#/components/schemas/AccountFranchise'
+        speciality:
+          type: string
+          enum:
+          - commercial
+        marketingUserOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketingUserOrder'
+        websiteUrl:
+          type: string
+        clientLoginUrl:
+          type: string
+        openingHours:
+          type: object
+          properties:
+            sunday:
+              type: string
+            monday:
+              type: string
+            tuesday:
+              type: string
+            wednesday:
+              type: string
+            thursday:
+              type: string
+            friday:
+              type: string
+            saturday:
+              type: string
+    UpdateIntegratorPropertyStats:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegratorPropertyStat'
+    User_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_2'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+        websiteUrl:
+          type: string
+    IntegratorPropertyStat:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        value:
+          type: number
+          format: int64
+    PhoneNumber_2:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Credential:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    MarketingUserOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Token:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/ID'
+        token:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+    MergeFieldsFlatResponse:
+      type: object
+      description: Returned when a context is provided. Shows only fields usable in that context.
+      required:
+      - meta
+      - categories
+      properties:
+        meta:
+          type: object
+          required:
+          - response_type
+          properties:
+            context:
+              type: string
+              description: The context used to filter the fields
+            template_type:
+              type: string
+              description: The template type used to filter the fields
+            delivery_method:
+              type: string
+              description: The delivery method used to filter the fields
+            response_type:
+              type: string
+              enum:
+              - flat
+            total_fields:
+              type: integer
+              format: int32
+              description: Total number of fields returned
+            registry_version:
+              type: string
+              description: Version of the merge field registry
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldCategory'
+    MergeFieldCategory:
+      type: object
+      required:
+      - id
+      - name
+      - fields
+      properties:
+        id:
+          type: string
+          description: Category identifier
+        name:
+          type: string
+          description: Human-readable category name
+        description:
+          type: string
+          description: Description of the category
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeField'
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    MergeField:
+      type: object
+      required:
+      - token
+      - name
+      properties:
+        token:
+          type: string
+          description: The merge field token (e.g. $$ContactFirstName$$)
+        name:
+          type: string
+          description: Human-readable name of the field
+        description:
+          type: string
+          description: Description of the field
+        category:
+          type: string
+          description: Category ID this field belongs to
+        engines:
+          type: array
+          description: Delivery engines that support this field
+          items:
+            type: string
+            enum:
+            - email
+            - sms
+            - cloud_letter
+        in_editor:
+          type: boolean
+          description: Whether the field is available in the template editor
+        deprecated:
+          type: boolean
+          description: Whether the field is deprecated
+        custom_field:
+          type: boolean
+          description: Whether the field is a custom account-specific field
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    User_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        adminAccess:
+          type: boolean
+        position:
+          type: string
+        role:
+          type: string
+          enum:
+          - commercialSalesAndLeasing
+          - residentialSales
+          - propertyManagement
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        lastLogin:
+          type: string
+          format: date-time
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_3'
+        profile:
+          type: string
+        permissions:
+          type: object
+          properties:
+            settings:
+              type: boolean
+            accessPropertyManagement:
+              type: boolean
+            accessSales:
+              type: boolean
+            canLogin:
+              type: boolean
+            deleteContacts:
+              type: boolean
+            deleteProperties:
+              type: boolean
+            globalActionListsReadWrite:
+              type: boolean
+            globalContactsReadWrite:
+              type: boolean
+            globalNotesRead:
+              type: boolean
+            globalNotesReadWrite:
+              type: boolean
+            globalPropertiesRead:
+              type: boolean
+            globalPropertiesReadWrite:
+              type: boolean
+            globalTasksReadWrite:
+              type: boolean
+            sendSMS:
+              type: boolean
+            accessPropertyFinancials:
+              type: boolean
+            accessAlarmDetails:
+              type: boolean
+            modifyWebsiteContent:
+              type: boolean
+            editMarketingContact:
+              type: boolean
+        websiteUrl:
+          type: string
+        showOnWeb:
+          type: boolean
+        externalReference:
+          type: string
+        ssoIdentifier:
+          type: string
+        signature:
+          type: string
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+        hideMobileFromPortal:
+          type: boolean
+    PhoneNumber_3:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    CustomAddress:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+    Account_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        businessName:
+          type: string
+        eMarketingName:
+          type: string
+        timezone:
+          type: string
+        openDatabase:
+          type: boolean
+        email:
+          type: string
+          format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_3'
+        address:
+          $ref: '#/components/schemas/Address_2'
+        postalAddress:
+          $ref: '#/components/schemas/Address_2'
+        franchise:
+          $ref: '#/components/schemas/AccountFranchise'
+        speciality:
+          type: string
+          enum:
+          - commercial
+        marketingUserOrders:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketingUserOrder'
+        websiteUrl:
+          type: string
+        clientLoginUrl:
+          type: string
+        openingHours:
+          type: object
+          properties:
+            sunday:
+              type: string
+            monday:
+              type: string
+            tuesday:
+              type: string
+            wednesday:
+              type: string
+            thursday:
+              type: string
+            friday:
+              type: string
+            saturday:
+              type: string
+    Address_2:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb_2'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
+    Suburb_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
+    RoyalMail:
+      type: object
+      properties:
+        buildingName:
+          type: string
+        buildingNumber:
+          type: string
+        department:
+          type: string
+        locality:
+          type: string
+        locality2:
+          type: string
+        organisation:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+        subbuildingName:
+          type: string
+        subbuildingNumber:
+          type: string
+        thoroughfare:
+          type: string
+        thoroughfare2:
+          type: string
+        udprn:
+          type: integer
+          format: int64
+    MergeFieldTier:
+      type: object
+      required:
+      - id
+      - name
+      - categories
+      properties:
+        id:
+          type: string
+          description: Tier identifier (e.g. always_available, requires_property)
+        name:
+          type: string
+          description: Human-readable tier name
+        description:
+          type: string
+          description: Description of the tier
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldCategory'
+    MergeFieldsTieredResponse:
+      type: object
+      description: Returned when no context is provided. Shows all availability tiers.
+      required:
+      - meta
+      - tiers
+      properties:
+        meta:
+          type: object
+          required:
+          - response_type
+          properties:
+            template_type:
+              type: string
+              description: The template type used to filter the fields
+            delivery_method:
+              type: string
+              description: The delivery method used to filter the fields
+            response_type:
+              type: string
+              enum:
+              - tiered
+            total_fields:
+              type: integer
+              format: int32
+              description: Total number of fields returned across all tiers
+            registry_version:
+              type: string
+              description: Version of the merge field registry
+        tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldTier'
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-1-openapi.yml
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

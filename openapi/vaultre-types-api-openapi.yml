@@ -1,0 +1,844 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Types API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged types across 3 of this provider''s published API definitions: vaultre-api-v1-1-openapi.yml, vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: types
+  description: Operations related to various VaultRE object types
+paths:
+  /responseCodes:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of response codes used in this API
+      description: Retrieve a list of response codes used in this API
+      operationId: getResponseCodes
+      responses:
+        200:
+          description: Response codes retrieved
+          content: {}
+      security:
+      - Api-Key: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /types/propertyClass:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of property classes
+      description: Retrieve a list of property classes
+      operationId: getPropertyClasses
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Property classes retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /types/propertyType:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of property types
+      description: Retrieve a list of property types applicable to this account
+      operationId: getPropertyTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Property types retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /types/contactnotes:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of contact note types for this account
+      description: Retrieve a list of contact note types for this account
+      operationId: getContactNoteTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Note types retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /types/contactnotes/{id}:
+    get:
+      tags:
+      - types
+      summary: Retrieve a single contact note type
+      description: Retrieve a single contact note type
+      operationId: getContactNoteType
+      parameters:
+      - name: id
+        in: path
+        description: ID of the note type
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Note type retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactNoteType'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /types/propertynotes:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of property note types for this account
+      description: Retrieve a list of property note types for this account
+      operationId: getPropertyNoteTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Note types retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /types/propertynotes/{id}:
+    get:
+      tags:
+      - types
+      summary: Retrieve a single property note type
+      description: Retrieve a single property note type
+      operationId: getPropertyNoteType
+      parameters:
+      - name: id
+        in: path
+        description: ID of the note type
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Note type retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyNoteType'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /types/contactInterest:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of contact interest types
+      description: Retrieve a list of contact interest types
+      operationId: getContactInterestTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Contact interest types retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /types/entityTypes:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of contact entity types
+      description: Retrieve a list of contact entity types
+      operationId: getContactEntityTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /types/externalLinks:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of property external link types
+      description: Retrieve a list of property external link types
+      operationId: getExternalLinkTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /types/priceQualifiers:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of price qualifier types
+      description: Retrieve a list of price qualifier types. This field is only available for NZ and UK accounts.
+      operationId: getPriceQualifierTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /types/customUnsubscribe:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of custom unsubscribe types
+      description: Retrieve a list of custom unsubscribe types for this account
+      operationId: getCustomUnsubscribeTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Custom unsubscribe types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UnsubscribeType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /types/tenureOrTitleTypes:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of tenure or title types
+      description: Retrieve a list of tenure or title types. This field is only available for NZ and UK accounts.
+      operationId: getTenureOrTitleTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TenureOrTitleType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /types/holdingArea:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of holding area types
+      description: Retrieve a list of holding area types
+      operationId: getHoldingAreaTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - source
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HoldingAreaType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /types/methodOfSale:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of method of sale types
+      description: Retrieve a list of method of sale types
+      operationId: getMethodOfSaleTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MethodOfSaleType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /types/auctionSale:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of Auction types
+      description: Retrieve a list of Auction types
+      operationId: getAuctionTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuctionSaleType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /types/advertising/transactions:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of advertising transaction types
+      description: Retrieve a list of advertising transaction (ledger) types
+      operationId: getAdvertisingTransactionTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Advertising transaction types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdvertisingLedgerType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /types/advertising/payments:
+    get:
+      tags:
+      - types
+      summary: Retrieve a list of advertising payment types
+      description: Retrieve a list of advertising payment types
+      operationId: getAdvertisingPaymentTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Advertising payment types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdvertisingPaymentType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+components:
+  schemas:
+    ContactNoteTypePurpose:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ContactNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    PropertyNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        purpose:
+          $ref: '#/components/schemas/PropertyNoteTypePurpose'
+    PropertyNoteTypePurpose:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ContactNoteType_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    ContactInterest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ResponseCode:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    TenureOrTitleType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    AuctionSaleType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    ContactNoteType_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    AdvertisingLedgerType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    MethodOfSaleType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    EntityType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    AdvertisingPaymentType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    UnsubscribeType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PriceQualifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    HoldingAreaType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        source:
+          type: string
+        apiCode:
+          type: string
+    PropertyType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass'
+    ExternalLinkType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-1-openapi.yml
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

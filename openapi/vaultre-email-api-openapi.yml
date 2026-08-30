@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Email API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged email across 2 of this provider''s published API definitions: vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: email
+  description: Operations related to email
+paths:
+  /contacts/{id}/email:
+    post:
+      tags:
+      - email
+      summary: Send an email to this contact
+      description: Send an email to this contact from the authenticated user or selected user (if provided).
+      operationId: sendContactEmail
+      requestBody:
+        description: Email object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+        required: true
+      responses:
+        201:
+          description: Email message queued to be sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        403:
+          description: User does not have permission to send email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /contacts/email:
+    post:
+      tags:
+      - email
+      summary: Send multiple emails to contacts
+      description: Send multiple emails to these contacts from the authenticated user or selected user (if provided). Maximum 50 recipients in any one request.
+      operationId: sendBulkContactEmail
+      requestBody:
+        description: Array of Email objects
+        content:
+          application/json: {}
+        required: true
+      responses:
+        201:
+          description: Email messages queued to be sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+        403:
+          description: User does not have permission to send email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  schemas:
+    Email:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ID'
+        subject:
+          type: string
+        bodyText:
+          type: string
+        bodyHTML:
+          type: string
+        to:
+          type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    BulkEmail:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/ID'
+        email:
+          type: string
+        subject:
+          type: string
+        bodyText:
+          type: string
+        bodyHTML:
+          type: string
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

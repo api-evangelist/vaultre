@@ -1,0 +1,475 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Enquiries API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged enquiries across 3 of this provider''s published API definitions: vaultre-api-v1-1-openapi.yml, vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: enquiries
+  description: Operations related to listing enquiries
+paths:
+  /enquiries:
+    post:
+      tags:
+      - enquiries
+      summary: Submit a listing enquiry
+      description: Submit a listing enquiry (e.g. from a franchise/portal site)
+      operationId: addEnquiry
+      requestBody:
+        description: Enquiry object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEnquiry'
+        required: true
+      responses:
+        201:
+          description: Enquiry received successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enquiry'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    get:
+      tags:
+      - enquiries
+      summary: Get a list of enquiries from the holding area
+      description: Get a list of enquiries from the holding area
+      operationId: getEnquiries
+      parameters:
+      - name: enquiryDateSince
+        in: query
+        description: Filter enquiries occuring on or after this datetime
+        schema:
+          type: string
+          format: date-time
+      - name: enquiryDateBefore
+        in: query
+        description: Filter enquiries occuring before this datetime
+        schema:
+          type: string
+          format: date-time
+      - name: processed
+        in: query
+        description: Filter enquiries that have been processed or unprocessed
+        schema:
+          type: boolean
+      - name: saleLifeId
+        in: query
+        description: Filter enquiries for this sale life ID
+        schema:
+          type: integer
+          format: int64
+      - name: leaseLifeId
+        in: query
+        description: Filter enquiries for this lease life ID
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - enquiryDate
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Tasks retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
+  /enquiries/{id}:
+    get:
+      tags:
+      - enquiries
+      summary: Retrieve a single enquiry from the holding area
+      description: Retrieve a single enquiry from the holding area
+      operationId: getEnquiry
+      parameters:
+      - name: id
+        in: path
+        description: ID of the enquiry
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Enquiry retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enquiry_2'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+  /types/holdingArea:
+    get:
+      tags:
+      - enquiries
+      summary: Retrieve a list of holding area types
+      description: Retrieve a list of holding area types
+      operationId: getHoldingAreaTypes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - source
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Types retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HoldingAreaType'
+                  totalItems:
+                    type: integer
+                    format: int64
+                  totalPages:
+                    type: integer
+                    format: int64
+                  urls:
+                    $ref: '#/components/schemas/Urls'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+components:
+  schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Enquiry:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        subject:
+          type: string
+        originalId:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        source:
+          type: string
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        processed:
+          type: boolean
+        enquiryDate:
+          type: string
+          format: date-time
+    AddEnquiry:
+      type: object
+      properties:
+        enquiryDate:
+          type: string
+          format: date-time
+        subject:
+          type: string
+        body:
+          type: string
+        originalId:
+          type: string
+        propertyReference:
+          type: string
+        source:
+          type: string
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        fullName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        telephone:
+          type: string
+        mobile:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    Enquiry_2:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        subject:
+          type: string
+        originalId:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        source:
+          type: string
+        sourceName:
+          type: string
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        processed:
+          type: boolean
+        enquiryDate:
+          type: string
+          format: date-time
+        body:
+          type: string
+        contactId:
+          type: number
+          format: int64
+        personEmails:
+          type: array
+          items:
+            type: string
+            format: email
+        personName:
+          type: string
+        unsubscribe:
+          type: object
+          properties:
+            email:
+              type: boolean
+        personPhoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        user:
+          $ref: '#/components/schemas/Access'
+    AddEnquiry_2:
+      type: object
+      properties:
+        enquiryDate:
+          type: string
+          format: date-time
+        subject:
+          type: string
+        body:
+          type: string
+        originalId:
+          type: string
+        propertyReference:
+          type: string
+        source:
+          type: string
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        userId:
+          type: number
+          format: int64
+        fullName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        telephone:
+          type: string
+        mobile:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        metaData:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    HoldingAreaType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        source:
+          type: string
+        apiCode:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-1-openapi.yml
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml

@@ -1,0 +1,921 @@
+openapi: 3.2.0
+info:
+  title: Vaultre Suppliers API
+  contact:
+    name: VaultRE
+    url: https://www.vaultre.com.au
+    email: api@vaultre.com.au
+  version: '1.0'
+  description: 'Operations tagged suppliers across 2 of this provider''s published API definitions: vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+- url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
+tags:
+- name: suppliers
+  description: Operations related to creditors / suppliers
+paths:
+  /suppliers:
+    get:
+      tags:
+      - suppliers
+      summary: Retrieve a list of suppliers
+      description: Retrieve a list of suppliers
+      operationId: getSuppliers
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - $ref: '#/components/parameters/modifiedSince'
+      - $ref: '#/components/parameters/modifiedBefore'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - inserted
+          - modified
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Suppliers retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    post:
+      tags:
+      - suppliers
+      summary: Create a supplier
+      description: Create a supplier
+      operationId: addSupplier
+      requestBody:
+        description: Supplier object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/AddSupplier'
+        required: true
+      responses:
+        201:
+          description: Supplier created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierExtended'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /suppliers/{id}:
+    get:
+      tags:
+      - suppliers
+      summary: Retrieve a single supplier
+      description: Retrieve a single supplier
+      operationId: getSupplier
+      parameters:
+      - name: id
+        in: path
+        description: ID of the supplier
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Supplier retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierExtended'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - suppliers
+      summary: Update a single supplier
+      description: Update a single supplier
+      operationId: updateSupplier
+      parameters:
+      - name: id
+        in: path
+        description: ID of the supplier
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Supplier object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSupplier'
+        required: true
+      responses:
+        200:
+          description: Supplier updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierExtended'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - suppliers
+      summary: Delete a supplier
+      description: Delete a supplier
+      operationId: deleteSupplier
+      parameters:
+      - name: id
+        in: path
+        description: ID of the supplier
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Supplier deleted
+          content: {}
+        400:
+          description: Invalid data
+          content: {}
+        403:
+          description: User does not have permission to delete contacts
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /suppliers/{id}/insurance:
+    get:
+      tags:
+      - suppliers
+      summary: Retrieve a supplier's insurance
+      description: Retrieve a supplier's insurance
+      operationId: getSupplierInsurance
+      parameters:
+      - name: id
+        in: path
+        description: ID of the supplier
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Supplier insurance retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+      security:
+      - Api-Key: []
+        Bearer: []
+    put:
+      tags:
+      - suppliers
+      summary: Update a single supplier's insurance
+      description: Update a single supplier's insurance
+      operationId: updateSupplierInsurance
+      parameters:
+      - name: id
+        in: path
+        description: ID of the supplier
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Insurance object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+        required: true
+      responses:
+        200:
+          description: Insurance updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+        400:
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessOrError'
+      security:
+      - Api-Key: []
+        Bearer: []
+      x-codegen-request-body-name: body
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+  /suppliers/{id}/categories:
+    get:
+      tags:
+      - suppliers
+      summary: Retrieve a list of categories to which this supplier belongs
+      description: Retrieve a list of categories to which this supplier belongs
+      operationId: getCategoriesSupplier
+      parameters:
+      - name: id
+        in: path
+        description: ID of the supplier
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/pagesize'
+      - name: sort
+        in: query
+        description: Field by which to sort the results.
+        schema:
+          type: string
+          enum:
+          - name
+      - $ref: '#/components/parameters/sortOrder'
+      responses:
+        200:
+          description: Supplier categories retrieved
+          content: {}
+      security:
+      - Api-Key: []
+        Bearer: []
+    servers:
+    - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
+components:
+  schemas:
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        abbreviation:
+          type: string
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        isocode:
+          type: string
+        gstRate:
+          type: number
+          format: float
+    AddUpdateMarketingUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/ID'
+    EntityType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    EnquirySource:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    UpdateSupplier:
+      type: object
+      properties:
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        postalAddress:
+          $ref: '#/components/schemas/UpdateAddress'
+        onDoNotCallList:
+          type: boolean
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        legalDescription:
+          type: string
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        sourceOfEnquiry:
+          $ref: '#/components/schemas/ID'
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddUpdateMarketingUser'
+        labels:
+          type: array
+          items:
+            type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    AddSupplier:
+      allOf:
+      - $ref: '#/components/schemas/UpdateSupplier'
+      - type: object
+        properties:
+          inserted:
+            type: string
+            format: date-time
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+    ContactExtended:
+      allOf:
+      - $ref: '#/components/schemas/Contact'
+      - type: object
+        properties:
+          accessBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access'
+          sourceOfEnquiry:
+            $ref: '#/components/schemas/EnquirySource'
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        displayName:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        postalAddress:
+          $ref: '#/components/schemas/Address'
+        onDoNotCallList:
+          type: boolean
+        archived:
+          type: boolean
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        touched:
+          type: string
+          format: date-time
+        remoteId:
+          type: string
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
+        entityType:
+          $ref: '#/components/schemas/EntityType'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        legalDescription:
+          type: string
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketingUser'
+    MarketingUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/Access'
+    Insurance:
+      type: object
+      properties:
+        publicLiability:
+          type: string
+          format: date-time
+    Unsubscribe:
+      type: object
+      properties:
+        email:
+          type: boolean
+        sms:
+          type: boolean
+        letters:
+          type: boolean
+    UpdateAddress:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/ID'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    SupplierExtended:
+      allOf:
+      - $ref: '#/components/schemas/ContactExtended'
+      - type: object
+        properties:
+          labels:
+            type: array
+            items:
+              type: string
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    UpdateSupplier_2:
+      type: object
+      properties:
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        postalAddress:
+          $ref: '#/components/schemas/UpdateAddress'
+        onDoNotCallList:
+          type: boolean
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        legalDescription:
+          type: string
+        abn:
+          type: string
+          description: Australian Business Number (ABN). For New Zealand customers, this field represents the GST registration number.
+        acn:
+          type: string
+          description: Australian Company Number (ACN).
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        sourceOfEnquiry:
+          $ref: '#/components/schemas/ID'
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddUpdateMarketingUser'
+        labels:
+          type: array
+          items:
+            type: string
+    UnsubscribeType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Supplier:
+      allOf:
+      - $ref: '#/components/schemas/Contact_2'
+      - type: object
+        properties:
+          labels:
+            type: array
+            items:
+              type: string
+    CustomAddress:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+    Address_2:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb_2'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
+    Suburb_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
+    RoyalMail:
+      type: object
+      properties:
+        buildingName:
+          type: string
+        buildingNumber:
+          type: string
+        department:
+          type: string
+        locality:
+          type: string
+        locality2:
+          type: string
+        organisation:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+        subbuildingName:
+          type: string
+        subbuildingNumber:
+          type: string
+        thoroughfare:
+          type: string
+        thoroughfare2:
+          type: string
+        udprn:
+          type: integer
+          format: int64
+    Contact_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        displayName:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address_2'
+        postalAddress:
+          $ref: '#/components/schemas/Address_2'
+        onDoNotCallList:
+          type: boolean
+        archived:
+          type: boolean
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        touched:
+          type: string
+          format: date-time
+        remoteId:
+          type: string
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
+        entityType:
+          $ref: '#/components/schemas/EntityType'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        legalDescription:
+          type: string
+        abn:
+          type: string
+          description: Australian Business Number (ABN). For New Zealand customers, this field represents the GST registration number.
+        acn:
+          type: string
+          description: Australian Company Number (ACN).
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketingUser'
+        smsUnsubscribeUrl:
+          type: string
+        customUnsubscribe:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnsubscribeType'
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Access_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    modifiedSince:
+      name: modifiedSince
+      in: query
+      description: Filter results modified since this datetime
+      schema:
+        type: string
+        format: date-time
+    modifiedBefore:
+      name: modifiedBefore
+      in: query
+      description: Filter results modified before this datetime
+      schema:
+        type: string
+        format: date-time
+  securitySchemes:
+    Api-Key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    Bearer:
+      type: apiKey
+      description: Use format 'Bearer [token]'
+      name: Authorization
+      in: header
+x-refined-from:
+- vaultre-api-v1-2-openapi.yml
+- vaultre-api-v1-3-openapi.yml
