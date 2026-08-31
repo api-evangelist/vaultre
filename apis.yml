@@ -85,6 +85,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Advertising
+  tags_raw:
   - advertising
   properties:
   - type: OpenAPI
@@ -131,6 +133,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - AML
+  tags_raw:
   - aml
   properties:
   - type: OpenAPI
@@ -177,6 +181,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Buildings
+  tags_raw:
   - buildings
   properties:
   - type: OpenAPI
@@ -223,6 +229,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Bulk
+  tags_raw:
   - bulk
   properties:
   - type: OpenAPI
@@ -268,7 +276,8 @@ apis:
   description: Operations related to business properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - businessProperties
   properties:
   - type: OpenAPI
@@ -315,6 +324,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Calendar
+  tags_raw:
   - calendar
   properties:
   - type: OpenAPI
@@ -361,6 +372,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Campaigns
+  tags_raw:
   - campaigns
   properties:
   - type: OpenAPI
@@ -407,6 +420,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Categories
+  tags_raw:
   - categories
   properties:
   - type: OpenAPI
@@ -452,7 +467,8 @@ apis:
   description: Operations related to clearing sales properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - clearingSalesProperties
   properties:
   - type: OpenAPI
@@ -498,7 +514,8 @@ apis:
   description: Operations related to commercial properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - commercialProperties
   properties:
   - type: OpenAPI
@@ -591,6 +608,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Contacts
+  tags_raw:
   - contacts
   properties:
   - type: OpenAPI
@@ -637,6 +656,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - CoreLogic
+  tags_raw:
   - corelogic
   properties:
   - type: OpenAPI
@@ -683,6 +704,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Deals
+  tags_raw:
   - deals
   properties:
   - type: OpenAPI
@@ -729,6 +752,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Email
+  tags_raw:
   - email
   properties:
   - type: OpenAPI
@@ -775,6 +800,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Enquiries
+  tags_raw:
   - enquiries
   properties:
   - type: OpenAPI
@@ -821,6 +848,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Event Stream
+  tags_raw:
   - eventStream
   properties:
   - type: OpenAPI
@@ -867,6 +896,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Feedback
+  tags_raw:
   - feedback
   properties:
   - type: OpenAPI
@@ -958,7 +989,8 @@ apis:
   description: Operations related to holiday rental properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - holidayRentalProperties
   properties:
   - type: OpenAPI
@@ -1005,6 +1037,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Inspections
+  tags_raw:
   - inspections
   properties:
   - type: OpenAPI
@@ -1097,6 +1131,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Invoices
+  tags_raw:
   - invoices
   properties:
   - type: OpenAPI
@@ -1143,6 +1179,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Keys
+  tags_raw:
   - keys
   properties:
   - type: OpenAPI
@@ -1188,7 +1226,8 @@ apis:
   description: Operations related to land properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - landProperties
   properties:
   - type: OpenAPI
@@ -1235,6 +1274,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - List
+  tags_raw:
   - lists
   properties:
   - type: OpenAPI
@@ -1280,7 +1321,8 @@ apis:
   description: Operations related to livestock properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - livestockProperties
   properties:
   - type: OpenAPI
@@ -1327,6 +1369,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Maintenance
+  tags_raw:
   - maintenance
   properties:
   - type: OpenAPI
@@ -1372,7 +1416,8 @@ apis:
   description: Operations related to merge fields for SMS and email templates
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - mergeFields
   properties:
   - type: OpenAPI
@@ -1419,6 +1464,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Message
+  tags_raw:
   - messages
   properties:
   - type: OpenAPI
@@ -1511,6 +1558,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Precincts
+  tags_raw:
   - precincts
   properties:
   - type: OpenAPI
@@ -1557,6 +1606,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Properties
+  tags_raw:
   - properties
   properties:
   - type: OpenAPI
@@ -1602,7 +1653,8 @@ apis:
   description: Operations related to property offers
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - propertyOffer
   properties:
   - type: OpenAPI
@@ -1648,7 +1700,8 @@ apis:
   description: Operations related to property offer conditions
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - propertyOfferConditions
   properties:
   - type: OpenAPI
@@ -1694,7 +1747,8 @@ apis:
   description: Operations related to property portal stats
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - propertyStats
   properties:
   - type: OpenAPI
@@ -1786,7 +1840,8 @@ apis:
   description: Operations related to residential properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - residentialProperties
   properties:
   - type: OpenAPI
@@ -1832,7 +1887,8 @@ apis:
   description: Operations related to rural properties
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
-  tags:
+  tags: []
+  tags_raw:
   - ruralProperties
   properties:
   - type: OpenAPI
@@ -1879,6 +1935,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -1925,6 +1983,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - SMS
+  tags_raw:
   - sms
   properties:
   - type: OpenAPI
@@ -1971,6 +2031,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Staff
+  tags_raw:
   - staff
   properties:
   - type: OpenAPI
@@ -2063,6 +2125,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Suggest
+  tags_raw:
   - suggest
   properties:
   - type: OpenAPI
@@ -2109,6 +2173,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Suppliers
+  tags_raw:
   - suppliers
   properties:
   - type: OpenAPI
@@ -2155,6 +2221,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Task
+  tags_raw:
   - tasks
   properties:
   - type: OpenAPI
@@ -2201,6 +2269,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Templates
+  tags_raw:
   - templates
   properties:
   - type: OpenAPI
@@ -2247,6 +2317,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Tenancies
+  tags_raw:
   - tenancies
   properties:
   - type: OpenAPI
@@ -2293,6 +2365,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - Types
+  tags_raw:
   - types
   properties:
   - type: OpenAPI
@@ -2339,6 +2413,8 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
