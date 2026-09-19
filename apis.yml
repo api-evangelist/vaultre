@@ -1037,7 +1037,7 @@ apis:
   humanURL: https://docs.api.vaultre.com.au/swagger/index.html
   baseURL: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
   tags:
-  - Inspections
+  - Inspection
   tags_raw:
   - inspections
   properties:
