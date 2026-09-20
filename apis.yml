@@ -2456,6 +2456,8 @@ apis:
   - type: Webhooks
     url: https://docs.api.vaultre.com.au/aggregator.html
 common:
+- type: Plans
+  url: plans/vaultre-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/vaultre-capability-edges.yml
   name: VaultRE Business Capability Map
