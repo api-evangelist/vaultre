@@ -1,0 +1,89 @@
+slug: vaultre
+provider: VaultRE
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Real Estate
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: maintenance
+  spec_file: vaultre-maintenance-api-openapi.yml
+  capability_id: BC-4940.20
+  capability_id_l1: BC-4940
+  capability_name: Property Maintenance & Work Order Management
+  confidence: 0.92
+  evidence: GET /maintenance 'Retrieve a list of all maintenance jobs for this account'; PUT .../maintenance/{jobid}/requests/{id}/initiateWorkOrder
+    'Initiate a maintenance work order'
+  reason: Maintenance jobs, requests and work-order initiation against a leased property (Tenancy schemas)
+    is squarely property maintenance and work-order management on the property-manager side.
+- tag: aml
+  spec_file: vaultre-aml-api-openapi.yml
+  capability_id: BC-4990.30
+  capability_id_l1: BC-4990
+  capability_name: Real Estate AML & Sanctions Compliance
+  confidence: 0.88
+  evidence: POST /aml 'Create a new AML check for a contact'; GET /aml 'Retrieve a list of AML checks';
+    schemas AMLStatus, AMLCheck, AMLFile
+  reason: Operations create, update and evidence anti-money-laundering checks on contacts within a real
+    estate agency platform — real-estate AML compliance. Schema names and summaries leave little room
+    for another reading.
+- tag: propertyOffer
+  spec_file: vaultre-propertyoffer-api-openapi.yml
+  capability_id: BC-4960.60
+  capability_id_l1: BC-4960
+  capability_name: Offer & Negotiation Management
+  confidence: 0.8
+  evidence: POST /propertyOffers addPropertyOffer 'Add a property offer'; schemas PropertyOffer, PropertyOfferStatus
+  reason: Capture and status tracking of offers made on a property through the agency is offer and negotiation
+    management in brokerage.
+- tag: properties
+  spec_file: vaultre-properties-api-openapi.yml
+  capability_id: BC-4960
+  capability_id_l1: BC-4960
+  capability_name: Real Estate Brokerage Management
+  confidence: 0.78
+  evidence: POST /appraisal 'Add/Update an appraisal'; POST /listing 'Add/Update a listing'; POST /unconditional
+    'Add/Update an unconditional sale'; POST /settlement 'Add/Update a settlement'; POST /withdrawn 'Add/Update
+    a withdrawn listing'
+  reason: Core agency listing-to-settlement record management (appraisal, listing, unconditional, settlement,
+    withdrawn) is brokerage/agency intermediation; it spans several sub-capabilities (listing data, offers,
+    closing coordination) so no single L2 is named.
+- tag: openhomes
+  spec_file: vaultre-openhomes-api-openapi.yml
+  capability_id: BC-4960.50
+  capability_id_l1: BC-4960
+  capability_name: Showing & Open House Operations
+  confidence: 0.75
+  evidence: GET /openHomes getAccountOpenHomes 'Retrieve a list of property open homes'; schema OpenHomeWithProperty
+  reason: Open home records attached to properties correspond to showing and open-house operations in
+    a brokerage/agency context; single read-only operation limits confidence.
+- tag: contacts
+  spec_file: vaultre-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: POST /contacts addContact Create a contact; GET /contacts/{id}/notes Retrieve a list of notes
+    attached to this contact; schemas AddContact, UpdateContact, ContactRequirement, EnquirySource
+  reason: Core CRM contact master records with notes, requirements, enquiry source and outbound SMS. This
+    is customer/contact data management; the buyer-requirement and enquiry aspects could also read as
+    prospect handling, so confidence is moderate.
+- tag: integrator
+  spec_file: vaultre-integrator-api-openapi.yml
+  capability_id: BC-4270
+  capability_id_l1: BC-4270
+  capability_name: Developer Platform & API Ecosystem Management
+  confidence: 0.7
+  evidence: GET /integrator/scopes  Retrieve a list of possible scopes for your API key; GET /integrator/tokens  Retrieve
+    a list of bearer tokens, with accounts, linked to this integrator; GET /integrator/usage  Retrieve
+    daily quota for this API key
+  reason: 'Surface for third-party integrators: linked accounts, granted scopes, bearer tokens, credential
+    validation and daily API quota — developer credential stewardship plus API consumption governance.
+    Spans two sub-capabilities, so L1 only.'
