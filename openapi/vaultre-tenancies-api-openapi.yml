@@ -11,14 +11,13 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: tenancies
+- name: Tenancies
 paths:
   /properties/residential/lease/tenancies:
     get:
       tags:
-      - tenancies
+      - Tenancies
       summary: Retrieve a list of residential tenancies
-      description: Retrieve a list of residential tenancies
       operationId: getResidentialLeaseTenancies
       parameters:
       - $ref: '#/components/parameters/page'
@@ -50,15 +49,6 @@ components:
         type: integer
         format: int64
   schemas:
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     RentFrequency:
       type: object
       properties:
@@ -92,6 +82,15 @@ components:
             type: string
           paymentReference:
             type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
     Tenancy:
       type: object
       properties:

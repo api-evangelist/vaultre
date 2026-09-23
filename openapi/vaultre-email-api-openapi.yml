@@ -11,13 +11,13 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: email
+- name: Email
   description: Operations related to email
 paths:
   /contacts/{id}/email:
     post:
       tags:
-      - email
+      - Email
       summary: Send an email to this contact
       description: Send an email to this contact from the authenticated user or selected user (if provided).
       operationId: sendContactEmail
@@ -56,7 +56,7 @@ paths:
   /contacts/email:
     post:
       tags:
-      - email
+      - Email
       summary: Send multiple emails to contacts
       description: Send multiple emails to these contacts from the authenticated user or selected user (if provided). Maximum 50 recipients in any one request.
       operationId: sendBulkContactEmail
@@ -92,6 +92,12 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     Email:
       type: object
       properties:
@@ -114,12 +120,6 @@ components:
           type: string
         code:
           type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
     BulkEmail:
       type: object
       properties:

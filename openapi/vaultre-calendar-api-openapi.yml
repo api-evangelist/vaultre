@@ -12,15 +12,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: calendar
+- name: Calendar
   description: Operations related to calendar events
 paths:
   /contacts/{id}/events:
     get:
       tags:
-      - calendar
+      - Calendar
       summary: Retrieve a list of calendar events attached to this contact
-      description: Retrieve a list of calendar events attached to this contact
       operationId: getContactEvents
       parameters:
       - name: id
@@ -52,9 +51,8 @@ paths:
   /calendar/events:
     get:
       tags:
-      - calendar
+      - Calendar
       summary: Get a list of calendar events for the user
-      description: Get a list of calendar events for the user
       operationId: getCalendarEvents
       parameters:
       - name: startingAfter
@@ -88,9 +86,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - calendar
+      - Calendar
       summary: Add a calendar event
-      description: Add a calendar event
       operationId: addCalendarEvent
       requestBody:
         description: Calendar event object
@@ -121,9 +118,8 @@ paths:
   /calendar/events/{id}:
     get:
       tags:
-      - calendar
+      - Calendar
       summary: Get a single calendar event
-      description: Get a single calendar event
       operationId: getCalendarEvent
       parameters:
       - name: id
@@ -145,9 +141,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - calendar
+      - Calendar
       summary: Update a calendar event
-      description: Update a calendar event
       operationId: updateCalendarEvent
       parameters:
       - name: id
@@ -183,9 +178,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - calendar
+      - Calendar
       summary: Delete a calendar event
-      description: Delete a calendar event
       operationId: deleteCalendarEvent
       parameters:
       - name: id
@@ -211,13 +205,32 @@ paths:
     servers:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
 components:
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   schemas:
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
     CalendarEvent:
       type: object
       properties:
@@ -248,15 +261,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CalendarContact'
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
     AddUpdateCalendarEvent:
       type: object
       properties:
@@ -281,6 +285,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ID'
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     CalendarContact:
       type: object
       properties:
@@ -288,6 +298,15 @@ components:
           type: integer
           format: int64
         name:
+          type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
           type: string
     CalendarEvent_2:
       type: object
@@ -328,6 +347,16 @@ components:
           type: string
         thumb_360:
           type: string
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
     AddUpdateCalendarEvent_2:
       type: object
       properties:
@@ -354,16 +383,34 @@ components:
             $ref: '#/components/schemas/ID'
         user:
           $ref: '#/components/schemas/ID'
-    Access:
+    AddUpdateCalendarEvent_3:
       type: object
       properties:
-        id:
+        recurring:
+          type: boolean
+        allDay:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        summary:
+          type: string
+        description:
+          type: string
+        reminderMinutes:
           type: integer
           format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        user:
+          $ref: '#/components/schemas/ID'
+        isConfirmed:
+          type: boolean
     CalendarEvent_3:
       type: object
       properties:
@@ -400,34 +447,15 @@ components:
           type: boolean
         isCancelled:
           type: boolean
-    AddUpdateCalendarEvent_3:
+    Urls:
       type: object
       properties:
-        recurring:
-          type: boolean
-        allDay:
-          type: boolean
-        start:
+        previous:
           type: string
-          format: date-time
-        end:
+        next:
           type: string
-          format: date-time
-        summary:
+        self:
           type: string
-        description:
-          type: string
-        reminderMinutes:
-          type: integer
-          format: int64
-        contacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        user:
-          $ref: '#/components/schemas/ID'
-        isConfirmed:
-          type: boolean
     Access_2:
       type: object
       properties:
@@ -446,40 +474,6 @@ components:
               format: int64
             name:
               type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-  parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
   securitySchemes:
     Api-Key:
       type: apiKey

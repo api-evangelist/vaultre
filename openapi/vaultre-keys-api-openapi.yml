@@ -10,15 +10,14 @@ info:
 servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: keys
+- name: Keys
   description: Operations related to property keys
 paths:
   /properties/{propertyid}/keys:
     get:
       tags:
-      - keys
+      - Keys
       summary: Retrieve a list of keys for this property
-      description: Retrieve a list of keys for this property
       operationId: getPropertyKeys
       parameters:
       - $ref: '#/components/parameters/page'
@@ -65,9 +64,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - keys
+      - Keys
       summary: Add a new key to this property
-      description: Add a new key to this property
       operationId: addPropertyKey
       parameters:
       - name: propertyid
@@ -104,9 +102,8 @@ paths:
   /properties/{propertyid}/keys/{id}:
     get:
       tags:
-      - keys
+      - Keys
       summary: Retrieve a key from this property
-      description: Retrieve a key from this property
       operationId: getPropertyKey
       parameters:
       - name: propertyid
@@ -135,9 +132,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - keys
+      - Keys
       summary: Update a property key
-      description: Update a property key
       operationId: updatePropertyKey
       parameters:
       - name: propertyid
@@ -180,48 +176,37 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
-    Access:
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    MarketingUser:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    AddUpdatePropertyKey:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-        isKeyOut:
-          type: boolean
-        details:
-          type: string
-        hexColour:
-          type: string
-        keyOutUser:
-          $ref: '#/components/schemas/ID'
-        keyOutContact:
-          $ref: '#/components/schemas/ID'
+        user:
+          $ref: '#/components/schemas/Access'
     PropertyKey:
       type: object
       properties:
@@ -256,46 +241,57 @@ components:
           type: string
         thumb_360:
           type: string
-    PhoneNumber:
+    Urls:
       type: object
       properties:
-        number:
+        previous:
           type: string
-        typeCode:
+        next:
           type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
+        self:
           type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    MarketingUser:
+    ID:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        user:
-          $ref: '#/components/schemas/Access'
-    SuccessOrError:
+    Access:
       type: object
       properties:
-        success:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    AddUpdatePropertyKey:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+        isKeyOut:
           type: boolean
-        msg:
+        details:
           type: string
-        code:
+        hexColour:
           type: string
+        keyOutUser:
+          $ref: '#/components/schemas/ID'
+        keyOutContact:
+          $ref: '#/components/schemas/ID'
     ContactSearchResult:
       type: object
       properties:
@@ -327,24 +323,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Access'
-    Urls:
+    SuccessOrError:
       type: object
       properties:
-        previous:
+        success:
+          type: boolean
+        msg:
           type: string
-        next:
-          type: string
-        self:
+        code:
           type: string
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -361,6 +349,14 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

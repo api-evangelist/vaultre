@@ -12,15 +12,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: contacts
+- name: Contacts
   description: Operations related to contacts
 paths:
   /contacts:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of contacts
-      description: Retrieve a list of contacts
       operationId: getContacts
       parameters:
       - $ref: '#/components/parameters/page'
@@ -58,9 +57,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Create a contact
-      description: Create a contact
       operationId: addContact
       requestBody:
         description: Contact object
@@ -91,9 +89,8 @@ paths:
   /contacts/{id}:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a single contact
-      description: Retrieve a single contact
       operationId: getContact
       parameters:
       - name: id
@@ -115,9 +112,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update a single contact
-      description: Update a single contact
       operationId: updateContact
       parameters:
       - name: id
@@ -153,9 +149,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Delete a contact
-      description: Delete a contact
       operationId: deleteContact
       parameters:
       - name: id
@@ -186,7 +181,7 @@ paths:
   /contacts/{id}/sms:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Send an SMS to this contact
       description: Send an SMS to this contact from the authenticated user (charges may apply).
       operationId: sendContactSMS
@@ -225,7 +220,7 @@ paths:
   /contacts/sms:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Send multiple SMS messages to contacts
       description: Send multiple SMS messages to these contacts from the authenticated user (charges may apply). Maximum 50 recipients in any one request.
       operationId: sendBulkContactSMS
@@ -262,9 +257,8 @@ paths:
   /contacts/{id}/context:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve contextual information about this contact
-      description: Retrieve contextual information about this contact
       operationId: getContactContext
       parameters:
       - name: id
@@ -289,9 +283,8 @@ paths:
   /contacts/recentlyAccessed:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of recently accessed contacts
-      description: Retrieve a list of recently accessed contacts
       operationId: getRecentlyAccessedContacts
       responses:
         200:
@@ -305,9 +298,8 @@ paths:
   /contacts/{id}/notes:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of notes attached to this contact
-      description: Retrieve a list of notes attached to this contact
       operationId: getContactNotes
       parameters:
       - name: id
@@ -346,9 +338,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Add a note to this contact
-      description: Add a note to this contact
       operationId: addContactNote
       requestBody:
         description: Contact note object
@@ -379,7 +370,7 @@ paths:
   /contacts/notes:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Add multiple contact notes
       description: Add multiple contact notes in a batch. Maximum 100 notes in any one request.
       operationId: addBulkContactNote
@@ -412,9 +403,8 @@ paths:
   /contacts/{contactid}/notes/{id}:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a single contact note
-      description: Retrieve a single contact note
       operationId: getContactNote
       parameters:
       - name: contactid
@@ -443,9 +433,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update a contact note
-      description: Update a contact note
       operationId: updateContactNote
       parameters:
       - name: contactid
@@ -494,9 +483,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Delete a contact note
-      description: Delete a contact note
       operationId: deleteContactNote
       parameters:
       - name: contactid
@@ -537,9 +525,8 @@ paths:
   /contacts/{id}/categories:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of categories to which this contact belongs
-      description: Retrieve a list of categories to which this contact belongs
       operationId: getCategoriesContact
       parameters:
       - name: id
@@ -568,9 +555,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update the categories to which this contact belongs
-      description: Update the categories to which this contact belongs
       operationId: updateCategoriesContact
       parameters:
       - name: id
@@ -604,9 +590,8 @@ paths:
       x-codegen-request-body-name: body
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Attach a category to this contact
-      description: Attach a category to this contact
       operationId: attachCategoryContact
       parameters:
       - name: id
@@ -645,9 +630,8 @@ paths:
   /contacts/{id}/custom:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of custom fields for this contact
-      description: Retrieve a list of custom fields for this contact
       operationId: getContactCustomFields
       parameters:
       - name: id
@@ -668,9 +652,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update the custom fields for this contact
-      description: Update the custom fields for this contact
       operationId: updateContactCustomFields
       parameters:
       - name: id
@@ -707,9 +690,8 @@ paths:
   /contacts/{id}/files:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of files attached to this contact
-      description: Retrieve a list of files attached to this contact
       operationId: getContactFiles
       parameters:
       - name: id
@@ -738,7 +720,7 @@ paths:
         Bearer: []
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Attach a file to this contact
       description: Attach a file to this contact. This endpoint is suitable for smaller files (<5MB). For larger files use POST /contacts/{id}/files/upload
       operationId: addContactFile
@@ -783,9 +765,8 @@ paths:
   /contacts/{id}/events:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of calendar events attached to this contact
-      description: Retrieve a list of calendar events attached to this contact
       operationId: getContactEvents
       parameters:
       - name: id
@@ -817,9 +798,8 @@ paths:
   /contacts/{id}/touch:
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Mark the contact record as touched
-      description: Mark the contact record as touched
       operationId: touchContact
       parameters:
       - name: id
@@ -850,9 +830,8 @@ paths:
   /contacts/{id}/requirements:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of buying/renting requirements for this contact
-      description: Retrieve a list of buying/renting requirements for this contact
       operationId: getContactRequirements
       parameters:
       - name: id
@@ -882,9 +861,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Add a requirement for this contact
-      description: Add a requirement for this contact
       operationId: addContactRequirement
       parameters:
       - name: id
@@ -923,9 +901,8 @@ paths:
   /contacts/{contactid}/requirements/{id}:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a single buying/renting requirement for this contact
-      description: Retrieve a single buying/renting requirement for this contact
       operationId: getContactRequirement
       parameters:
       - name: contactid
@@ -954,9 +931,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update a requirement for this contact
-      description: Update a requirement for this contact
       operationId: updateContactRequirement
       parameters:
       - name: contactid
@@ -999,9 +975,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Delete a buying/renting requirement for the contact
-      description: Delete a buying/renting requirement for the contact
       operationId: deleteContactRequirement
       parameters:
       - name: contactid
@@ -1036,9 +1011,8 @@ paths:
   /properties/{id}/sale/{lifeid}/owners:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of owners attached to this property life
-      description: Retrieve a list of owners attached to this property life
       operationId: getPropertyLifeOwners
       parameters:
       - name: id
@@ -1066,9 +1040,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update owners for this property life
-      description: Update owners for this property life
       operationId: updateOwnersForProperty
       parameters:
       - name: id
@@ -1109,9 +1082,8 @@ paths:
       x-codegen-request-body-name: body
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Attach an owner to this property life
-      description: Attach an owner to this property life
       operationId: attachOwnerToProperty
       parameters:
       - name: id
@@ -1157,9 +1129,8 @@ paths:
   /properties/{id}/lease/{lifeid}/landlords:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of landlords attached to this property life
-      description: Retrieve a list of landlords attached to this property life
       operationId: getPropertyLifeLandlords
       parameters:
       - name: id
@@ -1187,9 +1158,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update landlords for this property life
-      description: Update landlords for this property life
       operationId: updateLandlordsForProperty
       parameters:
       - name: id
@@ -1230,9 +1200,8 @@ paths:
       x-codegen-request-body-name: body
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Attach a landlord to this property life
-      description: Attach a landlord to this property life
       operationId: attachLandlordToProperty
       parameters:
       - name: id
@@ -1278,9 +1247,8 @@ paths:
   /properties/{id}/sale/{lifeid}/purchasers:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of purchasers attached to this property life
-      description: Retrieve a list of purchasers attached to this property life
       operationId: getPropertyLifePurchasers
       parameters:
       - name: id
@@ -1308,9 +1276,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update purchasers for this property life
-      description: Update purchasers for this property life
       operationId: updatePurchasersForProperty
       parameters:
       - name: id
@@ -1351,9 +1318,8 @@ paths:
       x-codegen-request-body-name: body
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Attach a purchaser to this property life
-      description: Attach a purchaser to this property life
       operationId: attachPurchaserToProperty
       parameters:
       - name: id
@@ -1399,9 +1365,8 @@ paths:
   /properties/{id}/lease/{lifeid}/tenancy/{tenancyid}/tenants:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of tenants attached to this tenancy
-      description: Retrieve a list of tenants attached to this tenancy
       operationId: getPropertyLifeTenancyTenants
       parameters:
       - name: id
@@ -1436,9 +1401,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update tenants for this tenancy
-      description: Update tenants for this tenancy
       operationId: updateTenantsForProperty
       parameters:
       - name: id
@@ -1486,9 +1450,8 @@ paths:
       x-codegen-request-body-name: body
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Attach a tenant to this tenancy
-      description: Attach a tenant to this tenancy
       operationId: attachTenantToTenancy
       parameters:
       - name: id
@@ -1541,7 +1504,7 @@ paths:
   /contacts/{id}/email:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Send an email to this contact
       description: Send an email to this contact from the authenticated user or selected user (if provided).
       operationId: sendContactEmail
@@ -1580,7 +1543,7 @@ paths:
   /contacts/email:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Send multiple emails to contacts
       description: Send multiple emails to these contacts from the authenticated user or selected user (if provided). Maximum 50 recipients in any one request.
       operationId: sendBulkContactEmail
@@ -1617,9 +1580,8 @@ paths:
   /contacts/{id}/categories/remove:
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Remove categories from this contact
-      description: Remove categories from this contact
       operationId: removeCategoryContact
       parameters:
       - name: id
@@ -1656,7 +1618,7 @@ paths:
   /contacts/{id}/files/upload:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Attach a file to this contact
       description: Attach a file to this contact. This endpoint returns an upload_url where the file data can be PUT. Can be used for large files.
       operationId: addContactFileUpload
@@ -1697,9 +1659,8 @@ paths:
   /contacts/{contactid}/files/{id}:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a single file attached to this contact
-      description: Retrieve a single file attached to this contact
       operationId: getContactFile
       parameters:
       - name: contactid
@@ -1728,9 +1689,8 @@ paths:
         Bearer: []
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Delete a file attached to this contact
-      description: Delete a file attached to this contact
       operationId: deleteContactFile
       parameters:
       - name: contactid
@@ -1765,9 +1725,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/landlords/{id}:
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Remove a landlord from this property life
-      description: Remove a landlord from this property life
       operationId: deleteLandlordForProperty
       parameters:
       - name: propertyid
@@ -1812,9 +1771,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/tenancy/{tenancyid}/tenants/{id}:
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Remove a tenant from this property life
-      description: Remove a tenant from this property life
       operationId: deleteTenantForProperty
       parameters:
       - name: propertyid
@@ -1866,9 +1824,8 @@ paths:
   /properties/{propertyid}/sale/{lifeid}/owners/{id}:
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Remove an owner from this property life
-      description: Remove an owner from this property life
       operationId: deleteOwnerForProperty
       parameters:
       - name: propertyid
@@ -1913,9 +1870,8 @@ paths:
   /properties/{propertyid}/sale/{lifeid}/purchasers/{id}:
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Remove a purchaser from this property life
-      description: Remove a purchaser from this property life
       operationId: deletePurchaserForProperty
       parameters:
       - name: propertyid
@@ -1960,9 +1916,8 @@ paths:
   /contacts/requirements:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of buying/renting requirements across all contacts
-      description: Retrieve a list of buying/renting requirements across all contacts
       operationId: getContactRequirementsBulk
       parameters:
       - $ref: '#/components/parameters/page'
@@ -1995,9 +1950,8 @@ paths:
   /contacts/marketingUsers:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of contact marketing users across all contacts
-      description: Retrieve a list of contact marketing users across all contacts
       operationId: getContactMarketingUsersBulk
       parameters:
       - name: sort
@@ -2024,9 +1978,8 @@ paths:
   /contacts/currentTenants:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of current tenants across all properties
-      description: Retrieve a list of current tenants across all properties
       operationId: getCurrentTenants
       parameters:
       - $ref: '#/components/parameters/page'
@@ -2043,9 +1996,8 @@ paths:
   /contacts/currentLandlords:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of current landlords across all properties
-      description: Retrieve a list of current landlords across all properties
       operationId: getCurrentLandlords
       parameters:
       - $ref: '#/components/parameters/page'
@@ -2062,9 +2014,8 @@ paths:
   /contacts/currentOwners:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of current owners/vendors across all sale properties
-      description: Retrieve a list of current owners/vendors across all sale properties
       operationId: getCurrentOwners
       parameters:
       - $ref: '#/components/parameters/page'
@@ -2081,9 +2032,8 @@ paths:
   /contacts/currentPurchasers:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of current purchasers across all sale properties
-      description: Retrieve a list of current purchasers across all sale properties
       operationId: getCurrentPurchasers
       parameters:
       - $ref: '#/components/parameters/page'
@@ -2100,9 +2050,8 @@ paths:
   /contacts/categories:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of contact category mappings across all contacts
-      description: Retrieve a list of contact category mappings across all contacts
       operationId: getCategoriesContactBulk
       parameters:
       - name: sort
@@ -2129,9 +2078,8 @@ paths:
   /contacts/{id}/access:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Allow a user to access this contact
-      description: Allow a user to access this contact
       operationId: addContactAccess
       requestBody:
         description: Array of user ID's
@@ -2160,9 +2108,8 @@ paths:
   /contacts/{id}/activityLog:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve the activity log for a contact
-      description: Retrieve the activity log for a contact
       operationId: getContactActivityLog
       parameters:
       - name: id
@@ -2186,9 +2133,8 @@ paths:
   /contacts/sourceOfEnquiry:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of contact source of enquiry across all contacts
-      description: Retrieve a list of contact source of enquiry across all contacts
       operationId: getContactSourceOfEnquiryBulk
       parameters:
       - name: sort
@@ -2231,9 +2177,8 @@ paths:
   /contacts/dates:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of contact dates across all contacts
-      description: Retrieve a list of contact dates across all contacts
       operationId: getContactDatesBulk
       parameters:
       - name: sort
@@ -2276,9 +2221,8 @@ paths:
   /contacts/{contactid}/bankAccounts/default:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve the default bank account for this contact
-      description: Retrieve the default bank account for this contact
       operationId: getDefaultContactBankAccount
       parameters:
       - name: contactid
@@ -2312,9 +2256,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - contacts
+      - Contacts
       summary: Update the contact's default bank account
-      description: Update the contact's default bank account
       operationId: updateDefaultContactBankAccount
       parameters:
       - name: contactid
@@ -2356,9 +2299,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - contacts
+      - Contacts
       summary: Delete the default bank account for this contact
-      description: Delete the default bank account for this contact
       operationId: deleteDefaultContactBankAccount
       parameters:
       - name: contactid
@@ -2386,9 +2328,8 @@ paths:
   /contacts/{contactid}/dates:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of dates for this contact
-      description: Retrieve a list of dates for this contact
       operationId: getContactDates
       parameters:
       - $ref: '#/components/parameters/page'
@@ -2428,7 +2369,7 @@ paths:
   /contacts/{contactid}/merged:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve a list of contact ID's merged to this contact
       description: Retrieve a list of contact ID's that have been merged in to this contact (as duplicate records)
       operationId: getContactMergedDuplicates
@@ -2470,7 +2411,7 @@ paths:
   /contacts/{contactid}/gdpr:
     get:
       tags:
-      - contacts
+      - Contacts
       summary: Retrieve GDPR consent records for a contact
       description: Retrieve GDPR consent opt-in records for a contact
       operationId: getContactGdprOptins
@@ -2527,9 +2468,8 @@ paths:
   /contacts/matchingRequirement/count:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Get a count of contacts matching the provided buy/lease requirement
-      description: Get a count of contacts matching the provided buy/lease requirement
       operationId: getMatchingContactsCount
       requestBody:
         description: Request object
@@ -2557,7 +2497,7 @@ paths:
   /contacts/merge:
     post:
       tags:
-      - contacts
+      - Contacts
       summary: Submit a request for two contacts to be merged
       description: Submit a request for two contacts to be merged. The merge will be processed asynchronously and may take some time to complete. Integrators should subscribe to the "contact.merge" webhook event to be notified when the merge has completed. The returned "requestid" can be used by the MRI Vault team for any technical investigations.
       operationId: mergeContacts
@@ -2587,6 +2527,64 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   schemas:
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+    LinkedProperty:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayAddress:
+          type: string
+        saleLifeId:
+          type: integer
+          format: int64
+        leaseLifeId:
+          type: integer
+          format: int64
+        relationship:
+          type: string
+          enum:
+          - pastOwner
+          - owner
+          - landlord
+          - tenant
+          - purchaser
+        status:
+          type: string
+          enum:
+          - prospect
+          - appraisal
+          - listing
+          - conditional
+          - unconditional
+          - settled
+          - management
+          - withdrawn
+        class:
+          $ref: '#/components/schemas/PropertyClass'
+        photo:
+          $ref: '#/components/schemas/PropertyPhoto'
     ContactNoteTypePurpose:
       type: object
       properties:
@@ -2595,13 +2593,7 @@ components:
           format: int64
         name:
           type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    State:
+    Suburb:
       type: object
       properties:
         id:
@@ -2609,8 +2601,18 @@ components:
           format: int64
         name:
           type: string
-        abbreviation:
+        postcode:
           type: string
+        state:
+          $ref: '#/components/schemas/State'
+    AddContactNoteReminder:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/ID'
     Country:
       type: object
       properties:
@@ -2624,17 +2626,177 @@ components:
         gstRate:
           type: number
           format: float
-    UpdateContactNote:
+    Category:
       type: object
       properties:
-        body:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
-        readOnly:
+    ContactNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
           type: boolean
-        type:
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    AddContact:
+      allOf:
+      - $ref: '#/components/schemas/UpdateContact'
+      - type: object
+        properties:
+          inserted:
+            type: string
+            format: date-time
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        displayName:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        postalAddress:
+          $ref: '#/components/schemas/Address'
+        onDoNotCallList:
+          type: boolean
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        touched:
+          type: string
+          format: date-time
+        remoteId:
+          type: string
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        legalDescription:
+          type: string
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+    PropertyPhotoThumbnails:
+      type: object
+      properties:
+        thumb_180:
+          type: string
+        thumb_1024:
+          type: string
+    Unsubscribe:
+      type: object
+      properties:
+        email:
+          type: boolean
+        sms:
+          type: boolean
+        letters:
+          type: boolean
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    UpdateContact:
+      type: object
+      properties:
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        postalAddress:
+          $ref: '#/components/schemas/UpdateAddress'
+        onDoNotCallList:
+          type: boolean
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        legalDescription:
+          type: string
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        sourceOfEnquiry:
           $ref: '#/components/schemas/ID'
-        reminder:
-          $ref: '#/components/schemas/AddContactNoteReminder'
     ContactRequirement:
       type: object
       properties:
@@ -2690,6 +2852,43 @@ components:
           - sale
           - lease
           - saleOrLease
+    AreaRange:
+      type: object
+      properties:
+        minimum:
+          type: integer
+          format: int64
+        maximum:
+          type: integer
+          format: int64
+        units:
+          type: string
+          enum:
+          - sqm
+          - acre
+          - hectare
+    AddContactNote:
+      type: object
+      properties:
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/ID'
+        reminder:
+          $ref: '#/components/schemas/AddContactNoteReminder'
+        inserted:
+          type: string
+          format: date-time
+    EnquirySource:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
     BulkContactNote:
       type: object
       properties:
@@ -2709,6 +2908,136 @@ components:
                 $ref: '#/components/schemas/ID'
               body:
                 type: string
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    SMS:
+      type: object
+      properties:
+        message:
+          type: string
+        number:
+          type: string
+    UpdateAddress:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/ID'
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    PropertyPhoto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        filesize:
+          type: integer
+          format: int64
+        width:
+          type: integer
+          format: int64
+        height:
+          type: integer
+          format: int64
+        caption:
+          type: string
+        type:
+          type: string
+          enum:
+          - Photograph
+          - Floorplan
+        url:
+          type: string
+        filename:
+          type: string
+        userFilename:
+          type: string
+        thumbnails:
+          $ref: '#/components/schemas/PropertyPhotoThumbnails'
+        published:
+          type: boolean
+    PropertyType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        country:
+          $ref: '#/components/schemas/Country'
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    UpdateContactNote:
+      type: object
+      properties:
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/ID'
+        reminder:
+          $ref: '#/components/schemas/AddContactNoteReminder'
+    ContactNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        insertedBy:
+          $ref: '#/components/schemas/User'
+        type:
+          $ref: '#/components/schemas/ContactNoteType'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
     AddUpdateContactRequirement:
       type: object
       properties:
@@ -2755,87 +3084,6 @@ components:
           - sale
           - lease
           - saleOrLease
-    ContactNoteType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        colour:
-          type: string
-        defaultReadOnly:
-          type: boolean
-        purpose:
-          $ref: '#/components/schemas/ContactNoteTypePurpose'
-    LinkedProperty:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        displayAddress:
-          type: string
-        saleLifeId:
-          type: integer
-          format: int64
-        leaseLifeId:
-          type: integer
-          format: int64
-        relationship:
-          type: string
-          enum:
-          - pastOwner
-          - owner
-          - landlord
-          - tenant
-          - purchaser
-        status:
-          type: string
-          enum:
-          - prospect
-          - appraisal
-          - listing
-          - conditional
-          - unconditional
-          - settled
-          - management
-          - withdrawn
-        class:
-          $ref: '#/components/schemas/PropertyClass'
-        photo:
-          $ref: '#/components/schemas/PropertyPhoto'
-    EnquirySource:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    AddContact:
-      allOf:
-      - $ref: '#/components/schemas/UpdateContact'
-      - type: object
-        properties:
-          inserted:
-            type: string
-            format: date-time
-    AddContactNote:
-      type: object
-      properties:
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        type:
-          $ref: '#/components/schemas/ID'
-        reminder:
-          $ref: '#/components/schemas/AddContactNoteReminder'
-        inserted:
-          type: string
-          format: date-time
     ContactNoteReminder:
       type: object
       properties:
@@ -2844,28 +3092,60 @@ components:
           format: date-time
         user:
           $ref: '#/components/schemas/User'
-    ContactNote:
+    ContactExtended:
+      allOf:
+      - $ref: '#/components/schemas/Contact'
+      - type: object
+        properties:
+          accessBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access'
+          sourceOfEnquiry:
+            $ref: '#/components/schemas/EnquirySource'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    State:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        inserted:
+        name:
           type: string
-          format: date-time
-        modified:
+        abbreviation:
           type: string
-          format: date-time
-        body:
+    ContactContext:
+      type: object
+      properties:
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        displayName:
           type: string
-        readOnly:
-          type: boolean
-        insertedBy:
-          $ref: '#/components/schemas/User'
-        type:
-          $ref: '#/components/schemas/ContactNoteType'
-        reminder:
-          $ref: '#/components/schemas/ContactNoteReminder'
+        partnerDisplayName:
+          type: string
+        companyInfo:
+          type: string
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        linkedProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedProperty'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
     User:
       type: object
       properties:
@@ -2927,53 +3207,7 @@ components:
               type: boolean
             sendSMS:
               type: boolean
-    UpdateContact:
-      type: object
-      properties:
-        title:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        greeting:
-          type: string
-        partnerTitle:
-          type: string
-        partnerFirstName:
-          type: string
-        partnerLastName:
-          type: string
-        company:
-          type: string
-        position:
-          type: string
-        address:
-          $ref: '#/components/schemas/UpdateAddress'
-        postalAddress:
-          $ref: '#/components/schemas/UpdateAddress'
-        onDoNotCallList:
-          type: boolean
-        unsubscribe:
-          $ref: '#/components/schemas/Unsubscribe'
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-        legalDescription:
-          type: string
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        sourceOfEnquiry:
-          $ref: '#/components/schemas/ID'
-    PhoneNumber:
+    PhoneNumber_2:
       type: object
       properties:
         number:
@@ -2994,93 +3228,73 @@ components:
           - Mobile
           - Facsimile
           - Direct
-    PropertyPhoto:
+        comment:
+          type: string
+    LinkedProperty_2:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        inserted:
+        address:
+          $ref: '#/components/schemas/Address'
+        displayAddress:
           type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        filesize:
+        saleLifeId:
           type: integer
           format: int64
-        width:
+        leaseLifeId:
           type: integer
           format: int64
-        height:
-          type: integer
-          format: int64
-        caption:
-          type: string
-        type:
+        relationship:
           type: string
           enum:
-          - Photograph
-          - Floorplan
-        url:
+          - pastOwner
+          - owner
+          - landlord
+          - tenant
+          - purchaser
+        status:
           type: string
-        filename:
+          enum:
+          - prospect
+          - appraisal
+          - listing
+          - conditional
+          - unconditional
+          - settled
+          - management
+          - withdrawn
+          - withdrawnAppraisal
+        class:
+          $ref: '#/components/schemas/PropertyClass_2'
+        photo:
+          $ref: '#/components/schemas/PropertyPhoto'
+    AddUpdateMarketingUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/ID'
+    ContactNoteType_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
-        userFilename:
+        colour:
           type: string
-        thumbnails:
-          $ref: '#/components/schemas/PropertyPhotoThumbnails'
-        published:
+        defaultReadOnly:
           type: boolean
-    PropertyClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Address:
-      type: object
-      properties:
-        level:
-          type: string
-        unitNumber:
-          type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
-          $ref: '#/components/schemas/Suburb'
-        state:
-          $ref: '#/components/schemas/State'
-        country:
-          $ref: '#/components/schemas/Country'
-    Suburb:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        postcode:
-          type: string
-        state:
-          $ref: '#/components/schemas/State'
-    ContactExtended:
-      allOf:
-      - $ref: '#/components/schemas/Contact'
-      - type: object
-        properties:
-          accessBy:
-            type: array
-            items:
-              $ref: '#/components/schemas/Access'
-          sourceOfEnquiry:
-            $ref: '#/components/schemas/EnquirySource'
-    Contact:
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    Contact_2:
       type: object
       properties:
         id:
@@ -3112,6 +3326,8 @@ components:
           $ref: '#/components/schemas/Address'
         onDoNotCallList:
           type: boolean
+        archived:
+          type: boolean
         inserted:
           type: string
           format: date-time
@@ -3125,6 +3341,8 @@ components:
           type: string
         unsubscribe:
           $ref: '#/components/schemas/Unsubscribe'
+        entityType:
+          $ref: '#/components/schemas/EntityType'
         emails:
           type: array
           items:
@@ -3133,155 +3351,114 @@ components:
         phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneNumber'
+            $ref: '#/components/schemas/PhoneNumber_2'
         legalDescription:
           type: string
-    Category:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Unsubscribe:
-      type: object
-      properties:
-        email:
-          type: boolean
-        sms:
-          type: boolean
-        letters:
-          type: boolean
-    AreaRange:
-      type: object
-      properties:
-        minimum:
-          type: integer
-          format: int64
-        maximum:
-          type: integer
-          format: int64
-        units:
-          type: string
-          enum:
-          - sqm
-          - acre
-          - hectare
-    UpdateAddress:
-      type: object
-      properties:
-        level:
-          type: string
-        unitNumber:
-          type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
-          $ref: '#/components/schemas/ID'
-    PropertyType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        country:
-          $ref: '#/components/schemas/Country'
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass'
-    SMS:
-      type: object
-      properties:
-        message:
-          type: string
-        number:
-          type: string
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    PropertyPhotoThumbnails:
-      type: object
-      properties:
-        thumb_180:
-          type: string
-        thumb_1024:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-    ContactContext:
-      type: object
-      properties:
-        phoneNumbers:
+        marketingUsers:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneNumber'
-        displayName:
+            $ref: '#/components/schemas/MarketingUser'
+    AddContact_2:
+      allOf:
+      - $ref: '#/components/schemas/UpdateContact_2'
+      - type: object
+        properties:
+          inserted:
+            type: string
+            format: date-time
+          entityType:
+            $ref: '#/components/schemas/ID'
+    PropertyFeedback:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass_2'
+        feedbackDate:
           type: string
-        partnerDisplayName:
+          format: date-time
+        priceOpinion:
+          type: number
+          format: float
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        contractRequested:
+          type: boolean
+        contractSent:
           type: string
-        companyInfo:
+          format: date-time
+    UpdateContact_2:
+      type: object
+      properties:
+        title:
           type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        postalAddress:
+          $ref: '#/components/schemas/UpdateAddress'
+        onDoNotCallList:
+          type: boolean
+        archived:
+          type: boolean
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
         emails:
           type: array
           items:
             type: string
             format: email
-        linkedProperties:
+        phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/LinkedProperty'
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/Category'
-    AddContactNoteReminder:
-      type: object
-      properties:
-        date:
+            $ref: '#/components/schemas/PhoneNumber_2'
+        legalDescription:
           type: string
-          format: date-time
-        user:
-          $ref: '#/components/schemas/ID'
-    UpdateContactNote_2:
-      type: object
-      properties:
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        type:
-          $ref: '#/components/schemas/ID'
-        reminder:
-          $ref: '#/components/schemas/AddContactNoteReminder'
         accessBy:
           type: array
           items:
             $ref: '#/components/schemas/ID'
+        sourceOfEnquiry:
+          $ref: '#/components/schemas/ID'
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddUpdateMarketingUser'
     ContactRequirement_2:
       type: object
       properties:
@@ -3343,14 +3520,73 @@ components:
           - saleOrLease
         tenantedInvestment:
           type: boolean
-    AddUpdateMarketingUser:
+    AddContactNote_2:
+      type: object
+      properties:
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/ID'
+        reminder:
+          $ref: '#/components/schemas/AddContactNoteReminder'
+        inserted:
+          type: string
+          format: date-time
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    ContactNoteExtended:
+      allOf:
+      - $ref: '#/components/schemas/ContactNote_2'
+      - type: object
+        properties:
+          accessBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access'
+    Email:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ID'
+        subject:
+          type: string
+        bodyText:
+          type: string
+        bodyHTML:
+          type: string
+        to:
+          type: string
+    EntityType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    PropertyClass_2:
       type: object
       properties:
         id:
           type: integer
           format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    SMS_2:
+      type: object
+      properties:
         user:
           $ref: '#/components/schemas/ID'
+        message:
+          type: string
+        number:
+          type: string
     BulkContactNote_2:
       type: object
       properties:
@@ -3382,6 +3618,90 @@ components:
           format: int64
         upload_url:
           type: string
+    ContactFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        description:
+          type: string
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        insertedBy:
+          $ref: '#/components/schemas/User_2'
+        url:
+          type: string
+        contentType:
+          type: string
+    PropertyType_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass_2'
+    UpdateContactNote_2:
+      type: object
+      properties:
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/ID'
+        reminder:
+          $ref: '#/components/schemas/AddContactNoteReminder'
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    ContactNote_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        contact:
+          $ref: '#/components/schemas/ID'
+        insertedBy:
+          $ref: '#/components/schemas/User_2'
+        type:
+          $ref: '#/components/schemas/ContactNoteType_2'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
+        propertyFeedback:
+          $ref: '#/components/schemas/PropertyFeedback'
+    MarketingUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/Access'
     AddUpdateContactRequirement_2:
       type: object
       properties:
@@ -3434,98 +3754,16 @@ components:
           - saleOrLease
         tenantedInvestment:
           type: boolean
-    ContactNoteType_2:
+    ContactFileUpload:
       type: object
       properties:
-        id:
+        filename:
+          type: string
+        filesize:
           type: integer
           format: int64
-        name:
+        contentType:
           type: string
-        colour:
-          type: string
-        defaultReadOnly:
-          type: boolean
-        pinned:
-          type: boolean
-        purpose:
-          $ref: '#/components/schemas/ContactNoteTypePurpose'
-    EntityType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    LinkedProperty_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        address:
-          $ref: '#/components/schemas/Address'
-        displayAddress:
-          type: string
-        saleLifeId:
-          type: integer
-          format: int64
-        leaseLifeId:
-          type: integer
-          format: int64
-        relationship:
-          type: string
-          enum:
-          - pastOwner
-          - owner
-          - landlord
-          - tenant
-          - purchaser
-        status:
-          type: string
-          enum:
-          - prospect
-          - appraisal
-          - listing
-          - conditional
-          - unconditional
-          - settled
-          - management
-          - withdrawn
-          - withdrawnAppraisal
-        class:
-          $ref: '#/components/schemas/PropertyClass_2'
-        photo:
-          $ref: '#/components/schemas/PropertyPhoto'
-    AddContact_2:
-      allOf:
-      - $ref: '#/components/schemas/UpdateContact_2'
-      - type: object
-        properties:
-          inserted:
-            type: string
-            format: date-time
-          entityType:
-            $ref: '#/components/schemas/ID'
-    AddContactNote_2:
-      type: object
-      properties:
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        type:
-          $ref: '#/components/schemas/ID'
-        reminder:
-          $ref: '#/components/schemas/AddContactNoteReminder'
-        inserted:
-          type: string
-          format: date-time
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
     User_2:
       type: object
       properties:
@@ -3593,85 +3831,7 @@ components:
               type: boolean
         websiteUrl:
           type: string
-    ContactNote_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        contact:
-          $ref: '#/components/schemas/ID'
-        insertedBy:
-          $ref: '#/components/schemas/User_2'
-        type:
-          $ref: '#/components/schemas/ContactNoteType_2'
-        reminder:
-          $ref: '#/components/schemas/ContactNoteReminder'
-        propertyFeedback:
-          $ref: '#/components/schemas/PropertyFeedback'
-    UpdateContact_2:
-      type: object
-      properties:
-        title:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        greeting:
-          type: string
-        partnerTitle:
-          type: string
-        partnerFirstName:
-          type: string
-        partnerLastName:
-          type: string
-        company:
-          type: string
-        position:
-          type: string
-        address:
-          $ref: '#/components/schemas/UpdateAddress'
-        postalAddress:
-          $ref: '#/components/schemas/UpdateAddress'
-        onDoNotCallList:
-          type: boolean
-        archived:
-          type: boolean
-        unsubscribe:
-          $ref: '#/components/schemas/Unsubscribe'
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber_2'
-        legalDescription:
-          type: string
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        sourceOfEnquiry:
-          $ref: '#/components/schemas/ID'
-        marketingUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/AddUpdateMarketingUser'
-    PhoneNumber_2:
+    PhoneNumber_3:
       type: object
       properties:
         number:
@@ -3694,20 +3854,59 @@ components:
           - Direct
         comment:
           type: string
-    Email:
+    LinkedProperty_3:
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/ID'
-        subject:
+        id:
+          type: integer
+          format: int64
+        address:
+          $ref: '#/components/schemas/Address_2'
+        displayAddress:
           type: string
-        bodyText:
+        saleLifeId:
+          type: integer
+          format: int64
+        leaseLifeId:
+          type: integer
+          format: int64
+        relationship:
           type: string
-        bodyHTML:
+          enum:
+          - pastOwner
+          - owner
+          - landlord
+          - tenant
+          - purchaser
+        status:
           type: string
-        to:
+          enum:
+          - prospect
+          - appraisal
+          - listing
+          - conditional
+          - unconditional
+          - settled
+          - management
+          - withdrawn
+          - withdrawnAppraisal
+        portalStatus:
           type: string
-    PropertyClass_2:
+          enum:
+          - prospect
+          - appraisal
+          - listing
+          - conditional
+          - unconditional
+          - settled
+          - management
+          - withdrawn
+          - withdrawnAppraisal
+        class:
+          $ref: '#/components/schemas/PropertyClass_3'
+        photo:
+          $ref: '#/components/schemas/PropertyPhoto'
+    Suburb_2:
       type: object
       properties:
         id:
@@ -3715,48 +3914,70 @@ components:
           format: int64
         name:
           type: string
-        internalName:
+        postcode:
           type: string
-    PropertyFeedback:
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    RequirementAndContact:
+      type: object
+      properties:
+        requirement:
+          $ref: '#/components/schemas/ContactRequirement_3'
+        contact:
+          $ref: '#/components/schemas/ID'
+    BulkContactSourceOfEnquiry:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/ID'
+        leaseLifeId:
+          type: integer
+          format: int64
+        saleLifeId:
+          type: integer
+          format: int64
+        source:
+          $ref: '#/components/schemas/EnquirySource'
+    ContactNoteType_3:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        property:
-          type: object
-          properties:
-            id:
-              type: number
-              format: int64
-            displayAddress:
-              type: string
-            saleLifeId:
-              type: number
-              format: int64
-            leaseLifeId:
-              type: number
-              format: int64
-            class:
-              $ref: '#/components/schemas/PropertyClass_2'
-        feedbackDate:
+        name:
           type: string
-          format: date-time
-        priceOpinion:
-          type: number
-          format: float
-        saleLifeId:
-          type: number
-          format: int64
-        leaseLifeId:
-          type: number
-          format: int64
-        contractRequested:
+        colour:
+          type: string
+        defaultReadOnly:
           type: boolean
-        contractSent:
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    CustomFieldGrouping:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomField'
+        group:
           type: string
-          format: date-time
-    Contact_2:
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
+    Contact_3:
       type: object
       properties:
         id:
@@ -3783,9 +4004,9 @@ components:
         position:
           type: string
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/Address_2'
         postalAddress:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/Address_2'
         onDoNotCallList:
           type: boolean
         archived:
@@ -3813,142 +4034,161 @@ components:
         phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneNumber_2'
+            $ref: '#/components/schemas/PhoneNumber_3'
         legalDescription:
           type: string
+        abn:
+          type: string
+          description: Australian Business Number (ABN). For New Zealand customers, this field represents the GST registration number.
+        acn:
+          type: string
+          description: Australian Company Number (ACN).
         marketingUsers:
           type: array
           items:
             $ref: '#/components/schemas/MarketingUser'
-    MarketingUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        user:
-          $ref: '#/components/schemas/Access'
-    ContactNoteExtended:
-      allOf:
-      - $ref: '#/components/schemas/ContactNote_2'
-      - type: object
-        properties:
-          accessBy:
-            type: array
-            items:
-              $ref: '#/components/schemas/Access'
-    PropertyType_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
+        smsUnsubscribeUrl:
           type: string
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass_2'
-    ContactFile:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        description:
-          type: string
-        filename:
-          type: string
-        filesize:
-          type: integer
-          format: int64
-        insertedBy:
-          $ref: '#/components/schemas/User_2'
-        url:
-          type: string
-        contentType:
-          type: string
-    SMS_2:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/ID'
-        message:
-          type: string
-        number:
-          type: string
-    ContactFileUpload:
-      type: object
-      properties:
-        filename:
-          type: string
-        filesize:
-          type: integer
-          format: int64
-        contentType:
-          type: string
-    CalendarEvent:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        modified:
-          type: string
-          format: date-time
-        recurring:
-          type: boolean
-        allDay:
-          type: boolean
-        start:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
-        summary:
-          type: string
-        description:
-          type: string
-        reminderMinutes:
-          type: integer
-          format: int64
-        contacts:
+        customUnsubscribe:
           type: array
           items:
-            $ref: '#/components/schemas/CalendarContact'
-        user:
-          $ref: '#/components/schemas/Access_2'
-        isConfirmed:
-          type: boolean
-        isCancelled:
-          type: boolean
-    UpdateContactNote_3:
+            $ref: '#/components/schemas/UnsubscribeType'
+    AddContact_3:
+      allOf:
+      - $ref: '#/components/schemas/UpdateContact_3'
+      - type: object
+        properties:
+          inserted:
+            type: string
+            format: date-time
+          entityType:
+            $ref: '#/components/schemas/ID'
+    Address_2:
       type: object
       properties:
-        body:
+        level:
           type: string
-        readOnly:
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb_2'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
+    PropertyFeedback_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass_3'
+        feedbackDate:
+          type: string
+          format: date-time
+        priceOpinion:
+          type: number
+          format: float
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        contractRequested:
           type: boolean
-        type:
-          $ref: '#/components/schemas/ID'
-        reminder:
-          $ref: '#/components/schemas/AddContactNoteReminder'
+        contractSent:
+          type: string
+          format: date-time
+    UpdateContact_3:
+      type: object
+      properties:
+        title:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        greeting:
+          type: string
+        partnerTitle:
+          type: string
+        partnerFirstName:
+          type: string
+        partnerLastName:
+          type: string
+        company:
+          type: string
+        position:
+          type: string
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        postalAddress:
+          $ref: '#/components/schemas/UpdateAddress'
+        onDoNotCallList:
+          type: boolean
+        archived:
+          type: boolean
+        unsubscribe:
+          $ref: '#/components/schemas/Unsubscribe'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_3'
+        legalDescription:
+          type: string
+        abn:
+          type: string
+          description: Australian Business Number (ABN). For New Zealand customers, this field represents the GST registration number.
+        acn:
+          type: string
+          description: Australian Company Number (ACN).
         accessBy:
           type: array
           items:
             $ref: '#/components/schemas/ID'
-    RequirementAndContact:
-      type: object
-      properties:
-        requirement:
-          $ref: '#/components/schemas/ContactRequirement_3'
-        contact:
+        editableBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        sourceOfEnquiry:
           $ref: '#/components/schemas/ID'
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddUpdateMarketingUser'
+        customUnsubscribe:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
     ContactRequirement_3:
       type: object
       properties:
@@ -4010,6 +4250,65 @@ components:
           - saleOrLease
         tenantedInvestment:
           type: boolean
+    AddContactNote_3:
+      type: object
+      properties:
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/ID'
+        reminder:
+          $ref: '#/components/schemas/AddContactNoteReminder'
+        inserted:
+          type: string
+          format: date-time
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        insertedBy:
+          $ref: '#/components/schemas/ID'
+    AddUpdateContactBankAccount:
+      type: object
+      properties:
+        name:
+          type: string
+        accountNumber:
+          type: string
+        bsbNumber:
+          type: string
+    BulkEmail:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/ID'
+        email:
+          type: string
+        subject:
+          type: string
+        bodyText:
+          type: string
+        bodyHTML:
+          type: string
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ContactNoteExtended_2:
+      allOf:
+      - $ref: '#/components/schemas/ContactNote_3'
+      - type: object
+        properties:
+          accessBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access_2'
     ContactDateType:
       type: object
       properties:
@@ -4023,57 +4322,364 @@ components:
           enum:
           - MM-DD
           - YYYY-MM-DD
-    Region:
+    ContactAndDate:
+      allOf:
+      - $ref: '#/components/schemas/ContactDate'
+      - type: object
+        properties:
+          contactid:
+            type: integer
+            format: int64
+    ContactAndMarketingUser:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    CustomField:
-      type: object
-      properties:
-        dataType:
-          type: string
-          enum:
-          - selectBox
-          - text
-          - string
-          - float
-          - boolean
-          - date
-          - dayAndMonth
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        data:
-          type: string
-    BulkContactNote_3:
-      type: object
-      properties:
-        type:
+        marketingUser:
+          $ref: '#/components/schemas/MarketingUser'
+        contact:
           $ref: '#/components/schemas/ID'
-        readOnly:
+    UnsubscribeType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    CustomAddress:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+    PropertyClass_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    BulkSMS:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/ID'
+        message:
+          type: string
+        number:
+          type: string
+    ContactDate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          $ref: '#/components/schemas/ContactDateType'
+        date:
+          type: string
+        property:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            displayAddress:
+              type: string
+            class:
+              $ref: '#/components/schemas/PropertyClass_3'
+            leaseLifeId:
+              type: integer
+              format: int64
+            saleLifeId:
+              type: integer
+              format: int64
+    ContactBankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        accountNumber:
+          type: string
+        bsbNumber:
+          type: string
+    RoyalMail:
+      type: object
+      properties:
+        buildingName:
+          type: string
+        buildingNumber:
+          type: string
+        department:
+          type: string
+        locality:
+          type: string
+        locality2:
+          type: string
+        organisation:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+        subbuildingName:
+          type: string
+        subbuildingNumber:
+          type: string
+        thoroughfare:
+          type: string
+        thoroughfare2:
+          type: string
+        udprn:
+          type: integer
+          format: int64
+    SMS_3:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/ID'
+        message:
+          type: string
+        number:
+          type: string
+    GdprOptin:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: GDPR opt-in record ID
+        sms:
           type: boolean
+          description: SMS consent flag
+        email:
+          type: boolean
+          description: Email consent flag
+        phone:
+          type: boolean
+          description: Phone consent flag
         inserted:
           type: string
           format: date-time
+          description: When the consent was recorded
+        modified:
+          type: string
+          format: date-time
+          description: When the consent was last modified
+        insertedBy:
+          $ref: '#/components/schemas/User_3'
+        modifiedBy:
+          $ref: '#/components/schemas/User_3'
+        property:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: Associated property ID (if applicable)
+    Access_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    ContactFile_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        description:
+          type: string
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        insertedBy:
+          $ref: '#/components/schemas/User_3'
+        url:
+          type: string
+        contentType:
+          type: string
+    PropertyType_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass_3'
+    AddUpdateCustomField:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        data:
+          type: string
+    MergeContactRequest:
+      type: object
+      properties:
+        contactIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          minItems: 2
+          maxItems: 2
+        updateFields:
+          type: object
+          properties:
+            firstName:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the first name from
+            lastName:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the last name from
+            company:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the company name from
+            position:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the position from
+            greeting:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the greeting from
+            partner:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the partner name fields from
+            legalDescription:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the legal description from
+            envelopeGreeting:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the envelope greeting from
+            address:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the residential address from
+            postalAddress:
+              type:
+              - integer
+              - 'null'
+              format: int64
+              description: ID of the contact to take the postal address from
+            marketingUsers:
+              type: array
+              description: IDs and orders of the users to be assigned as marketing users
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                  user:
+                    type: integer
+                    format: int64
+            accessBy:
+              type: array
+              description: IDs of the users to have access to the merged contact
+              items:
+                type: integer
+                format: int64
+    UpdateContactNote_3:
+      type: object
+      properties:
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/ID'
+        reminder:
+          $ref: '#/components/schemas/AddContactNoteReminder'
         accessBy:
           type: array
           items:
-            $ref: '#/components/schemas/Access_2'
-        notes:
-          type: array
-          items:
-            type: object
-            properties:
-              contact:
-                $ref: '#/components/schemas/ID'
-              body:
-                type: string
+            $ref: '#/components/schemas/ID'
+    ContactNote_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        contact:
+          $ref: '#/components/schemas/ID'
+        insertedBy:
+          $ref: '#/components/schemas/User_3'
+        type:
+          $ref: '#/components/schemas/ContactNoteType_3'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
+        propertyFeedback:
+          $ref: '#/components/schemas/PropertyFeedback_2'
     AddUpdateContactRequirement_3:
       type: object
       properties:
@@ -4126,6 +4732,79 @@ components:
           - saleOrLease
         tenantedInvestment:
           type: boolean
+    MatchingContactsRequest:
+      type: object
+      properties:
+        bed:
+          type: integer
+          format: int64
+        bath:
+          type: integer
+          format: int64
+        car:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+          - sale
+          - lease
+          - saleAndLease
+        propertyClass:
+          type: string
+          enum:
+          - residential
+          - commercial
+          - business
+          - rural
+          - holidayRental
+          - land
+        minPrice:
+          type: number
+          format: float
+        maxPrice:
+          type: number
+          format: float
+        suburbs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Suburb_2'
+    CalendarEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        modified:
+          type: string
+          format: date-time
+        recurring:
+          type: boolean
+        allDay:
+          type: boolean
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        summary:
+          type: string
+        description:
+          type: string
+        reminderMinutes:
+          type: integer
+          format: int64
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarContact'
+        user:
+          $ref: '#/components/schemas/Access_2'
+        isConfirmed:
+          type: boolean
+        isCancelled:
+          type: boolean
     Urls:
       type: object
       properties:
@@ -4135,151 +4814,13 @@ components:
           type: string
         self:
           type: string
-    ContactNoteType_3:
+    CalendarContact:
       type: object
       properties:
         id:
           type: integer
           format: int64
         name:
-          type: string
-        colour:
-          type: string
-        defaultReadOnly:
-          type: boolean
-        pinned:
-          type: boolean
-        purpose:
-          $ref: '#/components/schemas/ContactNoteTypePurpose'
-    LinkedProperty_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        address:
-          $ref: '#/components/schemas/Address_2'
-        displayAddress:
-          type: string
-        saleLifeId:
-          type: integer
-          format: int64
-        leaseLifeId:
-          type: integer
-          format: int64
-        relationship:
-          type: string
-          enum:
-          - pastOwner
-          - owner
-          - landlord
-          - tenant
-          - purchaser
-        status:
-          type: string
-          enum:
-          - prospect
-          - appraisal
-          - listing
-          - conditional
-          - unconditional
-          - settled
-          - management
-          - withdrawn
-          - withdrawnAppraisal
-        portalStatus:
-          type: string
-          enum:
-          - prospect
-          - appraisal
-          - listing
-          - conditional
-          - unconditional
-          - settled
-          - management
-          - withdrawn
-          - withdrawnAppraisal
-        class:
-          $ref: '#/components/schemas/PropertyClass_3'
-        photo:
-          $ref: '#/components/schemas/PropertyPhoto'
-    Access_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
-    AddContact_3:
-      allOf:
-      - $ref: '#/components/schemas/UpdateContact_3'
-      - type: object
-        properties:
-          inserted:
-            type: string
-            format: date-time
-          entityType:
-            $ref: '#/components/schemas/ID'
-    BulkEmail:
-      type: object
-      properties:
-        contact:
-          $ref: '#/components/schemas/ID'
-        email:
-          type: string
-        subject:
-          type: string
-        bodyText:
-          type: string
-        bodyHTML:
-          type: string
-    UnsubscribeType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    AddContactNote_3:
-      type: object
-      properties:
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        type:
-          $ref: '#/components/schemas/ID'
-        reminder:
-          $ref: '#/components/schemas/AddContactNoteReminder'
-        inserted:
-          type: string
-          format: date-time
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        insertedBy:
-          $ref: '#/components/schemas/ID'
-    CustomFieldGrouping:
-      type: object
-      properties:
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomField'
-        group:
           type: string
     User_3:
       type: object
@@ -4376,651 +4917,66 @@ components:
               type: string
         hideMobileFromPortal:
           type: boolean
-    ContactNote_3:
+    CustomField:
       type: object
       properties:
+        dataType:
+          type: string
+          enum:
+          - selectBox
+          - text
+          - string
+          - float
+          - boolean
+          - date
+          - dayAndMonth
         id:
           type: integer
           format: int64
+        name:
+          type: string
+        data:
+          type: string
+    BulkContactNote_3:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ID'
+        readOnly:
+          type: boolean
         inserted:
           type: string
           format: date-time
-        modified:
-          type: string
-          format: date-time
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        contact:
-          $ref: '#/components/schemas/ID'
-        insertedBy:
-          $ref: '#/components/schemas/User_3'
-        type:
-          $ref: '#/components/schemas/ContactNoteType_3'
-        reminder:
-          $ref: '#/components/schemas/ContactNoteReminder'
-        propertyFeedback:
-          $ref: '#/components/schemas/PropertyFeedback_2'
-    UpdateContact_3:
-      type: object
-      properties:
-        title:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        greeting:
-          type: string
-        partnerTitle:
-          type: string
-        partnerFirstName:
-          type: string
-        partnerLastName:
-          type: string
-        company:
-          type: string
-        position:
-          type: string
-        address:
-          $ref: '#/components/schemas/UpdateAddress'
-        postalAddress:
-          $ref: '#/components/schemas/UpdateAddress'
-        onDoNotCallList:
-          type: boolean
-        archived:
-          type: boolean
-        unsubscribe:
-          $ref: '#/components/schemas/Unsubscribe'
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber_3'
-        legalDescription:
-          type: string
-        abn:
-          type: string
-          description: Australian Business Number (ABN). For New Zealand customers, this field represents the GST registration number.
-        acn:
-          type: string
-          description: Australian Company Number (ACN).
         accessBy:
           type: array
           items:
-            $ref: '#/components/schemas/ID'
-        editableBy:
+            $ref: '#/components/schemas/Access_2'
+        notes:
           type: array
           items:
-            $ref: '#/components/schemas/ID'
-        sourceOfEnquiry:
-          $ref: '#/components/schemas/ID'
-        marketingUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/AddUpdateMarketingUser'
-        customUnsubscribe:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-    PhoneNumber_3:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    GdprOptin:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: GDPR opt-in record ID
-        sms:
-          type: boolean
-          description: SMS consent flag
-        email:
-          type: boolean
-          description: Email consent flag
-        phone:
-          type: boolean
-          description: Phone consent flag
-        inserted:
-          type: string
-          format: date-time
-          description: When the consent was recorded
-        modified:
-          type: string
-          format: date-time
-          description: When the consent was last modified
-        insertedBy:
-          $ref: '#/components/schemas/User_3'
-        modifiedBy:
-          $ref: '#/components/schemas/User_3'
-        property:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              description: Associated property ID (if applicable)
-    MergeContactRequest:
-      type: object
-      properties:
-        contactIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-          minItems: 2
-          maxItems: 2
-        updateFields:
-          type: object
-          properties:
-            firstName:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the first name from
-            lastName:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the last name from
-            company:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the company name from
-            position:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the position from
-            greeting:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the greeting from
-            partner:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the partner name fields from
-            legalDescription:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the legal description from
-            envelopeGreeting:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the envelope greeting from
-            address:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the residential address from
-            postalAddress:
-              type:
-              - integer
-              - 'null'
-              format: int64
-              description: ID of the contact to take the postal address from
-            marketingUsers:
-              type: array
-              description: IDs and orders of the users to be assigned as marketing users
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    format: int64
-                  user:
-                    type: integer
-                    format: int64
-            accessBy:
-              type: array
-              description: IDs of the users to have access to the merged contact
-              items:
-                type: integer
-                format: int64
-    AddUpdateCustomField:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        data:
-          type: string
-    CustomAddress:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        postTown:
-          type: string
-        postcode:
-          type: string
-    ContactBankAccount:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        accountNumber:
-          type: string
-        bsbNumber:
-          type: string
-    PropertyClass_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
-    Address_2:
-      type: object
-      properties:
-        level:
-          type: string
-        unitNumber:
-          type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
-          $ref: '#/components/schemas/Suburb_2'
-        state:
-          $ref: '#/components/schemas/State'
-        country:
-          $ref: '#/components/schemas/Country'
-        royalMail:
-          $ref: '#/components/schemas/RoyalMail'
-        customAddress:
-          $ref: '#/components/schemas/CustomAddress'
-    PropertyFeedback_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        property:
-          type: object
-          properties:
-            id:
-              type: number
-              format: int64
-            displayAddress:
-              type: string
-            saleLifeId:
-              type: number
-              format: int64
-            leaseLifeId:
-              type: number
-              format: int64
-            class:
-              $ref: '#/components/schemas/PropertyClass_3'
-        feedbackDate:
-          type: string
-          format: date-time
-        priceOpinion:
-          type: number
-          format: float
-        saleLifeId:
-          type: number
-          format: int64
-        leaseLifeId:
-          type: number
-          format: int64
-        contractRequested:
-          type: boolean
-        contractSent:
-          type: string
-          format: date-time
-    BulkSMS:
-      type: object
-      properties:
-        contact:
-          $ref: '#/components/schemas/ID'
-        message:
-          type: string
-        number:
-          type: string
-    Suburb_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        postcode:
-          type: string
-        state:
-          $ref: '#/components/schemas/State'
-        nzDistrict:
-          $ref: '#/components/schemas/District'
-        isPoBox:
-          type: boolean
-    District:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        region:
-          $ref: '#/components/schemas/Region'
-    RoyalMail:
-      type: object
-      properties:
-        buildingName:
-          type: string
-        buildingNumber:
-          type: string
-        department:
-          type: string
-        locality:
-          type: string
-        locality2:
-          type: string
-        organisation:
-          type: string
-        postTown:
-          type: string
-        postcode:
-          type: string
-        subbuildingName:
-          type: string
-        subbuildingNumber:
-          type: string
-        thoroughfare:
-          type: string
-        thoroughfare2:
-          type: string
-        udprn:
-          type: integer
-          format: int64
-    Contact_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        title:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        greeting:
-          type: string
-        displayName:
-          type: string
-        partnerTitle:
-          type: string
-        partnerFirstName:
-          type: string
-        partnerLastName:
-          type: string
-        company:
-          type: string
-        position:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address_2'
-        postalAddress:
-          $ref: '#/components/schemas/Address_2'
-        onDoNotCallList:
-          type: boolean
-        archived:
-          type: boolean
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        touched:
-          type: string
-          format: date-time
-        remoteId:
-          type: string
-        unsubscribe:
-          $ref: '#/components/schemas/Unsubscribe'
-        entityType:
-          $ref: '#/components/schemas/EntityType'
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber_3'
-        legalDescription:
-          type: string
-        abn:
-          type: string
-          description: Australian Business Number (ABN). For New Zealand customers, this field represents the GST registration number.
-        acn:
-          type: string
-          description: Australian Company Number (ACN).
-        marketingUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/MarketingUser'
-        smsUnsubscribeUrl:
-          type: string
-        customUnsubscribe:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnsubscribeType'
-    CalendarContact:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    ContactAndDate:
-      allOf:
-      - $ref: '#/components/schemas/ContactDate'
-      - type: object
-        properties:
-          contactid:
-            type: integer
-            format: int64
-    ContactNoteExtended_2:
-      allOf:
-      - $ref: '#/components/schemas/ContactNote_3'
-      - type: object
-        properties:
-          accessBy:
-            type: array
-            items:
-              $ref: '#/components/schemas/Access_2'
-    PropertyType_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass_3'
-    ContactDate:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        type:
-          $ref: '#/components/schemas/ContactDateType'
-        date:
-          type: string
-        property:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            displayAddress:
-              type: string
-            class:
-              $ref: '#/components/schemas/PropertyClass_3'
-            leaseLifeId:
-              type: integer
-              format: int64
-            saleLifeId:
-              type: integer
-              format: int64
-    AddUpdateContactBankAccount:
-      type: object
-      properties:
-        name:
-          type: string
-        accountNumber:
-          type: string
-        bsbNumber:
-          type: string
-    ContactFile_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        description:
-          type: string
-        filename:
-          type: string
-        filesize:
-          type: integer
-          format: int64
-        insertedBy:
-          $ref: '#/components/schemas/User_3'
-        url:
-          type: string
-        contentType:
-          type: string
-    SMS_3:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/ID'
-        message:
-          type: string
-        number:
-          type: string
-    ContactAndMarketingUser:
-      type: object
-      properties:
-        marketingUser:
-          $ref: '#/components/schemas/MarketingUser'
-        contact:
-          $ref: '#/components/schemas/ID'
-    BulkContactSourceOfEnquiry:
-      type: object
-      properties:
-        contact:
-          $ref: '#/components/schemas/ID'
-        leaseLifeId:
-          type: integer
-          format: int64
-        saleLifeId:
-          type: integer
-          format: int64
-        source:
-          $ref: '#/components/schemas/EnquirySource'
-    MatchingContactsRequest:
-      type: object
-      properties:
-        bed:
-          type: integer
-          format: int64
-        bath:
-          type: integer
-          format: int64
-        car:
-          type: integer
-          format: int64
-        type:
-          type: string
-          enum:
-          - sale
-          - lease
-          - saleAndLease
-        propertyClass:
-          type: string
-          enum:
-          - residential
-          - commercial
-          - business
-          - rural
-          - holidayRental
-          - land
-        minPrice:
-          type: number
-          format: float
-        maxPrice:
-          type: number
-          format: float
-        suburbs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Suburb_2'
+            type: object
+            properties:
+              contact:
+                $ref: '#/components/schemas/ID'
+              body:
+                type: string
   parameters:
+    modifiedBefore:
+      name: modifiedBefore
+      in: query
+      description: Filter results modified before this datetime
+      schema:
+        type: string
+        format: date-time
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
     pagesize:
       name: pagesize
       in: query
@@ -5036,26 +4992,10 @@ components:
       schema:
         type: integer
         format: int64
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
     modifiedSince:
       name: modifiedSince
       in: query
       description: Filter results modified since this datetime
-      schema:
-        type: string
-        format: date-time
-    modifiedBefore:
-      name: modifiedBefore
-      in: query
-      description: Filter results modified before this datetime
       schema:
         type: string
         format: date-time

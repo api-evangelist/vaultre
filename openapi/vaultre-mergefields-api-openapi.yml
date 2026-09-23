@@ -81,6 +81,82 @@ paths:
         Bearer: []
 components:
   schemas:
+    MergeFieldCategory:
+      type: object
+      required:
+      - id
+      - name
+      - fields
+      properties:
+        id:
+          type: string
+          description: Category identifier
+        name:
+          type: string
+          description: Human-readable category name
+        description:
+          type: string
+          description: Description of the category
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeField'
+    MergeFieldTier:
+      type: object
+      required:
+      - id
+      - name
+      - categories
+      properties:
+        id:
+          type: string
+          description: Tier identifier (e.g. always_available, requires_property)
+        name:
+          type: string
+          description: Human-readable tier name
+        description:
+          type: string
+          description: Description of the tier
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldCategory'
+    MergeField:
+      type: object
+      required:
+      - token
+      - name
+      properties:
+        token:
+          type: string
+          description: The merge field token (e.g. $$ContactFirstName$$)
+        name:
+          type: string
+          description: Human-readable name of the field
+        description:
+          type: string
+          description: Description of the field
+        category:
+          type: string
+          description: Category ID this field belongs to
+        engines:
+          type: array
+          description: Delivery engines that support this field
+          items:
+            type: string
+            enum:
+            - email
+            - sms
+            - cloud_letter
+        in_editor:
+          type: boolean
+          description: Whether the field is available in the template editor
+        deprecated:
+          type: boolean
+          description: Whether the field is deprecated
+        custom_field:
+          type: boolean
+          description: Whether the field is a custom account-specific field
     MergeFieldsTieredResponse:
       type: object
       description: Returned when no context is provided. Shows all availability tiers.
@@ -150,26 +226,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MergeFieldCategory'
-    MergeFieldCategory:
-      type: object
-      required:
-      - id
-      - name
-      - fields
-      properties:
-        id:
-          type: string
-          description: Category identifier
-        name:
-          type: string
-          description: Human-readable category name
-        description:
-          type: string
-          description: Description of the category
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/MergeField'
     SuccessOrError:
       type: object
       properties:
@@ -179,62 +235,6 @@ components:
           type: string
         code:
           type: string
-    MergeField:
-      type: object
-      required:
-      - token
-      - name
-      properties:
-        token:
-          type: string
-          description: The merge field token (e.g. $$ContactFirstName$$)
-        name:
-          type: string
-          description: Human-readable name of the field
-        description:
-          type: string
-          description: Description of the field
-        category:
-          type: string
-          description: Category ID this field belongs to
-        engines:
-          type: array
-          description: Delivery engines that support this field
-          items:
-            type: string
-            enum:
-            - email
-            - sms
-            - cloud_letter
-        in_editor:
-          type: boolean
-          description: Whether the field is available in the template editor
-        deprecated:
-          type: boolean
-          description: Whether the field is deprecated
-        custom_field:
-          type: boolean
-          description: Whether the field is a custom account-specific field
-    MergeFieldTier:
-      type: object
-      required:
-      - id
-      - name
-      - categories
-      properties:
-        id:
-          type: string
-          description: Tier identifier (e.g. always_available, requires_property)
-        name:
-          type: string
-          description: Human-readable tier name
-        description:
-          type: string
-          description: Description of the tier
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/MergeFieldCategory'
   securitySchemes:
     Api-Key:
       type: apiKey

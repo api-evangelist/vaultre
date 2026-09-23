@@ -18,7 +18,6 @@ paths:
       tags:
       - propertyOffer
       summary: Retrieve a list of property offers for this account
-      description: Retrieve a list of property offers for this account
       operationId: getPropertyOffers
       parameters:
       - name: type
@@ -115,7 +114,6 @@ paths:
       tags:
       - propertyOffer
       summary: Retrieve a single property offer
-      description: Retrieve a single property offer
       operationId: getPropertyOffer
       parameters:
       - name: id
@@ -139,7 +137,6 @@ paths:
       tags:
       - propertyOffer
       summary: Update a property offer
-      description: Update a property offer
       operationId: updatePropertyOffer
       parameters:
       - name: id
@@ -175,61 +172,6 @@ paths:
         Bearer: []
 components:
   schemas:
-    ContactMinimal:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        displayName:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-    PropertyOfferStatus:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    UpdatePropertyOffer:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        contact:
-          $ref: '#/components/schemas/ID'
-        details:
-          type: string
-        offerDate:
-          type: string
-          format: date-time
-        offerPrice:
-          type: number
-          format: float
-        status:
-          $ref: '#/components/schemas/ID'
     PhoneNumber:
       type: object
       properties:
@@ -253,14 +195,46 @@ components:
           - Direct
         comment:
           type: string
-    SuccessOrError:
+    PropertyOfferStatus:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
+        id:
+          type: number
+          format: int64
+        name:
           type: string
-        code:
+    UpdatePropertyOffer:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        contact:
+          $ref: '#/components/schemas/ID'
+        details:
+          type: string
+        offerDate:
+          type: string
+          format: date-time
+        offerPrice:
+          type: number
+          format: float
+        status:
+          $ref: '#/components/schemas/ID'
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
           type: string
     PropertyOffer:
       type: object
@@ -286,6 +260,38 @@ components:
           format: float
         status:
           $ref: '#/components/schemas/PropertyOfferStatus'
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     AddPropertyOffer:
       type: object
       properties:
@@ -307,16 +313,14 @@ components:
           format: float
         status:
           $ref: '#/components/schemas/ID'
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
   parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -325,13 +329,6 @@ components:
         type: integer
         format: int64
         default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     sortOrder:
       name: sortOrder
       in: query

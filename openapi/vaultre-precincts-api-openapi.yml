@@ -10,15 +10,14 @@ info:
 servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: precincts
+- name: Precincts
   description: Operations related to precincts
 paths:
   /precincts:
     get:
       tags:
-      - precincts
+      - Precincts
       summary: Retrieve a list of precincts for this account
-      description: Retrieve a list of precincts for this account
       operationId: getAccountPrecincts
       parameters:
       - $ref: '#/components/parameters/page'
@@ -56,9 +55,8 @@ paths:
   /precincts/{id}:
     get:
       tags:
-      - precincts
+      - Precincts
       summary: Retrieve a single precinct
-      description: Retrieve a single precinct
       operationId: getPrecinct
       parameters:
       - name: id
@@ -79,38 +77,32 @@ paths:
       - Api-Key: []
         Bearer: []
 components:
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   schemas:
-    Precinct:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/Access'
-        vertices:
-          type: array
-          items:
-            $ref: '#/components/schemas/Vertex'
-    Vertex:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: float
-        longitude:
-          type: number
-          format: float
     UserPhoto:
       type: object
       properties:
@@ -145,31 +137,37 @@ components:
           type: string
         self:
           type: string
-  parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
+    Precinct:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+        vertices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vertex'
+    Vertex:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
   securitySchemes:
     Api-Key:
       type: apiKey

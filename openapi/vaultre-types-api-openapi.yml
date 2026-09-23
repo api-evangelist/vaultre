@@ -12,15 +12,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: types
+- name: Types
   description: Operations related to various VaultRE object types
 paths:
   /responseCodes:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of response codes used in this API
-      description: Retrieve a list of response codes used in this API
       operationId: getResponseCodes
       responses:
         200:
@@ -33,9 +32,8 @@ paths:
   /types/propertyClass:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of property classes
-      description: Retrieve a list of property classes
       operationId: getPropertyClasses
       parameters:
       - $ref: '#/components/parameters/page'
@@ -60,7 +58,7 @@ paths:
   /types/propertyType:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of property types
       description: Retrieve a list of property types applicable to this account
       operationId: getPropertyTypes
@@ -87,9 +85,8 @@ paths:
   /types/contactnotes:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of contact note types for this account
-      description: Retrieve a list of contact note types for this account
       operationId: getContactNoteTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -114,9 +111,8 @@ paths:
   /types/contactnotes/{id}:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a single contact note type
-      description: Retrieve a single contact note type
       operationId: getContactNoteType
       parameters:
       - name: id
@@ -141,9 +137,8 @@ paths:
   /types/propertynotes:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of property note types for this account
-      description: Retrieve a list of property note types for this account
       operationId: getPropertyNoteTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -168,9 +163,8 @@ paths:
   /types/propertynotes/{id}:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a single property note type
-      description: Retrieve a single property note type
       operationId: getPropertyNoteType
       parameters:
       - name: id
@@ -195,9 +189,8 @@ paths:
   /types/contactInterest:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of contact interest types
-      description: Retrieve a list of contact interest types
       operationId: getContactInterestTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -222,9 +215,8 @@ paths:
   /types/entityTypes:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of contact entity types
-      description: Retrieve a list of contact entity types
       operationId: getContactEntityTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -249,9 +241,8 @@ paths:
   /types/externalLinks:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of property external link types
-      description: Retrieve a list of property external link types
       operationId: getExternalLinkTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -276,7 +267,7 @@ paths:
   /types/priceQualifiers:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of price qualifier types
       description: Retrieve a list of price qualifier types. This field is only available for NZ and UK accounts.
       operationId: getPriceQualifierTypes
@@ -303,7 +294,7 @@ paths:
   /types/customUnsubscribe:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of custom unsubscribe types
       description: Retrieve a list of custom unsubscribe types for this account
       operationId: getCustomUnsubscribeTypes
@@ -346,7 +337,7 @@ paths:
   /types/tenureOrTitleTypes:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of tenure or title types
       description: Retrieve a list of tenure or title types. This field is only available for NZ and UK accounts.
       operationId: getTenureOrTitleTypes
@@ -389,9 +380,8 @@ paths:
   /types/holdingArea:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of holding area types
-      description: Retrieve a list of holding area types
       operationId: getHoldingAreaTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -432,9 +422,8 @@ paths:
   /types/methodOfSale:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of method of sale types
-      description: Retrieve a list of method of sale types
       operationId: getMethodOfSaleTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -475,9 +464,8 @@ paths:
   /types/auctionSale:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of Auction types
-      description: Retrieve a list of Auction types
       operationId: getAuctionTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -518,7 +506,7 @@ paths:
   /types/advertising/transactions:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of advertising transaction types
       description: Retrieve a list of advertising transaction (ledger) types
       operationId: getAdvertisingTransactionTypes
@@ -561,9 +549,8 @@ paths:
   /types/advertising/payments:
     get:
       tags:
-      - types
+      - Types
       summary: Retrieve a list of advertising payment types
-      description: Retrieve a list of advertising payment types
       operationId: getAdvertisingPaymentTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -611,6 +598,18 @@ components:
           format: int64
         name:
           type: string
+    PropertyNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        purpose:
+          $ref: '#/components/schemas/PropertyNoteTypePurpose'
     ContactNoteType:
       type: object
       properties:
@@ -625,18 +624,6 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    PropertyNoteType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        colour:
-          type: string
-        purpose:
-          $ref: '#/components/schemas/PropertyNoteTypePurpose'
     PropertyNoteTypePurpose:
       type: object
       properties:
@@ -661,45 +648,13 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    ContactInterest:
+    MethodOfSaleType:
       type: object
       properties:
         id:
           type: integer
           format: int64
         name:
-          type: string
-    ResponseCode:
-      type: object
-      properties:
-        msg:
-          type: string
-        code:
-          type: string
-    TenureOrTitleType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    AuctionSaleType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
           type: string
     ContactNoteType_3:
       type: object
@@ -717,15 +672,7 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    AdvertisingLedgerType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    MethodOfSaleType:
+    PriceQualifier:
       type: object
       properties:
         id:
@@ -733,19 +680,11 @@ components:
           format: int64
         name:
           type: string
-    EntityType:
+    TenureOrTitleType:
       type: object
       properties:
         id:
-          type: number
-          format: int64
-        name:
-          type: string
-    AdvertisingPaymentType:
-      type: object
-      properties:
-        id:
-          type: number
+          type: integer
           format: int64
         name:
           type: string
@@ -757,11 +696,19 @@ components:
           format: int64
         name:
           type: string
-    PriceQualifier:
+    AdvertisingPaymentType:
       type: object
       properties:
         id:
-          type: integer
+          type: number
+          format: int64
+        name:
+          type: string
+    EntityType:
+      type: object
+      properties:
+        id:
+          type: number
           format: int64
         name:
           type: string
@@ -785,6 +732,14 @@ components:
           type: string
         apiCode:
           type: string
+    ExternalLinkType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     PropertyType:
       type: object
       properties:
@@ -795,7 +750,39 @@ components:
           type: string
         propertyClass:
           $ref: '#/components/schemas/PropertyClass'
-    ExternalLinkType:
+    ResponseCode:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
+    AuctionSaleType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    AdvertisingLedgerType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    ContactInterest:
       type: object
       properties:
         id:
@@ -804,14 +791,6 @@ components:
         name:
           type: string
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -828,6 +807,14 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

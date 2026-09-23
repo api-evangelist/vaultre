@@ -11,15 +11,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: maintenance
+- name: Maintenance
   description: Operations related to maintenance jobs
 paths:
   /maintenance:
     get:
       tags:
-      - maintenance
+      - Maintenance
       summary: Retrieve a list of all maintenance jobs for this account
-      description: Retrieve a list of all maintenance jobs for this account
       operationId: getAllMaintenance
       parameters:
       - $ref: '#/components/parameters/page'
@@ -50,9 +49,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance:
     get:
       tags:
-      - maintenance
+      - Maintenance
       summary: Retrieve a list of maintenance jobs for this property life
-      description: Retrieve a list of maintenance jobs for this property life
       operationId: getMaintenance
       parameters:
       - name: propertyid
@@ -100,9 +98,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - maintenance
+      - Maintenance
       summary: Create a maintenance job
-      description: Create a maintenance job
       operationId: addMaintenance
       parameters:
       - name: propertyid
@@ -148,9 +145,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}:
     get:
       tags:
-      - maintenance
+      - Maintenance
       summary: Retrieve a single maintenance job
-      description: Retrieve a single maintenance job
       operationId: getMaintenanceJob
       parameters:
       - name: propertyid
@@ -186,9 +182,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - maintenance
+      - Maintenance
       summary: Update a single maintenance job
-      description: Update a single maintenance job
       operationId: updateMaintenance
       parameters:
       - name: propertyid
@@ -238,9 +233,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - maintenance
+      - Maintenance
       summary: Delete a maintenance job
-      description: Delete a maintenance job
       operationId: deleteMaintenance
       parameters:
       - name: propertyid
@@ -285,9 +279,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/photos:
     post:
       tags:
-      - maintenance
+      - Maintenance
       summary: Add a maintenance job photo
-      description: Add a maintenance job photo
       operationId: addMaintenancePhoto
       parameters:
       - name: propertyid
@@ -347,9 +340,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/photos/{id}:
     get:
       tags:
-      - maintenance
+      - Maintenance
       summary: Retrieve a single maintenance job photo
-      description: Retrieve a single maintenance job photo
       operationId: getMaintenanceJob
       parameters:
       - name: propertyid
@@ -392,9 +384,8 @@ paths:
         Bearer: []
     delete:
       tags:
-      - maintenance
+      - Maintenance
       summary: Delete a maintenance job photo
-      description: Delete a maintenance job photo
       operationId: deleteMaintenancePhoto
       parameters:
       - name: propertyid
@@ -446,9 +437,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/requests:
     get:
       tags:
-      - maintenance
+      - Maintenance
       summary: Retrieve a list of requests for a maintenance job
-      description: Retrieve a list of requests for a maintenance job
       operationId: getMaintenanceRequests
       parameters:
       - name: propertyid
@@ -496,7 +486,7 @@ paths:
         Bearer: []
     post:
       tags:
-      - maintenance
+      - Maintenance
       summary: Create a maintenance job request
       description: Create a maintenance request
       operationId: addMaintenanceRequest
@@ -551,9 +541,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/requests/{id}/initiateWorkOrder:
     put:
       tags:
-      - maintenance
+      - Maintenance
       summary: Initiate a maintenance work order
-      description: Initiate a maintenance work order
       operationId: initiateMaintenceWorkOrder
       parameters:
       - name: propertyid
@@ -620,9 +609,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/requests/{id}/complete:
     put:
       tags:
-      - maintenance
+      - Maintenance
       summary: Complete a maintenance work order
-      description: Complete a maintenance work order
       operationId: completeMaintenceWorkOrder
       parameters:
       - name: propertyid
@@ -674,9 +662,8 @@ paths:
   /properties/{propertyid}/lease/{lifeid}/maintenance/{jobid}/notes:
     get:
       tags:
-      - maintenance
+      - Maintenance
       summary: Retrieve a list of notes for a maintenance job
-      description: Retrieve a list of notes for a maintenance job
       operationId: getMaintenanceNotes
       parameters:
       - name: propertyid
@@ -721,101 +708,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
-    ContactMinimal:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        displayName:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-    PropertyFile:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        filename:
-          type: string
-        filesize:
-          type: integer
-          format: int64
-        contentType:
-          type: string
-        url:
-          type: string
-    AddMaintenanceRequest:
-      type: object
-      properties:
-        supplier:
-          $ref: '#/components/schemas/ID'
-        subject:
-          type: string
-        bodyHTML:
-          type: string
-        isWorkOrder:
-          type: boolean
-        sender:
-          $ref: '#/components/schemas/ID'
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    UpdateMaintenance:
-      type: object
-      properties:
-        summary:
-          type: string
-        description:
-          type: string
-        requestedBy:
-          $ref: '#/components/schemas/ID'
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-    MaintenancePhoto:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        url:
-          type: string
-        description:
-          type: string
-        userFileName:
-          type: string
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
     PhoneNumber:
       type: object
       properties:
@@ -839,14 +731,13 @@ components:
           - Direct
         comment:
           type: string
-    SuccessOrError:
+    RentFrequency:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
     MaintenanceRequest:
       type: object
@@ -875,7 +766,20 @@ components:
           $ref: '#/components/schemas/PropertyFile'
         isWorkOrder:
           type: boolean
-    RentFrequency:
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Access:
       type: object
       properties:
         id:
@@ -883,6 +787,8 @@ components:
           format: int64
         name:
           type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
     AddMaintenance:
       type: object
       properties:
@@ -901,16 +807,19 @@ components:
             $ref: '#/components/schemas/ID'
         tenancy:
           $ref: '#/components/schemas/ID'
-    Access:
+    AddMaintenanceRequest:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-        name:
+        supplier:
+          $ref: '#/components/schemas/ID'
+        subject:
           type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
+        bodyHTML:
+          type: string
+        isWorkOrder:
+          type: boolean
+        sender:
+          $ref: '#/components/schemas/ID'
     Maintenance:
       type: object
       properties:
@@ -951,6 +860,84 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Access'
+    MaintenancePhoto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+        description:
+          type: string
+        userFileName:
+          type: string
+    UpdateMaintenance:
+      type: object
+      properties:
+        summary:
+          type: string
+        description:
+          type: string
+        requestedBy:
+          $ref: '#/components/schemas/ID'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    PropertyFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        contentType:
+          type: string
+        url:
+          type: string
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     Tenancy:
       type: object
       properties:
@@ -984,15 +971,6 @@ components:
         arrearsAmount:
           type: number
           format: float
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     Tenancy_2:
       type: object
       properties:
@@ -1029,6 +1007,46 @@ components:
         vacateDate:
           type: string
           format: date-time
+    Access_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    MaintenanceNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        note:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        insertedBy:
+          $ref: '#/components/schemas/Access_2'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
     PropertyFile_2:
       type: object
       properties:
@@ -1054,46 +1072,7 @@ components:
           type: boolean
         isPublic:
           type: boolean
-    MaintenanceNote:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        note:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        insertedBy:
-          $ref: '#/components/schemas/Access_2'
-    Access_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -1110,6 +1089,14 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

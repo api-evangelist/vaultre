@@ -20,7 +20,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a list of commercial properties
-      description: Retrieve a list of commercial properties
       operationId: getCommercialProperties
       parameters:
       - name: salelease
@@ -84,7 +83,6 @@ paths:
       tags:
       - commercialProperties
       summary: Add a commercial property
-      description: Add a commercial property
       operationId: addCommercialProperty
       requestBody:
         description: Commercial property object
@@ -117,7 +115,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a single commercial property
-      description: Retrieve a single commercial property
       operationId: getCommercialProperty
       parameters:
       - name: salelease
@@ -150,7 +147,6 @@ paths:
       tags:
       - commercialProperties
       summary: Update a commercial property
-      description: Update a commercial property
       operationId: updateCommercialProperty
       parameters:
       - name: salelease
@@ -200,7 +196,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a list of commercial sale properties
-      description: Retrieve a list of commercial sale properties
       operationId: getCommercialSaleProperties
       parameters:
       - $ref: '#/components/parameters/modifiedSince'
@@ -261,7 +256,6 @@ paths:
       tags:
       - commercialProperties
       summary: Add a commercial sale property
-      description: Add a commercial sale property
       operationId: addCommercialSaleProperty
       requestBody:
         description: Commercial Sale property object
@@ -334,7 +328,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a single commercial sale property
-      description: Retrieve a single commercial sale property
       operationId: getCommercialSaleProperty
       parameters:
       - name: id
@@ -358,7 +351,6 @@ paths:
       tags:
       - commercialProperties
       summary: Update a commercial sale property
-      description: Update a commercial sale property
       operationId: updateCommercialSaleProperty
       parameters:
       - name: id
@@ -399,7 +391,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a list of sold commercial properties
-      description: Retrieve a list of sold commercial properties
       operationId: getCommercialSoldProperties
       parameters:
       - $ref: '#/components/parameters/modifiedSince'
@@ -458,7 +449,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a list of leased commercial properties
-      description: Retrieve a list of leased commercial properties
       operationId: getCommercialLeasedProperties
       parameters:
       - $ref: '#/components/parameters/modifiedSince'
@@ -517,7 +507,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a list of commercial lease properties
-      description: Retrieve a list of commercial lease properties
       operationId: getCommercialLeaseProperties
       parameters:
       - $ref: '#/components/parameters/modifiedSince'
@@ -584,7 +573,6 @@ paths:
       tags:
       - commercialProperties
       summary: Add a commercial lease property
-      description: Add a commercial lease property
       operationId: addCommercialLeaseProperty
       requestBody:
         description: Commercial Lease property object
@@ -662,7 +650,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a single commercial lease property
-      description: Retrieve a single commercial lease property
       operationId: getCommercialLeaseProperty
       parameters:
       - name: id
@@ -686,7 +673,6 @@ paths:
       tags:
       - commercialProperties
       summary: Update a commercial lease property
-      description: Update a commercial lease property
       operationId: updateCommercialLeaseProperty
       parameters:
       - name: id
@@ -727,7 +713,6 @@ paths:
       tags:
       - commercialProperties
       summary: Retrieve a single commercial property
-      description: Retrieve a single commercial property
       operationId: getCommericalPropertyAndLife
       parameters:
       - name: id
@@ -758,47 +743,39 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   schemas:
-    ID:
+    PhoneNumber:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-    State:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
+        number:
           type: string
-        abbreviation:
-          type: string
-    Country:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        isocode:
-          type: string
-        gstRate:
-          type: number
-          format: float
-    Area:
-      type: object
-      properties:
-        value:
-          type: integer
-          format: int64
-        units:
+        typeCode:
           type: string
           enum:
-          - sqm
-          - acre
-          - hectare
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
     Geolocation:
       type: object
       properties:
@@ -816,6 +793,196 @@ components:
           - RANGE_INTERPOLATED
           - GEOMETRIC_CENTER
           - APPROXIMATE
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        isocode:
+          type: string
+        gstRate:
+          type: number
+          format: float
+    CommercialProperty:
+      allOf:
+      - $ref: '#/components/schemas/Property'
+      - type: object
+        properties:
+          carSpaces:
+            type: integer
+            format: int64
+          floorArea:
+            $ref: '#/components/schemas/Area'
+          status:
+            type: string
+            enum:
+            - prospect
+            - appraisal
+            - listing
+            - conditional
+            - unconditional
+            - settled
+            - management
+            - withdrawn
+    AddUpdateProperty:
+      type: object
+      properties:
+        building:
+          $ref: '#/components/schemas/ID'
+        type:
+          $ref: '#/components/schemas/ID'
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        referenceID:
+          type: string
+        keyID:
+          type: string
+        searchPrice:
+          type: number
+          format: float
+        displayPrice:
+          type: string
+        heading:
+          type: string
+        description:
+          type: string
+        brochureDescription:
+          type: string
+        landArea:
+          $ref: '#/components/schemas/Area'
+        volumeNumber:
+          type: string
+        folioNumber:
+          type: string
+        corelogicId:
+          type: integer
+          format: int64
+        yearBuilt:
+          type: integer
+          format: int64
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        contactStaff:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+      discriminator:
+        propertyName: class
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+    PropertyPhotoThumbnails:
+      type: object
+      properties:
+        thumb_180:
+          type: string
+        thumb_1024:
+          type: string
+    ExternalLink:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        url:
+          type: string
+        modified:
+          type: string
+          format: date-time
+        type:
+          $ref: '#/components/schemas/ExternalLinkType'
+    AddUpdateCommercialProperty:
+      allOf:
+      - $ref: '#/components/schemas/AddUpdateProperty'
+      - type: object
+        properties:
+          carSpaces:
+            type: integer
+            format: int64
+          floorArea:
+            $ref: '#/components/schemas/Area'
+          status:
+            type: string
+            enum:
+            - prospect
+            - appraisal
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    CommercialPropertyExtended:
+      allOf:
+      - $ref: '#/components/schemas/CommercialProperty'
+      - type: object
+        properties:
+          accessBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access'
+          externalLinks:
+            type: array
+            items:
+              $ref: '#/components/schemas/ExternalLink'
+          auctionDetails:
+            $ref: '#/components/schemas/AuctionDetails'
+    Building:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ExternalLinkType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    UpdateAddress:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/ID'
     Property:
       type: object
       properties:
@@ -883,77 +1050,104 @@ components:
             $ref: '#/components/schemas/User'
       discriminator:
         propertyName: class
-    AddUpdateProperty:
+    Access:
       type: object
       properties:
-        building:
-          $ref: '#/components/schemas/ID'
-        type:
-          $ref: '#/components/schemas/ID'
-        address:
-          $ref: '#/components/schemas/UpdateAddress'
-        referenceID:
-          type: string
-        keyID:
-          type: string
-        searchPrice:
-          type: number
-          format: float
-        displayPrice:
-          type: string
-        heading:
-          type: string
-        description:
-          type: string
-        brochureDescription:
-          type: string
-        landArea:
-          $ref: '#/components/schemas/Area'
-        volumeNumber:
-          type: string
-        folioNumber:
-          type: string
-        corelogicId:
+        id:
           type: integer
           format: int64
-        yearBuilt:
-          type: integer
-          format: int64
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        contactStaff:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-      discriminator:
-        propertyName: class
-    AuctionDetails:
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    PropertyPhoto:
       type: object
       properties:
-        dateTime:
+        id:
+          type: integer
+          format: int64
+        inserted:
           type: string
           format: date-time
-        venue:
+        modified:
           type: string
-        auctioneer:
+          format: date-time
+        filesize:
+          type: integer
+          format: int64
+        width:
+          type: integer
+          format: int64
+        height:
+          type: integer
+          format: int64
+        caption:
           type: string
-    CommercialPropertyExtended:
-      allOf:
-      - $ref: '#/components/schemas/CommercialProperty'
-      - type: object
-        properties:
-          accessBy:
-            type: array
-            items:
-              $ref: '#/components/schemas/Access'
-          externalLinks:
-            type: array
-            items:
-              $ref: '#/components/schemas/ExternalLink'
-          auctionDetails:
-            $ref: '#/components/schemas/AuctionDetails'
+        type:
+          type: string
+          enum:
+          - Photograph
+          - Floorplan
+        url:
+          type: string
+        filename:
+          type: string
+        userFilename:
+          type: string
+        thumbnails:
+          $ref: '#/components/schemas/PropertyPhotoThumbnails'
+        published:
+          type: boolean
+    PropertyType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        country:
+          $ref: '#/components/schemas/Country'
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Area:
+      type: object
+      properties:
+        value:
+          type: integer
+          format: int64
+        units:
+          type: string
+          enum:
+          - sqm
+          - acre
+          - hectare
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        abbreviation:
+          type: string
     User:
       type: object
       properties:
@@ -1015,74 +1209,64 @@ components:
               type: boolean
             sendSMS:
               type: boolean
-    PhoneNumber:
+    AuctionDetails:
       type: object
       properties:
-        number:
+        dateTime:
           type: string
-        typeCode:
+          format: date-time
+        venue:
           type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
+        auctioneer:
           type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-    PropertyPhoto:
+    TenderDetails:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+    AddUpdateCommercialSaleProperty:
+      allOf:
+      - $ref: '#/components/schemas/AddUpdateCommercialProperty'
+      - $ref: '#/components/schemas/AddUpdateSaleProperty'
+    AuthorityType:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        inserted:
+        name:
           type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        filesize:
-          type: integer
-          format: int64
-        width:
-          type: integer
-          format: int64
-        height:
-          type: integer
-          format: int64
-        caption:
-          type: string
-        type:
-          type: string
-          enum:
-          - Photograph
-          - Floorplan
-        url:
-          type: string
-        filename:
-          type: string
-        userFilename:
-          type: string
-        thumbnails:
-          $ref: '#/components/schemas/PropertyPhotoThumbnails'
-        published:
-          type: boolean
-    CommercialProperty:
+    CommercialLeasePropertyExtended:
       allOf:
-      - $ref: '#/components/schemas/Property'
+      - $ref: '#/components/schemas/CommercialPropertyExtended_2'
       - type: object
         properties:
+          leaseHistory:
+            type: array
+            items:
+              $ref: '#/components/schemas/LeaseHistory'
+    CommercialProperty_2:
+      allOf:
+      - $ref: '#/components/schemas/Property_2'
+      - type: object
+        properties:
+          zoning:
+            type: string
           carSpaces:
             type: integer
             format: int64
           floorArea:
+            $ref: '#/components/schemas/Area'
+          mezzanineArea:
+            $ref: '#/components/schemas/Area'
+          warehouseArea:
+            $ref: '#/components/schemas/Area'
+          retailArea:
+            $ref: '#/components/schemas/Area'
+          officeArea:
+            $ref: '#/components/schemas/Area'
+          otherArea:
             $ref: '#/components/schemas/Area'
           status:
             type: string
@@ -1095,151 +1279,66 @@ components:
             - settled
             - management
             - withdrawn
-    PropertyClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Address:
-      type: object
-      properties:
-        level:
-          type: string
-        unitNumber:
-          type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
-          $ref: '#/components/schemas/Suburb'
-        state:
-          $ref: '#/components/schemas/State'
-        country:
-          $ref: '#/components/schemas/Country'
-    Suburb:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        postcode:
-          type: string
-        state:
-          $ref: '#/components/schemas/State'
-    AddUpdateCommercialProperty:
-      allOf:
-      - $ref: '#/components/schemas/AddUpdateProperty'
-      - type: object
-        properties:
-          carSpaces:
-            type: integer
-            format: int64
-          floorArea:
-            $ref: '#/components/schemas/Area'
-          status:
+            - withdrawnAppraisal
+          contactStaff:
+            type: array
+            items:
+              $ref: '#/components/schemas/ID'
+          eTableUrl:
+            type: string
+          commercialListingType:
             type: string
             enum:
-            - prospect
-            - appraisal
-    UpdateAddress:
+            - sale
+            - lease
+            - both
+          externalLinks:
+            type: array
+            items:
+              $ref: '#/components/schemas/ExternalLink'
+          energyRating:
+            type: number
+            format: float
+    AddUpdateProperty_2:
       type: object
       properties:
-        level:
-          type: string
-        unitNumber:
-          type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
+        building:
           $ref: '#/components/schemas/ID'
-    PropertyType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        country:
-          $ref: '#/components/schemas/Country'
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass'
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    ExternalLink:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        url:
-          type: string
-        modified:
-          type: string
-          format: date-time
         type:
-          $ref: '#/components/schemas/ExternalLinkType'
-    ExternalLinkType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
+          $ref: '#/components/schemas/ID'
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        referenceID:
           type: string
-    PropertyPhotoThumbnails:
-      type: object
-      properties:
-        thumb_180:
+        keyID:
           type: string
-        thumb_1024:
-          type: string
-    Building:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-    LeaseHistory:
-      type: object
-      properties:
-        lifeId:
+        searchPrice:
           type: number
+          format: float
+        displayPrice:
+          type: string
+        heading:
+          type: string
+        description:
+          type: string
+        brochureDescription:
+          type: string
+        landArea:
+          $ref: '#/components/schemas/Area'
+        volumeNumber:
+          type: string
+        folioNumber:
+          type: string
+        corelogicId:
+          type: integer
           format: int64
+        yearBuilt:
+          type: integer
+          format: int64
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
         appraisal:
           type: string
           format: date-time
@@ -1249,29 +1348,47 @@ components:
         appraisalPriceUpper:
           type: number
           format: float
-        status:
+        contactStaff:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        externalLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddUpdateExternalLink'
+        mobileMarketingDescription:
           type: string
-          enum:
-          - prospect
-          - appraisal
-          - listing
-          - conditional
-          - unconditional
-          - settled
-          - management
-          - withdrawn
-          - withdrawnAppraisal
-    Rate:
+        certificateOfTitle:
+          type: string
+        legalDescription:
+          type: string
+        rpdp:
+          type: string
+        lotNumber:
+          type: string
+      discriminator:
+        propertyName: class
+    AddUpdateLeaseProperty:
       type: object
       properties:
-        value:
+        externalLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalLink'
+        priceOnApplication:
+          type: boolean
+        authorityStart:
+          type: string
+          format: date-time
+        authorityEnd:
+          type: string
+          format: date-time
+        bondPrice:
           type: number
           format: float
-        period:
-          type: string
-          enum:
-          - pa
-          - pq
+        expenditureLimit:
+          type: number
+          format: float
     SaleHistory:
       type: object
       properties:
@@ -1318,16 +1435,105 @@ components:
         grossCommissionExcGST:
           type: number
           format: float
-    TenderDetails:
+    CommercialPropertyExtended_2:
+      allOf:
+      - $ref: '#/components/schemas/CommercialProperty_2'
+      - type: object
+        properties:
+          accessBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access'
+          highlights:
+            type: array
+            items:
+              type: string
+    LeaseHistory:
       type: object
       properties:
-        dateTime:
+        lifeId:
+          type: number
+          format: int64
+        appraisal:
           type: string
           format: date-time
-    AddUpdateCommercialLeaseProperty:
-      allOf:
-      - $ref: '#/components/schemas/AddUpdateCommercialProperty'
-      - $ref: '#/components/schemas/AddUpdateLeaseProperty'
+        appraisalPriceLower:
+          type: number
+          format: float
+        appraisalPriceUpper:
+          type: number
+          format: float
+        status:
+          type: string
+          enum:
+          - prospect
+          - appraisal
+          - listing
+          - conditional
+          - unconditional
+          - settled
+          - management
+          - withdrawn
+          - withdrawnAppraisal
+    PropertyClass_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    AddUpdateSaleProperty:
+      type: object
+      properties:
+        rates:
+          type: object
+          properties:
+            water:
+              $ref: '#/components/schemas/Rate'
+            council:
+              $ref: '#/components/schemas/Rate'
+            strata:
+              $ref: '#/components/schemas/Rate'
+        externalLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalLink'
+        priceOnApplication:
+          type: boolean
+        authorityStart:
+          type: string
+          format: date-time
+        authorityEnd:
+          type: string
+          format: date-time
+        sellingFeePercent:
+          type: number
+          format: float
+        sellingFeeFixed:
+          type: number
+          format: float
+        vpa:
+          type: number
+          format: float
+        agentPriceOpinion:
+          type: number
+          format: float
+        rateableValue:
+          type: integer
+          format: int64
+        landValue:
+          type: integer
+          format: int64
+        improvementValue:
+          type: integer
+          format: int64
+        methodOfsale:
+          $ref: '#/components/schemas/MethodOfSale'
+        authorityType:
+          $ref: '#/components/schemas/AuthorityType'
     Property_2:
       type: object
       properties:
@@ -1408,7 +1614,123 @@ components:
           type: string
       discriminator:
         propertyName: class
-    AddUpdateLeaseProperty:
+    PropertyType_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass_2'
+    AddUpdateExternalLink:
+      type: object
+      properties:
+        url:
+          type: string
+        type:
+          $ref: '#/components/schemas/ID'
+    SetSaleDateDetails:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+    AddUpdateCommercialLeaseProperty:
+      allOf:
+      - $ref: '#/components/schemas/AddUpdateCommercialProperty'
+      - $ref: '#/components/schemas/AddUpdateLeaseProperty'
+    CommercialSalePropertyExtended:
+      allOf:
+      - $ref: '#/components/schemas/CommercialPropertyExtended_2'
+      - type: object
+        properties:
+          auctionDetails:
+            $ref: '#/components/schemas/AuctionDetails'
+          tenderDetails:
+            $ref: '#/components/schemas/TenderDetails'
+          setSaleDateDetails:
+            $ref: '#/components/schemas/SetSaleDateDetails'
+          saleHistory:
+            type: array
+            items:
+              $ref: '#/components/schemas/SaleHistory'
+    Rate:
+      type: object
+      properties:
+        value:
+          type: number
+          format: float
+        period:
+          type: string
+          enum:
+          - pa
+          - pq
+    MethodOfSale:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ServiceChargeFrequency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PortalAccess:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        code:
+          type: string
+        description:
+          type: string
+        portal:
+          $ref: '#/components/schemas/Portal'
+    AccountBranch:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        shortName:
+          type: string
+        websiteUrl:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address_2'
+    Address_2:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb_2'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
+    AddUpdateLeaseProperty_2:
       type: object
       properties:
         externalLinks:
@@ -1429,536 +1751,46 @@ components:
         expenditureLimit:
           type: number
           format: float
-    CommercialSalePropertyExtended:
-      allOf:
-      - $ref: '#/components/schemas/CommercialPropertyExtended_2'
-      - type: object
-        properties:
-          auctionDetails:
-            $ref: '#/components/schemas/AuctionDetails'
-          tenderDetails:
-            $ref: '#/components/schemas/TenderDetails'
-          setSaleDateDetails:
-            $ref: '#/components/schemas/SetSaleDateDetails'
-          saleHistory:
-            type: array
-            items:
-              $ref: '#/components/schemas/SaleHistory'
-    AddUpdateProperty_2:
-      type: object
-      properties:
-        building:
-          $ref: '#/components/schemas/ID'
-        type:
-          $ref: '#/components/schemas/ID'
-        address:
-          $ref: '#/components/schemas/UpdateAddress'
-        referenceID:
-          type: string
-        keyID:
-          type: string
-        searchPrice:
-          type: number
-          format: float
-        displayPrice:
-          type: string
-        heading:
-          type: string
-        description:
-          type: string
-        brochureDescription:
-          type: string
-        landArea:
-          $ref: '#/components/schemas/Area'
-        volumeNumber:
-          type: string
-        folioNumber:
-          type: string
-        corelogicId:
-          type: integer
-          format: int64
-        yearBuilt:
-          type: integer
-          format: int64
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        appraisal:
-          type: string
-          format: date-time
-        appraisalPriceLower:
-          type: number
-          format: float
-        appraisalPriceUpper:
-          type: number
-          format: float
-        contactStaff:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        externalLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/AddUpdateExternalLink'
-        mobileMarketingDescription:
-          type: string
-        certificateOfTitle:
-          type: string
-        legalDescription:
-          type: string
-        rpdp:
-          type: string
-        lotNumber:
-          type: string
-      discriminator:
-        propertyName: class
-    CommercialPropertyExtended_2:
-      allOf:
-      - $ref: '#/components/schemas/CommercialProperty_2'
-      - type: object
-        properties:
-          accessBy:
-            type: array
-            items:
-              $ref: '#/components/schemas/Access'
-          highlights:
-            type: array
-            items:
-              type: string
-    CommercialProperty_2:
-      allOf:
-      - $ref: '#/components/schemas/Property_2'
-      - type: object
-        properties:
-          zoning:
-            type: string
-          carSpaces:
-            type: integer
-            format: int64
-          floorArea:
-            $ref: '#/components/schemas/Area'
-          mezzanineArea:
-            $ref: '#/components/schemas/Area'
-          warehouseArea:
-            $ref: '#/components/schemas/Area'
-          retailArea:
-            $ref: '#/components/schemas/Area'
-          officeArea:
-            $ref: '#/components/schemas/Area'
-          otherArea:
-            $ref: '#/components/schemas/Area'
-          status:
-            type: string
-            enum:
-            - prospect
-            - appraisal
-            - listing
-            - conditional
-            - unconditional
-            - settled
-            - management
-            - withdrawn
-            - withdrawnAppraisal
-          contactStaff:
-            type: array
-            items:
-              $ref: '#/components/schemas/ID'
-          eTableUrl:
-            type: string
-          commercialListingType:
-            type: string
-            enum:
-            - sale
-            - lease
-            - both
-          externalLinks:
-            type: array
-            items:
-              $ref: '#/components/schemas/ExternalLink'
-          energyRating:
-            type: number
-            format: float
-    CommercialLeasePropertyExtended:
-      allOf:
-      - $ref: '#/components/schemas/CommercialPropertyExtended_2'
-      - type: object
-        properties:
-          leaseHistory:
-            type: array
-            items:
-              $ref: '#/components/schemas/LeaseHistory'
-    AuthorityType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    SetSaleDateDetails:
-      type: object
-      properties:
-        dateTime:
-          type: string
-          format: date-time
-    PropertyClass_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
-    AddUpdateSaleProperty:
-      type: object
-      properties:
         rates:
           type: object
           properties:
-            water:
-              $ref: '#/components/schemas/Rate'
             council:
               $ref: '#/components/schemas/Rate'
-            strata:
-              $ref: '#/components/schemas/Rate'
-        externalLinks:
+    CommissionSplit:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        user:
+          $ref: '#/components/schemas/Access_2'
+        type:
+          $ref: '#/components/schemas/CommissionSplitType'
+        conjunctingAgent:
+          $ref: '#/components/schemas/ContactMinimal'
+        grossPercent:
+          type: number
+          format: float
+        grossAmount:
+          type: number
+          format: float
+        grossAmountLessDeductions:
+          type: number
+          format: float
+        netPercent:
+          type: number
+          format: float
+        netAmount:
+          type: number
+          format: float
+        details:
+          type: string
+        branch:
+          $ref: '#/components/schemas/AccountBranch'
+        deductions:
           type: array
           items:
-            $ref: '#/components/schemas/ExternalLink'
-        priceOnApplication:
-          type: boolean
-        authorityStart:
-          type: string
-          format: date-time
-        authorityEnd:
-          type: string
-          format: date-time
-        sellingFeePercent:
-          type: number
-          format: float
-        sellingFeeFixed:
-          type: number
-          format: float
-        vpa:
-          type: number
-          format: float
-        agentPriceOpinion:
-          type: number
-          format: float
-        rateableValue:
-          type: integer
-          format: int64
-        landValue:
-          type: integer
-          format: int64
-        improvementValue:
-          type: integer
-          format: int64
-        methodOfsale:
-          $ref: '#/components/schemas/MethodOfSale'
-        authorityType:
-          $ref: '#/components/schemas/AuthorityType'
-    MethodOfSale:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    PropertyType_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass_2'
-    AddUpdateExternalLink:
-      type: object
-      properties:
-        url:
-          type: string
-        type:
-          $ref: '#/components/schemas/ID'
-    AddUpdateCommercialSaleProperty:
-      allOf:
-      - $ref: '#/components/schemas/AddUpdateCommercialProperty'
-      - $ref: '#/components/schemas/AddUpdateSaleProperty'
-    CommercialLeaseProperty:
-      allOf:
-      - $ref: '#/components/schemas/CommercialProperty_3'
-      - $ref: '#/components/schemas/LeaseProperty'
-    Portal:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    OfficeReferral:
-      allOf:
-      - $ref: '#/components/schemas/OfficeDeduction'
-      type: object
-      properties:
-        paidBy:
-          type: string
-          enum:
-          - listers
-          - sellers
-          - totalShare
-    PriceQualifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    CommercialPropertyExtended_3:
-      allOf:
-      - $ref: '#/components/schemas/CommercialProperty_3'
-      - type: object
-        properties:
-          accessBy:
-            type: array
-            items:
-              $ref: '#/components/schemas/Access_2'
-          editableBy:
-            type: array
-            items:
-              $ref: '#/components/schemas/Access_2'
-          keys:
-            type: array
-            items:
-              $ref: '#/components/schemas/PropertyKey'
-          highlights:
-            type: array
-            items:
-              type: string
-          portals:
-            type: array
-            items:
-              $ref: '#/components/schemas/PortalAccess'
-    CommercialSoldProperty:
-      allOf:
-      - $ref: '#/components/schemas/CommercialSaleProperty'
-      - type: object
-        properties:
-          saleDetails:
-            $ref: '#/components/schemas/SaleHistory_2'
-    CommercialProperty_3:
-      allOf:
-      - $ref: '#/components/schemas/Property_3'
-      - type: object
-        properties:
-          zoning:
-            type: string
-          carSpaces:
-            type: integer
-            format: int64
-          floorArea:
-            $ref: '#/components/schemas/Area'
-          mezzanineArea:
-            $ref: '#/components/schemas/Area'
-          warehouseArea:
-            $ref: '#/components/schemas/Area'
-          retailArea:
-            $ref: '#/components/schemas/Area'
-          officeArea:
-            $ref: '#/components/schemas/Area'
-          otherArea:
-            $ref: '#/components/schemas/Area'
-          status:
-            type: string
-            enum:
-            - prospect
-            - appraisal
-            - listing
-            - conditional
-            - unconditional
-            - settled
-            - management
-            - withdrawn
-            - withdrawnAppraisal
-          portalStatus:
-            type: string
-            enum:
-            - prospect
-            - appraisal
-            - listing
-            - conditional
-            - unconditional
-            - settled
-            - management
-            - withdrawn
-            - withdrawnAppraisal
-          contactStaff:
-            type: array
-            items:
-              $ref: '#/components/schemas/ID'
-          eTableUrl:
-            type: string
-          commercialListingType:
-            type: string
-            enum:
-            - sale
-            - lease
-            - both
-          externalLinks:
-            type: array
-            items:
-              $ref: '#/components/schemas/ExternalLink'
-          energyRating:
-            type: number
-            format: float
-          commercialLeasePrice:
-            type: number
-            format: float
-          outgoingsPerAnnum:
-            type: number
-            format: float
-          outgoingsText:
-            type: string
-          includesOutgoings:
-            type: boolean
-          commercialLeasePriceIncludesGst:
-            type: boolean
-          isNewHome:
-            type: boolean
-    Tenancy:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        rent:
-          type: number
-          format: float
-        rentFrequency:
-          $ref: '#/components/schemas/RentFrequency'
-        archived:
-          type: boolean
-        letAgreed:
-          type: boolean
-        start:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
-        rentPaidUntil:
-          type: string
-          format: date-time
-        arrearsAmount:
-          type: number
-          format: float
-        vacateDate:
-          type: string
-          format: date-time
-    PropertyFile:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        filename:
-          type: string
-        filesize:
-          type: integer
-          format: int64
-        contentType:
-          type: string
-        url:
-          type: string
-        electronicTable:
-          type: boolean
-        isPublic:
-          type: boolean
-    RentFrequency:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    AddUpdateCommercialProperty_2:
-      allOf:
-      - $ref: '#/components/schemas/AddUpdateProperty_3'
-      - type: object
-        properties:
-          carSpaces:
-            type: integer
-            format: int64
-          floorArea:
-            $ref: '#/components/schemas/Area'
-          status:
-            type: string
-            enum:
-            - prospect
-            - appraisal
-          commercialLeasePrice:
-            type: number
-            format: float
-          outgoingsPerAnnum:
-            type: number
-            format: float
-          outgoingsText:
-            type: string
-          includesOutgoings:
-            type: boolean
-          commercialLeasePriceIncludesGst:
-            type: boolean
-    AccountBranch:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        shortName:
-          type: string
-        websiteUrl:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address_2'
-    PreDistributionDeduction:
-      type: object
-      properties:
-        amount:
-          type: number
-          format: float
-        type:
-          $ref: '#/components/schemas/FeesCharges'
+            $ref: '#/components/schemas/CommissionSplitDeduction'
     SaleHistory_2:
       type: object
       properties:
@@ -2111,7 +1943,7 @@ components:
           format: int64
         name:
           type: string
-    ContactSearchResult:
+    TenureOrTitleType:
       type: object
       properties:
         id:
@@ -2119,29 +1951,77 @@ components:
           format: int64
         name:
           type: string
-        greeting:
+    CommercialPropertyExtended_3:
+      allOf:
+      - $ref: '#/components/schemas/CommercialProperty_3'
+      - type: object
+        properties:
+          accessBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access_2'
+          editableBy:
+            type: array
+            items:
+              $ref: '#/components/schemas/Access_2'
+          keys:
+            type: array
+            items:
+              $ref: '#/components/schemas/PropertyKey'
+          highlights:
+            type: array
+            items:
+              type: string
+          portals:
+            type: array
+            items:
+              $ref: '#/components/schemas/PortalAccess'
+    Tenancy:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
           type: string
-        firstName:
+          format: date-time
+        modified:
           type: string
-        lastName:
+          format: date-time
+        rent:
+          type: number
+          format: float
+        rentFrequency:
+          $ref: '#/components/schemas/RentFrequency'
+        archived:
+          type: boolean
+        letAgreed:
+          type: boolean
+        start:
           type: string
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber_2'
-        marketingUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/MarketingUser'
-        editableBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/Access_2'
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        rentPaidUntil:
+          type: string
+          format: date-time
+        arrearsAmount:
+          type: number
+          format: float
+        vacateDate:
+          type: string
+          format: date-time
+    PropertyClass_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
     Property_3:
       type: object
       properties:
@@ -2246,7 +2126,322 @@ components:
               type: string
       discriminator:
         propertyName: class
-    CommissionSplitDeduction:
+    Access_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+    PropertyType_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass_3'
+    PhoneNumber_2:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    RentFrequency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Suburb_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    CommercialSoldProperty:
+      allOf:
+      - $ref: '#/components/schemas/CommercialSaleProperty'
+      - type: object
+        properties:
+          saleDetails:
+            $ref: '#/components/schemas/SaleHistory_2'
+    CommissionSplitType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_2'
+    SharedOwnership:
+      type: object
+      properties:
+        percentage:
+          type: number
+          format: float
+        rent:
+          type: number
+          format: float
+        rentFrequency:
+          $ref: '#/components/schemas/ServiceChargeFrequency'
+    CommercialProperty_3:
+      allOf:
+      - $ref: '#/components/schemas/Property_3'
+      - type: object
+        properties:
+          zoning:
+            type: string
+          carSpaces:
+            type: integer
+            format: int64
+          floorArea:
+            $ref: '#/components/schemas/Area'
+          mezzanineArea:
+            $ref: '#/components/schemas/Area'
+          warehouseArea:
+            $ref: '#/components/schemas/Area'
+          retailArea:
+            $ref: '#/components/schemas/Area'
+          officeArea:
+            $ref: '#/components/schemas/Area'
+          otherArea:
+            $ref: '#/components/schemas/Area'
+          status:
+            type: string
+            enum:
+            - prospect
+            - appraisal
+            - listing
+            - conditional
+            - unconditional
+            - settled
+            - management
+            - withdrawn
+            - withdrawnAppraisal
+          portalStatus:
+            type: string
+            enum:
+            - prospect
+            - appraisal
+            - listing
+            - conditional
+            - unconditional
+            - settled
+            - management
+            - withdrawn
+            - withdrawnAppraisal
+          contactStaff:
+            type: array
+            items:
+              $ref: '#/components/schemas/ID'
+          eTableUrl:
+            type: string
+          commercialListingType:
+            type: string
+            enum:
+            - sale
+            - lease
+            - both
+          externalLinks:
+            type: array
+            items:
+              $ref: '#/components/schemas/ExternalLink'
+          energyRating:
+            type: number
+            format: float
+          commercialLeasePrice:
+            type: number
+            format: float
+          outgoingsPerAnnum:
+            type: number
+            format: float
+          outgoingsText:
+            type: string
+          includesOutgoings:
+            type: boolean
+          commercialLeasePriceIncludesGst:
+            type: boolean
+          isNewHome:
+            type: boolean
+    AddUpdateProperty_3:
+      type: object
+      properties:
+        branch:
+          $ref: '#/components/schemas/ID'
+        building:
+          $ref: '#/components/schemas/ID'
+        type:
+          $ref: '#/components/schemas/ID'
+        address:
+          $ref: '#/components/schemas/UpdateAddress'
+        referenceID:
+          type: string
+        searchPrice:
+          type: number
+          format: float
+        displayPrice:
+          type: string
+        heading:
+          type: string
+        description:
+          type: string
+        brochureDescription:
+          type: string
+        windowCardDescription:
+          type: string
+        landArea:
+          $ref: '#/components/schemas/Area'
+        volumeNumber:
+          type: string
+        folioNumber:
+          type: string
+        corelogicId:
+          type: integer
+          format: int64
+        yearBuilt:
+          type: integer
+          format: int64
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        editableBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        appraisal:
+          type: string
+          format: date-time
+        appraisalPriceLower:
+          type: number
+          format: float
+        appraisalPriceUpper:
+          type: number
+          format: float
+        contactStaff:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        externalLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddUpdateExternalLink'
+        mobileMarketingDescription:
+          type: string
+        internalRemarks:
+          type: string
+        certificateOfTitle:
+          type: string
+        legalDescription:
+          type: string
+        rpdp:
+          type: string
+        lotNumber:
+          type: string
+      discriminator:
+        propertyName: class
+    PriceQualifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    AddUpdateCommercialProperty_2:
+      allOf:
+      - $ref: '#/components/schemas/AddUpdateProperty_3'
+      - type: object
+        properties:
+          carSpaces:
+            type: integer
+            format: int64
+          floorArea:
+            $ref: '#/components/schemas/Area'
+          status:
+            type: string
+            enum:
+            - prospect
+            - appraisal
+          commercialLeasePrice:
+            type: number
+            format: float
+          outgoingsPerAnnum:
+            type: number
+            format: float
+          outgoingsText:
+            type: string
+          includesOutgoings:
+            type: boolean
+          commercialLeasePriceIncludesGst:
+            type: boolean
+    PreDistributionDeduction:
       type: object
       properties:
         amount:
@@ -2254,21 +2449,199 @@ components:
           format: float
         type:
           $ref: '#/components/schemas/FeesCharges'
-    CommercialSaleProperty:
+    CommercialLeaseProperty:
       allOf:
       - $ref: '#/components/schemas/CommercialProperty_3'
-      - $ref: '#/components/schemas/SaleProperty'
+      - $ref: '#/components/schemas/LeaseProperty'
+    AddUpdateSaleProperty_2:
+      type: object
+      properties:
+        rates:
+          type: object
+          properties:
+            water:
+              $ref: '#/components/schemas/Rate'
+            council:
+              $ref: '#/components/schemas/Rate'
+            strata:
+              $ref: '#/components/schemas/Rate'
+        externalLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalLink'
+        priceOnApplication:
+          type: boolean
+        authorityStart:
+          type: string
+          format: date-time
+        authorityEnd:
+          type: string
+          format: date-time
+        sellingFeePercent:
+          type: number
+          format: float
+        sellingFeeFixed:
+          type: number
+          format: float
+        vpa:
+          type: number
+          format: float
+        agentPriceOpinion:
+          type: number
+          format: float
+        agentPriceOpinionUpper:
+          type: number
+          format: float
+        rateableValue:
+          type: integer
+          format: int64
+        landValue:
+          type: integer
+          format: int64
+        improvementValue:
+          type: integer
+          format: int64
+        methodOfsale:
+          $ref: '#/components/schemas/ID'
+        authorityType:
+          $ref: '#/components/schemas/ID'
+        tenureOrTitleType:
+          $ref: '#/components/schemas/ID'
+        auctionDetails:
+          $ref: '#/components/schemas/AuctionDetails'
+        tenderDetails:
+          $ref: '#/components/schemas/TenderDetails'
+        setSaleDateDetails:
+          $ref: '#/components/schemas/SetSaleDateDetails'
+    FeesCharges:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OfficeDeduction:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+        type:
+          $ref: '#/components/schemas/FeesCharges'
+    PropertyFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        contentType:
+          type: string
+        url:
+          type: string
+        electronicTable:
+          type: boolean
+        isPublic:
+          type: boolean
+    PropertyKey:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        propertyId:
+          type: number
+          format: int64
+        name:
+          type: string
+        isKeyOut:
+          type: boolean
+        details:
+          type: string
+        hexColour:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        keyOutUser:
+          $ref: '#/components/schemas/Access_2'
+        keyOutContact:
+          $ref: '#/components/schemas/ContactSearchResult'
+    ContactSearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        greeting:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber_2'
+        marketingUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MarketingUser'
+        editableBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access_2'
+    Furnished:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+          - Unfurnished
+          - Furnished
+          - Part Furnished
+          - Optional
+    CommercialLeasePropertyExtended_2:
+      allOf:
+      - $ref: '#/components/schemas/CommercialPropertyExtended_3'
       - type: object
         properties:
-          auctionDetails:
-            $ref: '#/components/schemas/AuctionDetails'
-          tenderDetails:
-            $ref: '#/components/schemas/TenderDetails'
-          setSaleDateDetails:
-            $ref: '#/components/schemas/SetSaleDateDetails'
-          annualReturnPercent:
-            type: number
-            format: float
+          leaseHistory:
+            type: array
+            items:
+              $ref: '#/components/schemas/LeaseHistory_2'
+    AuctionType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     CustomAddress:
       type: object
       properties:
@@ -2318,7 +2691,37 @@ components:
           format: int64
         user:
           $ref: '#/components/schemas/Access_2'
-    PropertyType_3:
+    CommercialSalePropertyExtended_2:
+      allOf:
+      - $ref: '#/components/schemas/CommercialPropertyExtended_3'
+      - type: object
+        properties:
+          auctionDetails:
+            $ref: '#/components/schemas/AuctionDetails'
+          tenderDetails:
+            $ref: '#/components/schemas/TenderDetails'
+          setSaleDateDetails:
+            $ref: '#/components/schemas/SetSaleDateDetails'
+          saleHistory:
+            type: array
+            items:
+              $ref: '#/components/schemas/SaleHistory_2'
+    CommercialSaleProperty:
+      allOf:
+      - $ref: '#/components/schemas/CommercialProperty_3'
+      - $ref: '#/components/schemas/SaleProperty'
+      - type: object
+        properties:
+          auctionDetails:
+            $ref: '#/components/schemas/AuctionDetails'
+          tenderDetails:
+            $ref: '#/components/schemas/TenderDetails'
+          setSaleDateDetails:
+            $ref: '#/components/schemas/SetSaleDateDetails'
+          annualReturnPercent:
+            type: number
+            format: float
+    District:
       type: object
       properties:
         id:
@@ -2326,173 +2729,19 @@ components:
           format: int64
         name:
           type: string
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass_3'
-    OfficeDeduction:
+        region:
+          $ref: '#/components/schemas/Region'
+    OfficeReferral:
+      allOf:
+      - $ref: '#/components/schemas/OfficeDeduction'
       type: object
       properties:
-        amount:
-          type: number
-          format: float
-        type:
-          $ref: '#/components/schemas/FeesCharges'
-    Furnished:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        type:
+        paidBy:
           type: string
           enum:
-          - Unfurnished
-          - Furnished
-          - Part Furnished
-          - Optional
-    CommissionSplit:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        user:
-          $ref: '#/components/schemas/Access_2'
-        type:
-          $ref: '#/components/schemas/CommissionSplitType'
-        conjunctingAgent:
-          $ref: '#/components/schemas/ContactMinimal'
-        grossPercent:
-          type: number
-          format: float
-        grossAmount:
-          type: number
-          format: float
-        grossAmountLessDeductions:
-          type: number
-          format: float
-        netPercent:
-          type: number
-          format: float
-        netAmount:
-          type: number
-          format: float
-        details:
-          type: string
-        branch:
-          $ref: '#/components/schemas/AccountBranch'
-        deductions:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommissionSplitDeduction'
-    ContactMinimal:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        displayName:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber_2'
-    PhoneNumber_2:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    Address_2:
-      type: object
-      properties:
-        level:
-          type: string
-        unitNumber:
-          type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
-          $ref: '#/components/schemas/Suburb_2'
-        state:
-          $ref: '#/components/schemas/State'
-        country:
-          $ref: '#/components/schemas/Country'
-        royalMail:
-          $ref: '#/components/schemas/RoyalMail'
-        customAddress:
-          $ref: '#/components/schemas/CustomAddress'
-    ServiceChargeFrequency:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    Suburb_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        postcode:
-          type: string
-        state:
-          $ref: '#/components/schemas/State'
-        nzDistrict:
-          $ref: '#/components/schemas/District'
-        isPoBox:
-          type: boolean
-    Access_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
+          - listers
+          - sellers
+          - totalShare
     LeaseHistory_2:
       type: object
       properties:
@@ -2555,17 +2804,77 @@ components:
         internalMarketingLiveDate:
           type: string
           format: date-time
-    SharedOwnership:
+    Portal:
       type: object
       properties:
-        percentage:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    CommissionSplitDeduction:
+      type: object
+      properties:
+        amount:
           type: number
           format: float
-        rent:
+        type:
+          $ref: '#/components/schemas/FeesCharges'
+    LeaseProperty:
+      type: object
+      properties:
+        branch:
+          $ref: '#/components/schemas/AccountBranch'
+        mobileMarketingDescription:
+          type: string
+        internalRemarks:
+          type: string
+        externalLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalLink'
+        priceOnApplication:
+          type: boolean
+        authorityStart:
+          type: string
+          format: date-time
+        authorityEnd:
+          type: string
+          format: date-time
+        bondPrice:
           type: number
           format: float
-        rentFrequency:
-          $ref: '#/components/schemas/ServiceChargeFrequency'
+        expenditureLimit:
+          type: number
+          format: float
+        webId:
+          type: string
+        rates:
+          type: object
+          properties:
+            council:
+              $ref: '#/components/schemas/Rate'
+        isNewHome:
+          type: boolean
+        soiUrl:
+          type: string
+        publishedToWeb:
+          type: string
+          format: date-time
+        furnished:
+          $ref: '#/components/schemas/Furnished'
+        internalMarketingLiveDate:
+          type: string
+          format: date-time
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
     SaleProperty:
       type: object
       properties:
@@ -2678,63 +2987,6 @@ components:
           type: boolean
         contractNumber:
           type: string
-    TenureOrTitleType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    CommissionSplitType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    AddUpdateLeaseProperty_2:
-      type: object
-      properties:
-        externalLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalLink'
-        priceOnApplication:
-          type: boolean
-        authorityStart:
-          type: string
-          format: date-time
-        authorityEnd:
-          type: string
-          format: date-time
-        bondPrice:
-          type: number
-          format: float
-        expenditureLimit:
-          type: number
-          format: float
-        rates:
-          type: object
-          properties:
-            council:
-              $ref: '#/components/schemas/Rate'
-    CommercialSalePropertyExtended_2:
-      allOf:
-      - $ref: '#/components/schemas/CommercialPropertyExtended_3'
-      - type: object
-        properties:
-          auctionDetails:
-            $ref: '#/components/schemas/AuctionDetails'
-          tenderDetails:
-            $ref: '#/components/schemas/TenderDetails'
-          setSaleDateDetails:
-            $ref: '#/components/schemas/SetSaleDateDetails'
-          saleHistory:
-            type: array
-            items:
-              $ref: '#/components/schemas/SaleHistory_2'
     SoldType:
       type: object
       properties:
@@ -2743,289 +2995,14 @@ components:
           format: int64
         name:
           type: string
-    AddUpdateProperty_3:
-      type: object
-      properties:
-        branch:
-          $ref: '#/components/schemas/ID'
-        building:
-          $ref: '#/components/schemas/ID'
-        type:
-          $ref: '#/components/schemas/ID'
-        address:
-          $ref: '#/components/schemas/UpdateAddress'
-        referenceID:
-          type: string
-        searchPrice:
-          type: number
-          format: float
-        displayPrice:
-          type: string
-        heading:
-          type: string
-        description:
-          type: string
-        brochureDescription:
-          type: string
-        windowCardDescription:
-          type: string
-        landArea:
-          $ref: '#/components/schemas/Area'
-        volumeNumber:
-          type: string
-        folioNumber:
-          type: string
-        corelogicId:
-          type: integer
-          format: int64
-        yearBuilt:
-          type: integer
-          format: int64
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        editableBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        appraisal:
-          type: string
-          format: date-time
-        appraisalPriceLower:
-          type: number
-          format: float
-        appraisalPriceUpper:
-          type: number
-          format: float
-        contactStaff:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        externalLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/AddUpdateExternalLink'
-        mobileMarketingDescription:
-          type: string
-        internalRemarks:
-          type: string
-        certificateOfTitle:
-          type: string
-        legalDescription:
-          type: string
-        rpdp:
-          type: string
-        lotNumber:
-          type: string
-      discriminator:
-        propertyName: class
-    PropertyKey:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        propertyId:
-          type: number
-          format: int64
-        name:
-          type: string
-        isKeyOut:
-          type: boolean
-        details:
-          type: string
-        hexColour:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        keyOutUser:
-          $ref: '#/components/schemas/Access_2'
-        keyOutContact:
-          $ref: '#/components/schemas/ContactSearchResult'
-    LeaseProperty:
-      type: object
-      properties:
-        branch:
-          $ref: '#/components/schemas/AccountBranch'
-        mobileMarketingDescription:
-          type: string
-        internalRemarks:
-          type: string
-        externalLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalLink'
-        priceOnApplication:
-          type: boolean
-        authorityStart:
-          type: string
-          format: date-time
-        authorityEnd:
-          type: string
-          format: date-time
-        bondPrice:
-          type: number
-          format: float
-        expenditureLimit:
-          type: number
-          format: float
-        webId:
-          type: string
-        rates:
-          type: object
-          properties:
-            council:
-              $ref: '#/components/schemas/Rate'
-        isNewHome:
-          type: boolean
-        soiUrl:
-          type: string
-        publishedToWeb:
-          type: string
-          format: date-time
-        furnished:
-          $ref: '#/components/schemas/Furnished'
-        internalMarketingLiveDate:
-          type: string
-          format: date-time
-    PortalAccess:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        code:
-          type: string
-        description:
-          type: string
-        portal:
-          $ref: '#/components/schemas/Portal'
-    CommercialLeasePropertyExtended_2:
-      allOf:
-      - $ref: '#/components/schemas/CommercialPropertyExtended_3'
-      - type: object
-        properties:
-          leaseHistory:
-            type: array
-            items:
-              $ref: '#/components/schemas/LeaseHistory_2'
-    PropertyClass_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
-    District:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        region:
-          $ref: '#/components/schemas/Region'
-    AuctionType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    AddUpdateSaleProperty_2:
-      type: object
-      properties:
-        rates:
-          type: object
-          properties:
-            water:
-              $ref: '#/components/schemas/Rate'
-            council:
-              $ref: '#/components/schemas/Rate'
-            strata:
-              $ref: '#/components/schemas/Rate'
-        externalLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalLink'
-        priceOnApplication:
-          type: boolean
-        authorityStart:
-          type: string
-          format: date-time
-        authorityEnd:
-          type: string
-          format: date-time
-        sellingFeePercent:
-          type: number
-          format: float
-        sellingFeeFixed:
-          type: number
-          format: float
-        vpa:
-          type: number
-          format: float
-        agentPriceOpinion:
-          type: number
-          format: float
-        agentPriceOpinionUpper:
-          type: number
-          format: float
-        rateableValue:
-          type: integer
-          format: int64
-        landValue:
-          type: integer
-          format: int64
-        improvementValue:
-          type: integer
-          format: int64
-        methodOfsale:
-          $ref: '#/components/schemas/ID'
-        authorityType:
-          $ref: '#/components/schemas/ID'
-        tenureOrTitleType:
-          $ref: '#/components/schemas/ID'
-        auctionDetails:
-          $ref: '#/components/schemas/AuctionDetails'
-        tenderDetails:
-          $ref: '#/components/schemas/TenderDetails'
-        setSaleDateDetails:
-          $ref: '#/components/schemas/SetSaleDateDetails'
-    FeesCharges:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
   parameters:
-    pagesize:
-      name: pagesize
+    modifiedBefore:
+      name: modifiedBefore
       in: query
-      description: Number of records to be returned in each page.
+      description: Filter results modified before this datetime
       schema:
-        type: integer
-        format: int64
-        default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
+        type: string
+        format: date-time
     published:
       name: published
       in: query
@@ -3041,17 +3018,25 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     modifiedSince:
       name: modifiedSince
       in: query
       description: Filter results modified since this datetime
-      schema:
-        type: string
-        format: date-time
-    modifiedBefore:
-      name: modifiedBefore
-      in: query
-      description: Filter results modified before this datetime
       schema:
         type: string
         format: date-time
@@ -3066,80 +3051,13 @@ components:
         items:
           type: integer
           format: int64
-    listingAuthorityBefore:
-      name: listingAuthorityBefore
+    webLiveDateBefore:
+      name: webLiveDateBefore
       in: query
-      description: Filter results with listing authority date before this datetime
+      description: Filter results with web live date before this datetime
       schema:
         type: string
         format: date-time
-    settlementBefore:
-      name: settlementBefore
-      in: query
-      description: Filter results with settlement date before this date
-      schema:
-        type: string
-        format: date
-    webLiveDateSince:
-      name: webLiveDateSince
-      in: query
-      description: Filter results with web live date since this datetime
-      schema:
-        type: string
-        format: date-time
-    settlementSince:
-      name: settlementSince
-      in: query
-      description: Filter results with settlement date since this date
-      schema:
-        type: string
-        format: date
-    unconditionalSince:
-      name: unconditionalSince
-      in: query
-      description: Filter results with unconditional date since this date
-      schema:
-        type: string
-        format: date
-    priceReducedSince:
-      name: priceReducedSince
-      in: query
-      description: Filter results by price reductions since this datetime
-      schema:
-        type: string
-        format: date-time
-    listingAuthoritySince:
-      name: listingAuthoritySince
-      in: query
-      description: Filter results with listing authority date since this datetime
-      schema:
-        type: string
-        format: date-time
-    priceReducedBefore:
-      name: priceReducedBefore
-      in: query
-      description: Filter results by price reductions before this datetime
-      schema:
-        type: string
-        format: date-time
-    unconditionalBefore:
-      name: unconditionalBefore
-      in: query
-      description: Filter results with unconditional date before this date
-      schema:
-        type: string
-        format: date
-    suburbs:
-      name: suburbs
-      in: query
-      description: Filter properties in these suburb IDs
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          type: integer
-          format: int64
     branches:
       name: branches
       in: query
@@ -3151,30 +3069,45 @@ components:
         items:
           type: integer
           format: int64
-    webLiveDateBefore:
-      name: webLiveDateBefore
+    listingAuthorityBefore:
+      name: listingAuthorityBefore
       in: query
-      description: Filter results with web live date before this datetime
+      description: Filter results with listing authority date before this datetime
       schema:
         type: string
         format: date-time
-    fallenBefore:
-      name: fallenBefore
+    listingAuthoritySince:
+      name: listingAuthoritySince
       in: query
-      description: Filter results with fallen date before this date
+      description: Filter results with listing authority date since this datetime
+      schema:
+        type: string
+        format: date-time
+    settlementSince:
+      name: settlementSince
+      in: query
+      description: Filter results with settlement date since this date
       schema:
         type: string
         format: date
-    includeFallen:
-      name: includeFallen
+    settlementBefore:
+      name: settlementBefore
       in: query
-      description: Include fallen/crashed conditional sales
+      description: Filter results with settlement date before this date
       schema:
-        type: boolean
-    accessBy:
-      name: accessBy
+        type: string
+        format: date
+    priceReducedSince:
+      name: priceReducedSince
       in: query
-      description: Filter properties by these user IDs. NOTE - Use the ID "-1" to filter properties which are accessible by Everyone.
+      description: Filter results by price reductions since this datetime
+      schema:
+        type: string
+        format: date-time
+    suburbs:
+      name: suburbs
+      in: query
+      description: Filter properties in these suburb IDs
       style: form
       explode: false
       schema:
@@ -3182,16 +3115,108 @@ components:
         items:
           type: integer
           format: int64
+    webLiveDateSince:
+      name: webLiveDateSince
+      in: query
+      description: Filter results with web live date since this datetime
+      schema:
+        type: string
+        format: date-time
+    priceReducedBefore:
+      name: priceReducedBefore
+      in: query
+      description: Filter results by price reductions before this datetime
+      schema:
+        type: string
+        format: date-time
+    unconditionalSince:
+      name: unconditionalSince
+      in: query
+      description: Filter results with unconditional date since this date
+      schema:
+        type: string
+        format: date
+    unconditionalBefore:
+      name: unconditionalBefore
+      in: query
+      description: Filter results with unconditional date before this date
+      schema:
+        type: string
+        format: date
+    propertyIds:
+      name: propertyIds
+      in: query
+      description: Filter properties with these IDs
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int64
+    maxSalePrice:
+      name: maxSalePrice
+      in: query
+      description: Filter sold properties with sale price less than or equal to max sale price
+      schema:
+        type: number
+        format: float
+    minSalePrice:
+      name: minSalePrice
+      in: query
+      description: Filter sold properties with sale price greater than or equal to min sale price
+      schema:
+        type: number
+        format: float
     includeConditional:
       name: includeConditional
       in: query
       description: Include conditional (written) sales
       schema:
         type: boolean
-    propertyIds:
-      name: propertyIds
+    conditionalSince:
+      name: conditionalSince
       in: query
-      description: Filter properties with these IDs
+      description: Filter results with conditional date since this date
+      schema:
+        type: string
+        format: date
+    fallenBefore:
+      name: fallenBefore
+      in: query
+      description: Filter results with fallen date before this date
+      schema:
+        type: string
+        format: date
+    fallenSince:
+      name: fallenSince
+      in: query
+      description: Filter results with fallen date since this date
+      schema:
+        type: string
+        format: date
+    conditionalBefore:
+      name: conditionalBefore
+      in: query
+      description: Filter results with conditional date before this date
+      schema:
+        type: string
+        format: date
+    customRegions:
+      name: customRegions
+      in: query
+      description: Filter properties belonging to at least one of these custom regions IDs
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int64
+    accessBy:
+      name: accessBy
+      in: query
+      description: Filter properties by these user IDs. NOTE - Use the ID "-1" to filter properties which are accessible by Everyone.
       style: form
       explode: false
       schema:
@@ -3210,45 +3235,6 @@ components:
         items:
           type: integer
           format: int64
-    maxSalePrice:
-      name: maxSalePrice
-      in: query
-      description: Filter sold properties with sale price less than or equal to max sale price
-      schema:
-        type: number
-        format: float
-    customRegions:
-      name: customRegions
-      in: query
-      description: Filter properties belonging to at least one of these custom regions IDs
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          type: integer
-          format: int64
-    conditionalSince:
-      name: conditionalSince
-      in: query
-      description: Filter results with conditional date since this date
-      schema:
-        type: string
-        format: date
-    minSalePrice:
-      name: minSalePrice
-      in: query
-      description: Filter sold properties with sale price greater than or equal to min sale price
-      schema:
-        type: number
-        format: float
-    fallenSince:
-      name: fallenSince
-      in: query
-      description: Filter results with fallen date since this date
-      schema:
-        type: string
-        format: date
     types:
       name: types
       in: query
@@ -3260,13 +3246,12 @@ components:
         items:
           type: integer
           format: int64
-    conditionalBefore:
-      name: conditionalBefore
+    includeFallen:
+      name: includeFallen
       in: query
-      description: Filter results with conditional date before this date
+      description: Include fallen/crashed conditional sales
       schema:
-        type: string
-        format: date
+        type: boolean
   securitySchemes:
     Api-Key:
       type: apiKey

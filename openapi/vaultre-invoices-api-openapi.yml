@@ -10,13 +10,13 @@ info:
 servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: invoices
+- name: Invoices
   description: Operations related to invoices
 paths:
   /invoices/saleSummary:
     get:
       tags:
-      - invoices
+      - Invoices
       summary: Retrieve sale summary
       operationId: getSaleSummary
       parameters:

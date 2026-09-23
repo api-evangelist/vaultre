@@ -12,13 +12,13 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: sms
+- name: SMS
   description: Operations related to SMS
 paths:
   /contacts/{id}/sms:
     post:
       tags:
-      - sms
+      - SMS
       summary: Send an SMS to this contact
       description: Send an SMS to this contact from the authenticated user (charges may apply).
       operationId: sendContactSMS
@@ -57,7 +57,7 @@ paths:
   /contacts/sms:
     post:
       tags:
-      - sms
+      - SMS
       summary: Send multiple SMS messages to contacts
       description: Send multiple SMS messages to these contacts from the authenticated user (charges may apply). Maximum 50 recipients in any one request.
       operationId: sendBulkContactSMS
@@ -124,19 +124,19 @@ components:
         id:
           type: integer
           format: int64
-    BulkSMS:
+    SMS_3:
       type: object
       properties:
-        contact:
+        user:
           $ref: '#/components/schemas/ID'
         message:
           type: string
         number:
           type: string
-    SMS_3:
+    BulkSMS:
       type: object
       properties:
-        user:
+        contact:
           $ref: '#/components/schemas/ID'
         message:
           type: string

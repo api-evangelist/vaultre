@@ -12,15 +12,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: buildings
+- name: Buildings
   description: Operations related to buildings
 paths:
   /buildings:
     get:
       tags:
-      - buildings
+      - Buildings
       summary: Retrieve a list of buildings
-      description: Retrieve a list of buildings
       operationId: getBuildings
       parameters:
       - $ref: '#/components/parameters/page'
@@ -42,9 +41,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - buildings
+      - Buildings
       summary: Create a building record
-      description: Create a building record
       operationId: addBuilding
       requestBody:
         description: Building object
@@ -81,9 +79,8 @@ paths:
   /buildings/{id}:
     get:
       tags:
-      - buildings
+      - Buildings
       summary: Retrieve a single building
-      description: Retrieve a single building
       operationId: getBuilding
       parameters:
       - name: id
@@ -105,9 +102,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - buildings
+      - Buildings
       summary: Update the building
-      description: Update the building
       operationId: updateBuilding
       parameters:
       - name: id
@@ -143,9 +139,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - buildings
+      - Buildings
       summary: Delete the building
-      description: Delete the building
       operationId: deleteBuilding
       parameters:
       - name: id
@@ -172,14 +167,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
 components:
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -196,15 +183,19 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   schemas:
-    SuccessOrError:
+    AddUpdateBuilding:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
+        name:
           type: string
     Building:
       type: object
@@ -214,10 +205,14 @@ components:
           format: int64
         name:
           type: string
-    AddUpdateBuilding:
+    SuccessOrError:
       type: object
       properties:
-        name:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
           type: string
     Urls:
       type: object

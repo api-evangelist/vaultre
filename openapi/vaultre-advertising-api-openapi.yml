@@ -11,15 +11,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: advertising
+- name: Advertising
   description: Operations related to property and agent advertising
 paths:
   /advertising/suppliers:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a list of advertising suppliers
-      description: Retrieve a list of advertising suppliers
       operationId: getAdvertisingSuppliers
       parameters:
       - $ref: '#/components/parameters/page'
@@ -53,9 +52,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - advertising
+      - Advertising
       summary: Add a new advertising supplier
-      description: Add a new advertising supplier
       operationId: addAdvertisingSupplier
       requestBody:
         description: Advertising Supplier object
@@ -92,9 +90,8 @@ paths:
   /advertising/suppliers/{id}:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a single advertising supplier
-      description: Retrieve a single advertising supplier
       operationId: getAdvertisingSupplier
       parameters:
       - name: id
@@ -128,9 +125,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - advertising
+      - Advertising
       summary: Update an advertising supplier
-      description: Update an advertising supplier
       operationId: updateAdvertisingSupplier
       parameters:
       - name: id
@@ -172,9 +168,8 @@ paths:
       x-codegen-request-body-name: body
     delete:
       tags:
-      - advertising
+      - Advertising
       summary: Delete an advertising supplier
-      description: Delete an advertising supplier
       operationId: deleteAdvertisingSupplier
       parameters:
       - name: id
@@ -202,9 +197,8 @@ paths:
   /advertising/invoices:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a list of advertising invoices
-      description: Retrieve a list of advertising invoices
       operationId: getAdvertisingInvoices
       parameters:
       - $ref: '#/components/parameters/insertedSince'
@@ -274,9 +268,8 @@ paths:
   /advertising/invoices/{id}:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a single advertising invoice
-      description: Retrieve a single advertising invoice
       operationId: getAdvertisingInvoice
       parameters:
       - name: id
@@ -313,9 +306,8 @@ paths:
   /advertising/schedules:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a list of advertising schedules
-      description: Retrieve a list of advertising schedules
       operationId: getAdvertisingSchedules
       parameters:
       - $ref: '#/components/parameters/page'
@@ -368,9 +360,8 @@ paths:
   /advertising/schedules/{id}:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a single advertising schedule
-      description: Retrieve a single advertising schedule
       operationId: getAdvertisingSchedule
       parameters:
       - name: id
@@ -407,9 +398,8 @@ paths:
   /advertising/expenseTypes:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a list of advertising expense types
-      description: Retrieve a list of advertising expense types
       operationId: getAdvertisingExpenseTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -469,9 +459,8 @@ paths:
   /advertising/expenseTypes/{id}:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a single advertising expense type
-      description: Retrieve a single advertising expense type
       operationId: getAdvertisingExpenseType
       parameters:
       - name: id
@@ -509,9 +498,8 @@ paths:
   /properties/{propertyid}/sale/{lifeid}/advertising/schedule:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve the attached advertising schedule for this property
-      description: Retrieve the attached advertising schedule for this property
       operationId: getPropertyLifeAdvertisingSchedule
       parameters:
       - name: propertyid
@@ -557,7 +545,7 @@ paths:
   /properties/{propertyid}/sale/{lifeid}/advertising/transactions:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a list of property advertising transactions
       description: Retrieve a list of advertising transactions on a given property ledger
       operationId: getPropertyLifeAdvertisingTransactions
@@ -619,7 +607,7 @@ paths:
   /types/advertising/transactions:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a list of advertising transaction types
       description: Retrieve a list of advertising transaction (ledger) types
       operationId: getAdvertisingTransactionTypes
@@ -662,9 +650,8 @@ paths:
   /types/advertising/payments:
     get:
       tags:
-      - advertising
+      - Advertising
       summary: Retrieve a list of advertising payment types
-      description: Retrieve a list of advertising payment types
       operationId: getAdvertisingPaymentTypes
       parameters:
       - $ref: '#/components/parameters/page'
@@ -705,7 +692,7 @@ paths:
   /advertising/payments:
     post:
       tags:
-      - advertising
+      - Advertising
       summary: Add an Advertising Payment
       description: Add an Advertising Payment to either a property ledger or agent ledger
       operationId: addAdvertisingPayment
@@ -738,6 +725,14 @@ components:
       properties:
         name:
           type: string
+    AdvertisingSupplier:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
     SuccessOrError:
       type: object
       properties:
@@ -747,41 +742,57 @@ components:
           type: string
         code:
           type: string
-    AdvertisingSupplier:
+    PhoneNumber:
       type: object
       properties:
-        id:
-          type: number
-          format: int64
-        name:
+        number:
           type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    AdvertisingSchedule:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
+        typeCode:
           type: string
-    AdvertisingScheduleItem:
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    AddAdvertisingPayment:
       type: object
       properties:
-        id:
+        amount:
+          type: number
+          format: float
+        saleLifeId:
           type: number
           format: int64
-        week:
-          type: number
-          format: int64
-        dayOfWeek:
+        description:
           type: string
-        expenseType:
-          $ref: '#/components/schemas/AdvertisingExpenseType'
+        invoiceId:
+          type: number
+          format: int64
+        paymentType:
+          $ref: '#/components/schemas/ID'
+        referenceID:
+          type: string
+        transactionDate:
+          type: string
+          format: date-time
+        transactionType:
+          $ref: '#/components/schemas/ID'
+        user:
+          $ref: '#/components/schemas/ID'
+        paymentIsTaxApplicable:
+          type: boolean
+          description: Applies to agent payments on property ledger only. Indicates if the amount includes tax.
     ContactMinimal:
       type: object
       properties:
@@ -805,15 +816,47 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PhoneNumber'
-    Urls:
+    AdvertisingInvoice:
       type: object
       properties:
-        previous:
+        id:
+          type: number
+          format: int64
+        inserted:
           type: string
-        next:
+          format: date-time
+        modified:
           type: string
-        self:
+          format: date-time
+        invoiceNumber:
           type: string
+        insertedBy:
+          $ref: '#/components/schemas/Access'
+        totalAmount:
+          type: number
+          format: float
+        amountOutstanding:
+          type: number
+          format: float
+        addressedTo:
+          $ref: '#/components/schemas/ContactMinimal'
+        gstRateUsed:
+          type: number
+          format: float
+        userInvoiced:
+          $ref: '#/components/schemas/Access'
+        saleLifeId:
+          type: number
+          format: int64
+        tenancyId:
+          type: number
+          format: int64
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     AdvertisingTransaction:
       type: object
       properties:
@@ -858,14 +901,6 @@ components:
         paymentIsTaxApplicable:
           type: boolean
           description: Applies to agent payments on property ledger only. Indicates if the amount includes tax.
-    AdvertisingLedgerType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
     AdvertisingPaymentType:
       type: object
       properties:
@@ -874,6 +909,35 @@ components:
           format: int64
         name:
           type: string
+    AdvertisingAttachedSchedule:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        baseSchedule:
+          $ref: '#/components/schemas/AdvertisingSchedule'
+        startDate:
+          type: string
+          format: date-time
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
     AdvertisingAttachedScheduleItem:
       type: object
       properties:
@@ -893,146 +957,6 @@ components:
           format: date-time
         allocated:
           type: boolean
-    PhoneNumber:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    AdvertisingInvoice:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        invoiceNumber:
-          type: string
-        insertedBy:
-          $ref: '#/components/schemas/Access'
-        totalAmount:
-          type: number
-          format: float
-        amountOutstanding:
-          type: number
-          format: float
-        addressedTo:
-          $ref: '#/components/schemas/ContactMinimal'
-        gstRateUsed:
-          type: number
-          format: float
-        userInvoiced:
-          $ref: '#/components/schemas/Access'
-        saleLifeId:
-          type: number
-          format: int64
-        tenancyId:
-          type: number
-          format: int64
-    AddAdvertisingPayment:
-      type: object
-      properties:
-        amount:
-          type: number
-          format: float
-        saleLifeId:
-          type: number
-          format: int64
-        description:
-          type: string
-        invoiceId:
-          type: number
-          format: int64
-        paymentType:
-          $ref: '#/components/schemas/ID'
-        referenceID:
-          type: string
-        transactionDate:
-          type: string
-          format: date-time
-        transactionType:
-          $ref: '#/components/schemas/ID'
-        user:
-          $ref: '#/components/schemas/ID'
-        paymentIsTaxApplicable:
-          type: boolean
-          description: Applies to agent payments on property ledger only. Indicates if the amount includes tax.
-    AdvertisingScheduleWithItems:
-      allOf:
-      - $ref: '#/components/schemas/AdvertisingSchedule'
-      - type: object
-        properties:
-          schedule:
-            type: array
-            items:
-              $ref: '#/components/schemas/AdvertisingScheduleItem'
-    AdvertisingAttachedScheduleWithItems:
-      allOf:
-      - $ref: '#/components/schemas/AdvertisingAttachedSchedule'
-      - type: object
-        properties:
-          schedule:
-            type: array
-            items:
-              $ref: '#/components/schemas/AdvertisingAttachedScheduleItem'
-    AdvertisingAttachedSchedule:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        baseSchedule:
-          $ref: '#/components/schemas/AdvertisingSchedule'
-        startDate:
-          type: string
-          format: date-time
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
     AdvertisingExpenseType:
       type: object
       properties:
@@ -1051,15 +975,70 @@ components:
         companyContribution:
           type: number
           format: float
+    AdvertisingScheduleItem:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        week:
+          type: number
+          format: int64
+        dayOfWeek:
+          type: string
+        expenseType:
+          $ref: '#/components/schemas/AdvertisingExpenseType'
+    AdvertisingAttachedScheduleWithItems:
+      allOf:
+      - $ref: '#/components/schemas/AdvertisingAttachedSchedule'
+      - type: object
+        properties:
+          schedule:
+            type: array
+            items:
+              $ref: '#/components/schemas/AdvertisingAttachedScheduleItem'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    AdvertisingSchedule:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    AdvertisingScheduleWithItems:
+      allOf:
+      - $ref: '#/components/schemas/AdvertisingSchedule'
+      - type: object
+        properties:
+          schedule:
+            type: array
+            items:
+              $ref: '#/components/schemas/AdvertisingScheduleItem'
+    AdvertisingLedgerType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -1076,6 +1055,28 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    modifiedBefore:
+      name: modifiedBefore
+      in: query
+      description: Filter results modified before this datetime
+      schema:
+        type: string
+        format: date-time
+    insertedSince:
+      name: insertedSince
+      in: query
+      description: Filter results inserted since this datetime
+      schema:
+        type: string
+        format: date-time
     insertedBefore:
       name: insertedBefore
       in: query
@@ -1087,20 +1088,6 @@ components:
       name: modifiedSince
       in: query
       description: Filter results modified since this datetime
-      schema:
-        type: string
-        format: date-time
-    insertedSince:
-      name: insertedSince
-      in: query
-      description: Filter results inserted since this datetime
-      schema:
-        type: string
-        format: date-time
-    modifiedBefore:
-      name: modifiedBefore
-      in: query
-      description: Filter results modified before this datetime
       schema:
         type: string
         format: date-time

@@ -12,15 +12,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: templates
+- name: Templates
   description: Operations related to SMS and email templates
 paths:
   /templates/email:
     get:
       tags:
-      - templates
+      - Templates
       summary: Retrieve a list of email templates
-      description: Retrieve a list of email templates
       operationId: getEmailTemplates
       parameters:
       - $ref: '#/components/parameters/page'
@@ -34,9 +33,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - templates
+      - Templates
       summary: Create an email template
-      description: Create an email template
       operationId: addEmailTemplate
       requestBody:
         description: Email template object
@@ -67,9 +65,8 @@ paths:
   /templates/sms:
     get:
       tags:
-      - templates
+      - Templates
       summary: Retrieve a list of SMS templates
-      description: Retrieve a list of SMS templates
       operationId: getSMSTemplates
       parameters:
       - $ref: '#/components/parameters/page'
@@ -83,9 +80,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - templates
+      - Templates
       summary: Create an SMS template
-      description: Create an SMS template
       operationId: addSMSTemplate
       requestBody:
         description: SMS template object
@@ -116,9 +112,8 @@ paths:
   /templates/email/{id}:
     get:
       tags:
-      - templates
+      - Templates
       summary: Retrieve a single email template
-      description: Retrieve a single email template
       operationId: getEmailTemplate
       parameters:
       - name: id
@@ -140,9 +135,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - templates
+      - Templates
       summary: Update an email template
-      description: Update an email template
       operationId: updateEmailTemplate
       parameters:
       - name: id
@@ -181,9 +175,8 @@ paths:
   /templates/sms/{id}:
     get:
       tags:
-      - templates
+      - Templates
       summary: Retrieve a single SMS template
-      description: Retrieve a single SMS template
       operationId: getSMSTemplate
       parameters:
       - name: id
@@ -205,9 +198,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - templates
+      - Templates
       summary: Update an SMS template
-      description: Update an SMS template
       operationId: updateSMSTemplate
       parameters:
       - name: id
@@ -246,9 +238,8 @@ paths:
   /templates/ownerSummary:
     get:
       tags:
-      - templates
+      - Templates
       summary: Retrieve a list of owner summary templates
-      description: Retrieve a list of owner summary templates
       operationId: getOwnerSummaryTemplates
       parameters:
       - $ref: '#/components/parameters/page'
@@ -262,9 +253,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - templates
+      - Templates
       summary: Create an Owner Summary template
-      description: Create an Owner Summary template
       operationId: addOwnerSummaryTemplate
       requestBody:
         description: Owner Summary template object
@@ -295,9 +285,8 @@ paths:
   /templates/ownerSummary/{id}:
     get:
       tags:
-      - templates
+      - Templates
       summary: Retrieve a single Owner Summary template
-      description: Retrieve a single Owner Summary template
       operationId: getOwnerSummaryTemplate
       parameters:
       - name: id
@@ -319,9 +308,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - templates
+      - Templates
       summary: Update an Owner Summary template
-      description: Update an Owner Summary template
       operationId: updateOwnerSummaryTemplate
       parameters:
       - name: id
@@ -358,67 +346,23 @@ paths:
     servers:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   schemas:
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    AddEmailTemplate:
-      type: object
-      properties:
-        name:
-          type: string
-        subject:
-          type: string
-        content:
-          type: string
-        propertyTemplate:
-          type: boolean
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-    SMSTemplate:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        content:
-          type: string
-        propertyTemplate:
-          type: boolean
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/Access'
-        inserted:
-          type: string
-          format: date-time
-    AddSMSTemplate:
-      type: object
-      properties:
-        name:
-          type: string
-        content:
-          type: string
-        propertyTemplate:
-          type: boolean
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
     EmailTemplate:
       type: object
       properties:
@@ -440,15 +384,19 @@ components:
         inserted:
           type: string
           format: date-time
-    SuccessOrError:
+    UserPhoto:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
+        original:
           type: string
-        code:
+        thumb_360:
           type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     Access:
       type: object
       properties:
@@ -459,6 +407,62 @@ components:
           type: string
         photo:
           $ref: '#/components/schemas/UserPhoto'
+    SMSTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+        inserted:
+          type: string
+          format: date-time
+    AddEmailTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    AddSMSTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     AddUpdateOwnerSummaryTemplate:
       type: object
       properties:
@@ -546,22 +550,6 @@ components:
           type: string
         self:
           type: string
-  parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
   securitySchemes:
     Api-Key:
       type: apiKey

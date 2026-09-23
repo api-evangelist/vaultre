@@ -13,15 +13,14 @@ security:
 - ApiKey: []
 - Bearer: []
 tags:
-- name: staff
+- name: Staff
   description: Operations related to staff
 paths:
   /staff:
     post:
       tags:
-      - staff
+      - Staff
       summary: Add/Update a staff member
-      description: Add/Update a staff member
       operationId: addUpdateStaff
       requestBody:
         description: Staff object

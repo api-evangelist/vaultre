@@ -10,15 +10,14 @@ info:
 servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: lists
+- name: Lists
   description: Operations related to distribution lists
 paths:
   /distributionLists/contact:
     get:
       tags:
-      - lists
+      - Lists
       summary: Retrieve a list of contact distribution lists for this account
-      description: Retrieve a list of contact distribution lists for this account
       operationId: getContactDistributionLists
       parameters:
       - $ref: '#/components/parameters/page'
@@ -75,9 +74,8 @@ paths:
   /distributionLists/contact/{id}:
     get:
       tags:
-      - lists
+      - Lists
       summary: Retrieve a single contact distribution list
-      description: Retrieve a single contact distribution list
       operationId: getContactDistributionList
       parameters:
       - name: id
@@ -99,14 +97,6 @@ paths:
         Bearer: []
 components:
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -123,15 +113,15 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   schemas:
-    DistributionList:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     Urls:
       type: object
       properties:
@@ -140,6 +130,14 @@ components:
         next:
           type: string
         self:
+          type: string
+    DistributionList:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
   securitySchemes:
     Api-Key:

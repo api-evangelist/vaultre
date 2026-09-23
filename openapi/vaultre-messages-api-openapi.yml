@@ -11,15 +11,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: messages
+- name: Messages
   description: Operations related to franchise and user messages
 paths:
   /messages/received:
     get:
       tags:
-      - messages
+      - Messages
       summary: Retrieve all received messages
-      description: Retrieve all received messages
       operationId: getMessagesReceived
       responses:
         200:
@@ -33,9 +32,8 @@ paths:
   /messages/sent:
     get:
       tags:
-      - messages
+      - Messages
       summary: Retrieve all sent messages
-      description: Retrieve all sent messages
       operationId: getMessagesSent
       responses:
         200:
@@ -49,9 +47,8 @@ paths:
   /threads:
     get:
       tags:
-      - messages
+      - Messages
       summary: Retrieve all message threads
-      description: Retrieve all message threads
       operationId: getMessagesThreads
       responses:
         200:
@@ -65,9 +62,8 @@ paths:
   /threads/franchise:
     post:
       tags:
-      - messages
+      - Messages
       summary: Add a franchise thread
-      description: Add a franchise thread
       operationId: addThreadFranchise
       requestBody:
         description: Message thread details
@@ -98,9 +94,8 @@ paths:
   /threads/user:
     post:
       tags:
-      - messages
+      - Messages
       summary: Add a user message thread
-      description: Add a user message thread
       operationId: addThreadUser
       requestBody:
         description: Message thread details
@@ -131,9 +126,8 @@ paths:
   /threads/{id}:
     put:
       tags:
-      - messages
+      - Messages
       summary: Update a message thread
-      description: Update a message thread
       operationId: updateMessageThread
       parameters:
       - name: id
@@ -178,9 +172,8 @@ paths:
   /threads/{id}/messages:
     get:
       tags:
-      - messages
+      - Messages
       summary: Retrieve all messages in a thread
-      description: Retrieve all messages in a thread
       operationId: getThreadMessages
       responses:
         200:
@@ -191,9 +184,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - messages
+      - Messages
       summary: Add a message to a thread
-      description: Add a message to a thread
       operationId: addThreadMessage
       parameters:
       - name: id
@@ -235,9 +227,8 @@ paths:
   /threads/{id}/markRead:
     post:
       tags:
-      - messages
+      - Messages
       summary: Mark all messages in a thread as read by the current user
-      description: Mark all messages in a thread as read by the current user
       operationId: putMessageThreadRead
       parameters:
       - name: id
@@ -268,7 +259,7 @@ paths:
   /search/threads/recipients:
     get:
       tags:
-      - messages
+      - Messages
       summary: Get all threads with the supplied recipients
       description: Get all threads with the supplied recipients. The user will be added automatically if not supplied.
       operationId: getSearchThreadsRecipients
@@ -312,7 +303,7 @@ paths:
   /search/threads/staffTypes:
     get:
       tags:
-      - messages
+      - Messages
       summary: Get all threads with the supplied recipients
       description: Get all threads with the supplied recipients.
       operationId: getSearchThreadsStaffTypes
@@ -356,9 +347,8 @@ paths:
   /search/threads/term:
     get:
       tags:
-      - messages
+      - Messages
       summary: Search for message threads containing term
-      description: Search for message threads containing term
       operationId: getSearchThreadsTerm
       parameters:
       - name: term
@@ -394,6 +384,22 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
+    AddUpdateMessageThread:
+      type: object
+      properties:
+        name:
+          type: string
+        recipients:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageRecipient'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
     MessageReceipt:
       type: object
       properties:
@@ -404,6 +410,26 @@ components:
           type: string
         seen:
           type: boolean
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    MessageRecipient:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+        photo:
+          type: string
     MessageThread:
       type: object
       properties:
@@ -432,51 +458,6 @@ components:
             $ref: '#/components/schemas/MessageRecipient'
         latestMessage:
           $ref: '#/components/schemas/Message'
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    MessageRecipient:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-        photo:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    AddUpdateMessageThread:
-      type: object
-      properties:
-        name:
-          type: string
-        recipients:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageRecipient'
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
     Message:
       type: object
       properties:
@@ -499,6 +480,15 @@ components:
           format: date-time
         isFranchise:
           type: boolean
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     Access_2:
       type: object
       properties:
@@ -518,14 +508,6 @@ components:
             name:
               type: string
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -542,6 +524,14 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

@@ -12,15 +12,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: suggest
+- name: Suggest
   description: Operations related to suggest services
 paths:
   /suggest/suburb:
     get:
       tags:
-      - suggest
+      - Suggest
       summary: Search for a suburb
-      description: Search for a suburb
       operationId: suggestSuburb
       parameters:
       - name: term
@@ -51,9 +50,8 @@ paths:
   /suggest/address/corelogic:
     get:
       tags:
-      - suggest
+      - Suggest
       summary: Search for an address in CoreLogic
-      description: Search for an address in CoreLogic
       operationId: suggestAddressCoreLogic
       parameters:
       - name: term
@@ -76,7 +74,7 @@ paths:
   /suggest/district:
     get:
       tags:
-      - suggest
+      - Suggest
       summary: Search for a district
       description: Search for a district, optionally by name of one of the suburbs within it
       operationId: suggestDistrict
@@ -135,14 +133,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     sortOrder:
       name: sortOrder
       in: query
@@ -152,6 +142,14 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
     page:
       name: page
       in: query
@@ -160,24 +158,6 @@ components:
         type: integer
         format: int64
   schemas:
-    CoreLogicAddressSuggest:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    State:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        abbreviation:
-          type: string
     Suburb:
       type: object
       properties:
@@ -194,7 +174,16 @@ components:
           $ref: '#/components/schemas/District'
         isPoBox:
           type: boolean
-    District:
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    State:
       type: object
       properties:
         id:
@@ -202,8 +191,16 @@ components:
           format: int64
         name:
           type: string
-        region:
-          $ref: '#/components/schemas/Region'
+        abbreviation:
+          type: string
+    CoreLogicAddressSuggest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     Region:
       type: object
       properties:
@@ -234,15 +231,16 @@ components:
                 type: string
               isPoBox:
                 type: boolean
-    Urls:
+    District:
       type: object
       properties:
-        previous:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
-        next:
-          type: string
-        self:
-          type: string
+        region:
+          $ref: '#/components/schemas/Region'
   securitySchemes:
     Api-Key:
       type: apiKey

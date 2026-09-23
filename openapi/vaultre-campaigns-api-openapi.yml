@@ -10,15 +10,14 @@ info:
 servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: campaigns
+- name: Campaigns
   description: Operations related to marketing campaigns
 paths:
   /campaigns:
     get:
       tags:
-      - campaigns
+      - Campaigns
       summary: Retrieve a list of marketing campaigns for this account
-      description: Retrieve a list of marketing campaigns for this account
       operationId: getCampaigns
       parameters:
       - $ref: '#/components/parameters/page'
@@ -49,9 +48,8 @@ paths:
   /campaigns/{id}:
     get:
       tags:
-      - campaigns
+      - Campaigns
       summary: Retrieve a single marketing campaign
-      description: Retrieve a single marketing campaign
       operationId: getCampaign
       parameters:
       - name: id
@@ -74,9 +72,8 @@ paths:
   /campaigns/{id}/tracking:
     get:
       tags:
-      - campaigns
+      - Campaigns
       summary: Retrieve a campaign tracking data
-      description: Retrieve a campaign tracking data
       operationId: getCampaignTracking
       parameters:
       - name: id
@@ -112,9 +109,8 @@ paths:
   /campaigns/{id}/tracking/summary:
     get:
       tags:
-      - campaigns
+      - Campaigns
       summary: Retrieve campaign stats (totals)
-      description: Retrieve campaign stats (totals)
       operationId: getCampaignTrackingSummary
       parameters:
       - name: id
@@ -136,29 +132,29 @@ paths:
         Bearer: []
 components:
   schemas:
-    ContactMinimal:
+    PhoneNumber:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-        displayName:
+        number:
           type: string
-        inserted:
+        typeCode:
           type: string
-          format: date-time
-        modified:
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
           type: string
-          format: date-time
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
     CampaignTrackingSummary:
       type: object
       properties:
@@ -179,6 +175,13 @@ components:
         totalViews:
           type: integer
           format: int64
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
     CampaignTracking:
       type: object
       properties:
@@ -195,12 +198,27 @@ components:
         contact:
           type: object
           $ref: '#/components/schemas/ContactMinimal'
-    UserPhoto:
+    Urls:
       type: object
       properties:
-        original:
+        previous:
           type: string
-        thumb_360:
+        next:
+          type: string
+        self:
+          type: string
+    CampaignComments:
+      type: object
+      properties:
+        categories:
+          type: string
+        from:
+          type: string
+        lists:
+          type: string
+        precincts:
+          type: string
+        subject:
           type: string
     User:
       type: object
@@ -297,42 +315,6 @@ components:
               type: string
         hideMobileFromPortal:
           type: boolean
-    PhoneNumber:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    CampaignComments:
-      type: object
-      properties:
-        categories:
-          type: string
-        from:
-          type: string
-        lists:
-          type: string
-        precincts:
-          type: string
-        subject:
-          type: string
     Campaign:
       type: object
       properties:
@@ -350,16 +332,37 @@ components:
           $ref: '#/components/schemas/CampaignComments'
         user:
           $ref: '#/components/schemas/User'
-    Urls:
+    ContactMinimal:
       type: object
       properties:
-        previous:
+        id:
+          type: integer
+          format: int64
+        displayName:
           type: string
-        next:
+        inserted:
           type: string
-        self:
+          format: date-time
+        modified:
           type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
   parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -368,13 +371,6 @@ components:
         type: integer
         format: int64
         default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
   securitySchemes:
     Api-Key:
       type: apiKey

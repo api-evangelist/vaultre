@@ -1,10 +1,10 @@
 {
   "provider": "vaultre",
   "sources": [
-    "vaultre-aggregator-api-v1-0-openapi.yml",
-    "vaultre-api-v1-1-openapi.yml",
-    "vaultre-api-v1-2-openapi.yml",
-    "vaultre-api-v1-3-openapi.yml"
+    "_original/vaultre-aggregator-api-v1-0-openapi.yml",
+    "_original/vaultre-api-v1-1-openapi.yml",
+    "_original/vaultre-api-v1-2-openapi.yml",
+    "_original/vaultre-api-v1-3-openapi.yml"
   ],
   "outputs": [
     "vaultre-properties-api-openapi.yml",
@@ -58,12 +58,7 @@
     "vaultre-propertyoffer-api-openapi.yml",
     "vaultre-reinz-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/vaultre-aggregator-api-v1-0-openapi.yml",
-    "archived openapi/vaultre-api-v1-1-openapi.yml",
-    "archived openapi/vaultre-api-v1-2-openapi.yml",
-    "archived openapi/vaultre-api-v1-3-openapi.yml"
-  ],
+  "archived": [],
   "errors": [
     "vaultre-api-v1-2-openapi.yml: dangling $ref: #/components/schemas/#definitions/Access",
     "vaultre-api-v1-2-openapi.yml: dangling $ref: #/components/schemas/#definitions/ID",
@@ -71,6 +66,7 @@
   ],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (4 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "vaultre-aggregator-api-v1-0-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
     "vaultre-api-v1-1-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
     "vaultre-api-v1-2-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
@@ -110,7 +106,58 @@
     "tag 'suburbs' spans 2 source specs (vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml): per-path servers applied",
     "tag 'suppliers' spans 2 source specs (vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml): per-path servers applied",
     "tag 'tenancies' spans 2 source specs (vaultre-api-v1-2-openapi.yml, vaultre-api-v1-3-openapi.yml): per-path servers applied",
-    "apis.yml register: written (+50 apis, 50 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "vaultre-advertising-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-aml-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-buildings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-bulk-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-businessproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-calendar-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-categories-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-clearingsalesproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-commercialproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-conjunctionals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-corelogic-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-deals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-email-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-enquiries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-eventstream-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-feedback-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-fmsleads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-holidayrentalproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-inspections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-integrator-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-invoices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-landproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-lists-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-livestockproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-maintenance-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-mergefields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-openhomes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-precincts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-properties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-propertyoffer-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-propertyofferconditions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-propertystats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-reinz-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-residentialproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-ruralproperties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-sms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-staff-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-suburbs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-suggest-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-suppliers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-tasks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-tenancies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-types-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vaultre-user-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

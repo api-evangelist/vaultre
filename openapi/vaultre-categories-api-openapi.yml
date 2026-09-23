@@ -12,15 +12,14 @@ servers:
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 tags:
-- name: categories
+- name: Categories
   description: Operations related to categories
 paths:
   /categories/contact/groups:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a list of contact category groups
-      description: Retrieve a list of contact category groups
       operationId: getContactCategoryGroups
       parameters:
       - $ref: '#/components/parameters/page'
@@ -42,9 +41,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - categories
+      - Categories
       summary: Create a contact category grouping
-      description: Create a contact category grouping
       operationId: addContactCategoryGroup
       requestBody:
         description: Category Grouping object
@@ -75,9 +73,8 @@ paths:
   /categories/contact/groups/{id}:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a single contact category group
-      description: Retrieve a single contact category group
       operationId: getContactCategoryGroup
       parameters:
       - name: id
@@ -99,9 +96,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - categories
+      - Categories
       summary: Update a contact category grouping
-      description: Update a contact category grouping
       operationId: updateContactCategoryGroup
       parameters:
       - name: id
@@ -140,9 +136,8 @@ paths:
   /categories/contact/groups/{id}/categories:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a list of categories in this contact category group
-      description: Retrieve a list of categories in this contact category group
       operationId: getContactCategoryGroupCategories
       parameters:
       - name: id
@@ -161,9 +156,8 @@ paths:
         Bearer: []
     post:
       tags:
-      - categories
+      - Categories
       summary: Create a contact category in this grouping
-      description: Create a contact category in this grouping
       operationId: addContactCategoryGroupCategory
       requestBody:
         description: Category object
@@ -194,9 +188,8 @@ paths:
   /categories/contact/groups/{groupingid}/categories/{id}:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a single category in this contact category group
-      description: Retrieve a single category in this contact category group
       operationId: getContactCategoryGroupCategory
       parameters:
       - name: groupingid
@@ -225,9 +218,8 @@ paths:
         Bearer: []
     put:
       tags:
-      - categories
+      - Categories
       summary: Update a contact category in this grouping
-      description: Update a contact category in this grouping
       operationId: updateContactCategoryGroupCategory
       requestBody:
         description: Category object
@@ -258,9 +250,8 @@ paths:
   /categories/contact:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a list of contact categories
-      description: Retrieve a list of contact categories
       operationId: getContactCategories
       parameters:
       - $ref: '#/components/parameters/page'
@@ -285,9 +276,8 @@ paths:
   /categories/contact/{id}:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a single contact category
-      description: Retrieve a single contact category
       operationId: getContactCategory
       parameters:
       - name: id
@@ -312,9 +302,8 @@ paths:
   /categories/property/groups:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a list of property category groups
-      description: Retrieve a list of property category groups
       operationId: getPropertyCategoryGroups
       parameters:
       - $ref: '#/components/parameters/page'
@@ -339,9 +328,8 @@ paths:
   /categories/property/groups/{id}:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a single property category group
-      description: Retrieve a single property category group
       operationId: getPropertyCategoryGroup
       parameters:
       - name: id
@@ -366,9 +354,8 @@ paths:
   /categories/property:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a list of property categories
-      description: Retrieve a list of property categories
       operationId: getPropertyCategories
       parameters:
       - $ref: '#/components/parameters/page'
@@ -393,9 +380,8 @@ paths:
   /categories/property/{id}:
     get:
       tags:
-      - categories
+      - Categories
       summary: Retrieve a single property category
-      description: Retrieve a single property category
       operationId: getPropertyCategory
       parameters:
       - name: id
@@ -419,14 +405,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
 components:
   parameters:
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
     page:
       name: page
       in: query
@@ -443,7 +421,28 @@ components:
         enum:
         - asc
         - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   schemas:
+    AddUpdateCategory:
+      type: object
+      properties:
+        name:
+          type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     CategoryGrouping:
       type: object
       properties:
@@ -456,11 +455,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
-    AddUpdateCategory:
-      type: object
-      properties:
-        name:
-          type: string
     SuccessOrError:
       type: object
       properties:
@@ -469,19 +463,6 @@ components:
         msg:
           type: string
         code:
-          type: string
-    Category:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    AddUpdateCategoryGrouping:
-      type: object
-      properties:
-        name:
           type: string
     CategoryGroupingSimple:
       type: object
@@ -499,6 +480,11 @@ components:
         next:
           type: string
         self:
+          type: string
+    AddUpdateCategoryGrouping:
+      type: object
+      properties:
+        name:
           type: string
   securitySchemes:
     Api-Key:
