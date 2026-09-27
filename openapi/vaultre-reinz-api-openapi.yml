@@ -85,6 +85,13 @@ components:
       schema:
         type: integer
         format: int64
+    insertedSince:
+      name: insertedSince
+      in: query
+      description: Filter results inserted since this datetime
+      schema:
+        type: string
+        format: date-time
     pagesize:
       name: pagesize
       in: query
@@ -100,23 +107,7 @@ components:
       schema:
         type: string
         format: date-time
-    insertedSince:
-      name: insertedSince
-      in: query
-      description: Filter results inserted since this datetime
-      schema:
-        type: string
-        format: date-time
   schemas:
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     ReinzSale:
       type: object
       properties:
@@ -135,6 +126,15 @@ components:
           type: string
         suppressSale:
           type: boolean
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
   securitySchemes:
     Api-Key:
       type: apiKey

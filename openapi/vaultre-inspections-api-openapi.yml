@@ -270,32 +270,52 @@ paths:
     servers:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
   schemas:
+    Inspection:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        insertedBy:
+          $ref: '#/components/schemas/#definitions/Access'
+        inserted:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - proposed
+          - scheduled
+          - confirmed
+        type:
+          type: string
+          enum:
+          - routine
+          - ingoing
+          - outgoing
+        timeOfDay:
+          type: string
+          enum:
+          - morning
+          - afternoon
+        tenancy:
+          $ref: '#/components/schemas/#definitions/ID'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     AddInspection:
       type: object
       properties:
@@ -343,117 +363,6 @@ components:
           - routine
           - ingoing
           - outgoing
-    Inspection:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        insertedBy:
-          $ref: '#/components/schemas/#definitions/Access'
-        inserted:
-          type: string
-          format: date-time
-        start:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - proposed
-          - scheduled
-          - confirmed
-        type:
-          type: string
-          enum:
-          - routine
-          - ingoing
-          - outgoing
-        timeOfDay:
-          type: string
-          enum:
-          - morning
-          - afternoon
-        tenancy:
-          $ref: '#/components/schemas/#definitions/ID'
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
-    AddInspection_2:
-      type: object
-      properties:
-        inserted:
-          type: string
-          format: date-time
-        start:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - proposed
-          - scheduled
-          - confirmed
-        type:
-          type: string
-          enum:
-          - routine
-          - ingoing
-          - outgoing
-        insertedBy:
-          $ref: '#/components/schemas/ID'
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     Inspection_2:
       type: object
       properties:
@@ -490,6 +399,97 @@ components:
           - afternoon
         tenancy:
           $ref: '#/components/schemas/ID'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    AddInspection_2:
+      type: object
+      properties:
+        inserted:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - proposed
+          - scheduled
+          - confirmed
+        type:
+          type: string
+          enum:
+          - routine
+          - ingoing
+          - outgoing
+        insertedBy:
+          $ref: '#/components/schemas/ID'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

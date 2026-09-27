@@ -245,6 +245,63 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    PropertyOfferCondition:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        condition:
+          $ref: '#/components/schemas/OfferCondition'
+        user:
+          $ref: '#/components/schemas/User'
+        due:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    OfferCondition:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    UpdatePropertyOfferCondition:
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/ID'
+        user:
+          $ref: '#/components/schemas/ID'
+        due:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     PhoneNumber:
       type: object
       properties:
@@ -268,54 +325,6 @@ components:
           - Direct
         comment:
           type: string
-    OfferCondition:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    PropertyOfferCondition:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        condition:
-          $ref: '#/components/schemas/OfferCondition'
-        user:
-          $ref: '#/components/schemas/User'
-        due:
-          type: string
-          format: date-time
-        completed:
-          type: boolean
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    UpdatePropertyOfferCondition:
-      type: object
-      properties:
-        condition:
-          $ref: '#/components/schemas/ID'
-        user:
-          $ref: '#/components/schemas/ID'
-        due:
-          type: string
-          format: date-time
-        completed:
-          type: boolean
     User:
       type: object
       properties:
@@ -382,15 +391,6 @@ components:
             sendSMS:
               type: boolean
         websiteUrl:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
           type: string
     Urls:
       type: object

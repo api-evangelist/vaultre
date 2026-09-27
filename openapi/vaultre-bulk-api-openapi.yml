@@ -252,6 +252,13 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   parameters:
+    after:
+      name: after
+      in: query
+      description: Filter records after this ID
+      schema:
+        type: integer
+        format: int64
     modifiedBefore:
       name: modifiedBefore
       in: query
@@ -267,13 +274,6 @@ components:
         type: integer
         format: int64
         default: 50
-    after:
-      name: after
-      in: query
-      description: Filter records after this ID
-      schema:
-        type: integer
-        format: int64
     modifiedSince:
       name: modifiedSince
       in: query
@@ -303,30 +303,7 @@ components:
         type: integer
         format: int64
   schemas:
-    PhoneNumber:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    ContactNoteTypePurpose:
+    UnsubscribeType:
       type: object
       properties:
         id:
@@ -334,51 +311,6 @@ components:
           format: int64
         name:
           type: string
-    Suburb:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        postcode:
-          type: string
-        state:
-          $ref: '#/components/schemas/State'
-        nzDistrict:
-          $ref: '#/components/schemas/District'
-        isPoBox:
-          type: boolean
-    Country:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        isocode:
-          type: string
-        gstRate:
-          type: number
-          format: float
-    ContactNoteType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        colour:
-          type: string
-        defaultReadOnly:
-          type: boolean
-        pinned:
-          type: boolean
-        purpose:
-          $ref: '#/components/schemas/ContactNoteTypePurpose'
     Contact:
       type: object
       properties:
@@ -455,7 +387,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UnsubscribeType'
-    District:
+    ContactNoteReminder:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+    State:
       type: object
       properties:
         id:
@@ -463,29 +403,76 @@ components:
           format: int64
         name:
           type: string
-        region:
-          $ref: '#/components/schemas/Region'
-    Address:
+        abbreviation:
+          type: string
+    CustomAddress:
       type: object
       properties:
-        level:
+        address1:
           type: string
-        unitNumber:
+        address2:
           type: string
-        streetNumber:
+        postTown:
           type: string
-        street:
+        postcode:
           type: string
-        suburb:
-          $ref: '#/components/schemas/Suburb'
-        state:
-          $ref: '#/components/schemas/State'
-        country:
-          $ref: '#/components/schemas/Country'
-        royalMail:
-          $ref: '#/components/schemas/RoyalMail'
-        customAddress:
-          $ref: '#/components/schemas/CustomAddress'
+    ContactNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    ContactNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        contact:
+          $ref: '#/components/schemas/ID'
+        insertedBy:
+          $ref: '#/components/schemas/User'
+        type:
+          $ref: '#/components/schemas/ContactNoteType'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
+        propertyFeedback:
+          $ref: '#/components/schemas/PropertyFeedback'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
     Unsubscribe:
       type: object
       properties:
@@ -495,59 +482,6 @@ components:
           type: boolean
         letters:
           type: boolean
-    PropertyFeedback:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        property:
-          type: object
-          properties:
-            id:
-              type: number
-              format: int64
-            displayAddress:
-              type: string
-            saleLifeId:
-              type: number
-              format: int64
-            leaseLifeId:
-              type: number
-              format: int64
-            class:
-              $ref: '#/components/schemas/PropertyClass'
-        feedbackDate:
-          type: string
-          format: date-time
-        priceOpinion:
-          type: number
-          format: float
-        saleLifeId:
-          type: number
-          format: int64
-        leaseLifeId:
-          type: number
-          format: int64
-        contractRequested:
-          type: boolean
-        contractSent:
-          type: string
-          format: date-time
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    Region:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     Inspection:
       type: object
       properties:
@@ -584,7 +518,7 @@ components:
           - afternoon
         tenancy:
           $ref: '#/components/schemas/ID'
-    UnsubscribeType:
+    District:
       type: object
       properties:
         id:
@@ -592,42 +526,8 @@ components:
           format: int64
         name:
           type: string
-    CustomAddress:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        postTown:
-          type: string
-        postcode:
-          type: string
-    EntityType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    ContactNoteAndContact:
-      type: object
-      properties:
-        note:
-          $ref: '#/components/schemas/ContactNote'
-        contact:
-          $ref: '#/components/schemas/Contact'
-    PropertyClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
+        region:
+          $ref: '#/components/schemas/Region'
     RoyalMail:
       type: object
       properties:
@@ -658,6 +558,37 @@ components:
         udprn:
           type: integer
           format: int64
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    EntityType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
     Access:
       type: object
       properties:
@@ -676,74 +607,6 @@ components:
               format: int64
             name:
               type: string
-    ContactNote:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        contact:
-          $ref: '#/components/schemas/ID'
-        insertedBy:
-          $ref: '#/components/schemas/User'
-        type:
-          $ref: '#/components/schemas/ContactNoteType'
-        reminder:
-          $ref: '#/components/schemas/ContactNoteReminder'
-        propertyFeedback:
-          $ref: '#/components/schemas/PropertyFeedback'
-    MarketingUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        user:
-          $ref: '#/components/schemas/Access'
-    ContactNoteReminder:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date-time
-        user:
-          $ref: '#/components/schemas/User'
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    State:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        abbreviation:
-          type: string
     User:
       type: object
       properties:
@@ -839,6 +702,143 @@ components:
               type: string
         hideMobileFromPortal:
           type: boolean
+    ContactNoteTypePurpose:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        isocode:
+          type: string
+        gstRate:
+          type: number
+          format: float
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    ContactNoteAndContact:
+      type: object
+      properties:
+        note:
+          $ref: '#/components/schemas/ContactNote'
+        contact:
+          $ref: '#/components/schemas/Contact'
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PropertyFeedback:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        property:
+          type: object
+          properties:
+            id:
+              type: number
+              format: int64
+            displayAddress:
+              type: string
+            saleLifeId:
+              type: number
+              format: int64
+            leaseLifeId:
+              type: number
+              format: int64
+            class:
+              $ref: '#/components/schemas/PropertyClass'
+        feedbackDate:
+          type: string
+          format: date-time
+        priceOpinion:
+          type: number
+          format: float
+        saleLifeId:
+          type: number
+          format: int64
+        leaseLifeId:
+          type: number
+          format: int64
+        contractRequested:
+          type: boolean
+        contractSent:
+          type: string
+          format: date-time
+    Address:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
+    MarketingUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/Access'
   securitySchemes:
     Api-Key:
       type: apiKey

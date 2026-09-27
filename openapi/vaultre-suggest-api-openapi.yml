@@ -133,6 +133,13 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     sortOrder:
       name: sortOrder
       in: query
@@ -150,14 +157,57 @@ components:
         type: integer
         format: int64
         default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
   schemas:
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
+    NZDistrict:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        suburbs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int64
+              name:
+                type: string
+              postcode:
+                type: string
+              isPoBox:
+                type: boolean
+    State:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        abbreviation:
+          type: string
+    CoreLogicAddressSuggest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     Suburb:
       type: object
       properties:
@@ -183,24 +233,6 @@ components:
           type: string
         self:
           type: string
-    State:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        abbreviation:
-          type: string
-    CoreLogicAddressSuggest:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     Region:
       type: object
       properties:
@@ -209,38 +241,6 @@ components:
           format: int64
         name:
           type: string
-    NZDistrict:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        suburbs:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                format: int64
-              name:
-                type: string
-              postcode:
-                type: string
-              isPoBox:
-                type: boolean
-    District:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        region:
-          $ref: '#/components/schemas/Region'
   securitySchemes:
     Api-Key:
       type: apiKey

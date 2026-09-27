@@ -29,15 +29,19 @@ description: >-
   requests per second and 10,000 requests per day.
 deliveryModel:
   model: saas
-  open_source: false
+  license_evidence:
+    not_product:
+    - vaultgroup/api-samples
+  open_source: unknown
   commercial: true
   callable_host: true
   label: Hosted service · you call their endpoint
-  confidence: high
+  confidence: low
   source:
   - openapi
   - pricing
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: unknown
@@ -54,7 +58,7 @@ accessModel:
   method: manual
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vaultre.png
 tags:
-- Real-Estate
+- Real Estate
 - Australia
 - New Zealand
 - PropTech
@@ -75,6 +79,7 @@ tags_raw:
 - Rentals
 - Commercial Real Estate
 - Webhooks
+- Real-Estate
 created: '2026-07-26'
 modified: '2026-07-26'
 specificationVersion: '0.23'

@@ -192,6 +192,15 @@ components:
         format: int64
         default: 50
   schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     AddUpdateBuilding:
       type: object
       properties:
@@ -204,15 +213,6 @@ components:
           type: integer
           format: int64
         name:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
           type: string
     Urls:
       type: object

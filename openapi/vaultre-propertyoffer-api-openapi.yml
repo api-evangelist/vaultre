@@ -171,30 +171,32 @@ paths:
       - Api-Key: []
         Bearer: []
 components:
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
   schemas:
-    PhoneNumber:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
     PropertyOfferStatus:
       type: object
       properties:
@@ -203,16 +205,19 @@ components:
           format: int64
         name:
           type: string
-    UpdatePropertyOffer:
+    AddPropertyOffer:
       type: object
       properties:
-        id:
-          type: number
-          format: int64
         contact:
           $ref: '#/components/schemas/ID'
         details:
           type: string
+        leaseLifeId:
+          type: integer
+          format: int64
+        saleLifeId:
+          type: integer
+          format: int64
         offerDate:
           type: string
           format: date-time
@@ -221,21 +226,38 @@ components:
           format: float
         status:
           $ref: '#/components/schemas/ID'
-    ID:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    ContactMinimal:
       type: object
       properties:
         id:
           type: integer
           format: int64
-    Urls:
-      type: object
-      properties:
-        previous:
+        displayName:
           type: string
-        next:
+        inserted:
           type: string
-        self:
+          format: date-time
+        modified:
           type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
     PropertyOffer:
       type: object
       properties:
@@ -260,51 +282,54 @@ components:
           format: float
         status:
           $ref: '#/components/schemas/PropertyOfferStatus'
-    ContactMinimal:
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    ID:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        displayName:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-    SuccessOrError:
+    PhoneNumber:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
+        number:
           type: string
-        code:
+        typeCode:
           type: string
-    AddPropertyOffer:
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    UpdatePropertyOffer:
       type: object
       properties:
+        id:
+          type: number
+          format: int64
         contact:
           $ref: '#/components/schemas/ID'
         details:
           type: string
-        leaseLifeId:
-          type: integer
-          format: int64
-        saleLifeId:
-          type: integer
-          format: int64
         offerDate:
           type: string
           format: date-time
@@ -313,31 +338,6 @@ components:
           format: float
         status:
           $ref: '#/components/schemas/ID'
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
   securitySchemes:
     Api-Key:
       type: apiKey

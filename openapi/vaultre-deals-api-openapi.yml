@@ -466,6 +466,13 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -474,37 +481,7 @@ components:
         type: integer
         format: int64
         default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
   schemas:
-    PhoneNumber:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
     UserPhoto:
       type: object
       properties:
@@ -548,32 +525,14 @@ components:
             format: float
           otherIncentives:
             type: string
-    Access:
+    SuccessOrError:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-        name:
+        success:
+          type: boolean
+        msg:
           type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
+        code:
           type: string
     CommercialDealSale:
       allOf:
@@ -589,6 +548,29 @@ components:
             format: float
           vacantPossession:
             type: boolean
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
     CommercialDeal:
       type: object
       properties:
@@ -633,38 +615,56 @@ components:
           - Pending
           - Rejected
           - Approved
-    ContactMinimal:
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    Access:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        displayName:
+        name:
           type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        emails:
-          type: array
-          items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
   securitySchemes:
     Api-Key:
       type: apiKey

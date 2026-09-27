@@ -72,6 +72,20 @@ components:
       schema:
         type: integer
         format: int64
+    insertedSince:
+      name: insertedSince
+      in: query
+      description: Filter results inserted since this datetime
+      schema:
+        type: string
+        format: date-time
+    modifiedBefore:
+      name: modifiedBefore
+      in: query
+      description: Filter results modified before this datetime
+      schema:
+        type: string
+        format: date-time
     pagesize:
       name: pagesize
       in: query
@@ -84,20 +98,6 @@ components:
       name: insertedBefore
       in: query
       description: Filter results inserted before this datetime
-      schema:
-        type: string
-        format: date-time
-    modifiedBefore:
-      name: modifiedBefore
-      in: query
-      description: Filter results modified before this datetime
-      schema:
-        type: string
-        format: date-time
-    insertedSince:
-      name: insertedSince
-      in: query
-      description: Filter results inserted since this datetime
       schema:
         type: string
         format: date-time

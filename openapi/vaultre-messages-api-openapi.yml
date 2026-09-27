@@ -384,15 +384,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
-    AddUpdateMessageThread:
-      type: object
-      properties:
-        name:
-          type: string
-        recipients:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageRecipient'
     UserPhoto:
       type: object
       properties:
@@ -400,26 +391,28 @@ components:
           type: string
         thumb_360:
           type: string
-    MessageReceipt:
+    Message:
       type: object
       properties:
         id:
           type: number
           format: int64
-        name:
-          type: string
-        seen:
-          type: boolean
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
+        threadId:
+          type: number
           format: int64
-        name:
+        message:
           type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
+        receipts:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageReceipt'
+        insertedBy:
+          $ref: '#/components/schemas/Access'
+        inserted:
+          type: string
+          format: date-time
+        isFranchise:
+          type: boolean
     MessageRecipient:
       type: object
       properties:
@@ -429,6 +422,15 @@ components:
         name:
           type: string
         photo:
+          type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
           type: string
     MessageThread:
       type: object
@@ -458,37 +460,35 @@ components:
             $ref: '#/components/schemas/MessageRecipient'
         latestMessage:
           $ref: '#/components/schemas/Message'
-    Message:
+    AddUpdateMessageThread:
+      type: object
+      properties:
+        name:
+          type: string
+        recipients:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageRecipient'
+    MessageReceipt:
       type: object
       properties:
         id:
           type: number
           format: int64
-        threadId:
-          type: number
-          format: int64
-        message:
+        name:
           type: string
-        receipts:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageReceipt'
-        insertedBy:
-          $ref: '#/components/schemas/Access'
-        inserted:
-          type: string
-          format: date-time
-        isFranchise:
+        seen:
           type: boolean
-    SuccessOrError:
+    Access:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
-        code:
-          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
     Access_2:
       type: object
       properties:

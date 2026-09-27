@@ -33,6 +33,13 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -41,13 +48,6 @@ components:
         type: integer
         format: int64
         default: 50
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
   schemas:
     RentFrequency:
       type: object
@@ -70,27 +70,6 @@ components:
               type: string
         tenancy:
           $ref: '#/components/schemas/TenancyExtended'
-    TenancyExtended:
-      allOf:
-      - $ref: '#/components/schemas/Tenancy'
-      - type: object
-        properties:
-          bondReceipted:
-            type: number
-            format: float
-          paymentType:
-            type: string
-          paymentReference:
-            type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     Tenancy:
       type: object
       properties:
@@ -127,6 +106,27 @@ components:
         vacateDate:
           type: string
           format: date-time
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    TenancyExtended:
+      allOf:
+      - $ref: '#/components/schemas/Tenancy'
+      - type: object
+        properties:
+          bondReceipted:
+            type: number
+            format: float
+          paymentType:
+            type: string
+          paymentReference:
+            type: string
   securitySchemes:
     Api-Key:
       type: apiKey

@@ -75,6 +75,13 @@ paths:
         Bearer: []
 components:
   schemas:
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
     OpenHome:
       type: object
       properties:
@@ -95,6 +102,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Access'
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
     PhoneNumber:
       type: object
       properties:
@@ -117,32 +143,6 @@ components:
           - Facsimile
           - Direct
         comment:
-          type: string
-    PropertyClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
           type: string
     Access:
       type: object

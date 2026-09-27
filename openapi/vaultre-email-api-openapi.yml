@@ -98,6 +98,15 @@ components:
         id:
           type: integer
           format: int64
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     Email:
       type: object
       properties:
@@ -110,15 +119,6 @@ components:
         bodyHTML:
           type: string
         to:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
           type: string
     BulkEmail:
       type: object

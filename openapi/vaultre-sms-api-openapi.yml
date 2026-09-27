@@ -93,13 +93,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
 components:
   schemas:
-    SMS:
-      type: object
-      properties:
-        message:
-          type: string
-        number:
-          type: string
     SuccessOrError:
       type: object
       properties:
@@ -109,11 +102,9 @@ components:
           type: string
         code:
           type: string
-    SMS_2:
+    SMS:
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/ID'
         message:
           type: string
         number:
@@ -124,7 +115,7 @@ components:
         id:
           type: integer
           format: int64
-    SMS_3:
+    SMS_2:
       type: object
       properties:
         user:
@@ -137,6 +128,15 @@ components:
       type: object
       properties:
         contact:
+          $ref: '#/components/schemas/ID'
+        message:
+          type: string
+        number:
+          type: string
+    SMS_3:
+      type: object
+      properties:
+        user:
           $ref: '#/components/schemas/ID'
         message:
           type: string

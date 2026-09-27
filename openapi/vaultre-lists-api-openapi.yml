@@ -96,6 +96,24 @@ paths:
       - Api-Key: []
         Bearer: []
 components:
+  schemas:
+    DistributionList:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
   parameters:
     page:
       name: page
@@ -121,24 +139,6 @@ components:
         type: integer
         format: int64
         default: 50
-  schemas:
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    DistributionList:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
   securitySchemes:
     Api-Key:
       type: apiKey

@@ -419,28 +419,14 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   schemas:
-    PhoneNumber:
+    UserPhoto:
       type: object
       properties:
-        number:
+        original:
           type: string
-        typeCode:
+        thumb_360:
           type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-    Suburb:
+    Country:
       type: object
       properties:
         id:
@@ -448,27 +434,21 @@ components:
           format: int64
         name:
           type: string
-        postcode:
+        isocode:
           type: string
-        state:
-          $ref: '#/components/schemas/State'
-    Address:
+        gstRate:
+          type: number
+          format: float
+    State:
       type: object
       properties:
-        level:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
-        unitNumber:
+        abbreviation:
           type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
-          $ref: '#/components/schemas/Suburb'
-        state:
-          $ref: '#/components/schemas/State'
-        country:
-          $ref: '#/components/schemas/Country'
     User:
       type: object
       properties:
@@ -530,6 +510,18 @@ components:
               type: boolean
             sendSMS:
               type: boolean
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
     AccountFranchise:
       type: object
       properties:
@@ -538,36 +530,27 @@ components:
           format: int64
         name:
           type: string
-    UserPhoto:
+    PhoneNumber:
       type: object
       properties:
-        original:
+        number:
           type: string
-        thumb_360:
+        typeCode:
           type: string
-    Country:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
           type: string
-        isocode:
-          type: string
-        gstRate:
-          type: number
-          format: float
-    State:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        abbreviation:
-          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
     Account:
       type: object
       properties:
@@ -597,28 +580,56 @@ components:
           type: string
           enum:
           - commercial
-    PhoneNumber_2:
+    Address:
       type: object
       properties:
-        number:
+        level:
           type: string
-        typeCode:
+        unitNumber:
           type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
+        streetNumber:
           type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+    MarketingUserOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    IntegratorPropertyStat:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        value:
+          type: number
+          format: int64
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Credential:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
           type: string
     User_2:
       type: object
@@ -687,22 +698,28 @@ components:
               type: boolean
         websiteUrl:
           type: string
-    IntegratorPropertyStat:
+    PhoneNumber_2:
       type: object
       properties:
-        name:
+        number:
           type: string
-        displayName:
+        typeCode:
           type: string
-        value:
-          type: number
-          format: int64
-    Credential:
-      type: object
-      properties:
-        password:
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
           type: string
-        username:
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
           type: string
     UpdateIntegratorPropertyStats:
       type: object
@@ -767,62 +784,6 @@ components:
               type: string
             saturday:
               type: string
-    MarketingUserOrder:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    PhoneNumber_3:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    Suburb_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        postcode:
-          type: string
-        state:
-          $ref: '#/components/schemas/State'
-        nzDistrict:
-          $ref: '#/components/schemas/District'
-        isPoBox:
-          type: boolean
     MergeField:
       type: object
       required:
@@ -859,6 +820,190 @@ components:
         custom_field:
           type: boolean
           description: Whether the field is a custom account-specific field
+    CustomAddress:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    MergeFieldsFlatResponse:
+      type: object
+      description: Returned when a context is provided. Shows only fields usable in that context.
+      required:
+      - meta
+      - categories
+      properties:
+        meta:
+          type: object
+          required:
+          - response_type
+          properties:
+            context:
+              type: string
+              description: The context used to filter the fields
+            template_type:
+              type: string
+              description: The template type used to filter the fields
+            delivery_method:
+              type: string
+              description: The delivery method used to filter the fields
+            response_type:
+              type: string
+              enum:
+              - flat
+            total_fields:
+              type: integer
+              format: int32
+              description: Total number of fields returned
+            registry_version:
+              type: string
+              description: Version of the merge field registry
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldCategory'
+    MergeFieldTier:
+      type: object
+      required:
+      - id
+      - name
+      - categories
+      properties:
+        id:
+          type: string
+          description: Tier identifier (e.g. always_available, requires_property)
+        name:
+          type: string
+          description: Human-readable tier name
+        description:
+          type: string
+          description: Description of the tier
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldCategory'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    MergeFieldCategory:
+      type: object
+      required:
+      - id
+      - name
+      - fields
+      properties:
+        id:
+          type: string
+          description: Category identifier
+        name:
+          type: string
+          description: Human-readable category name
+        description:
+          type: string
+          description: Description of the category
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeField'
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
+    Token:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/ID'
+        token:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+    RoyalMail:
+      type: object
+      properties:
+        buildingName:
+          type: string
+        buildingNumber:
+          type: string
+        department:
+          type: string
+        locality:
+          type: string
+        locality2:
+          type: string
+        organisation:
+          type: string
+        postTown:
+          type: string
+        postcode:
+          type: string
+        subbuildingName:
+          type: string
+        subbuildingNumber:
+          type: string
+        thoroughfare:
+          type: string
+        thoroughfare2:
+          type: string
+        udprn:
+          type: integer
+          format: int64
+    PhoneNumber_3:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
     Account_3:
       type: object
       properties:
@@ -917,221 +1062,6 @@ components:
               type: string
             saturday:
               type: string
-    MergeFieldsFlatResponse:
-      type: object
-      description: Returned when a context is provided. Shows only fields usable in that context.
-      required:
-      - meta
-      - categories
-      properties:
-        meta:
-          type: object
-          required:
-          - response_type
-          properties:
-            context:
-              type: string
-              description: The context used to filter the fields
-            template_type:
-              type: string
-              description: The template type used to filter the fields
-            delivery_method:
-              type: string
-              description: The delivery method used to filter the fields
-            response_type:
-              type: string
-              enum:
-              - flat
-            total_fields:
-              type: integer
-              format: int32
-              description: Total number of fields returned
-            registry_version:
-              type: string
-              description: Version of the merge field registry
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/MergeFieldCategory'
-    District:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        region:
-          $ref: '#/components/schemas/Region'
-    Address_2:
-      type: object
-      properties:
-        level:
-          type: string
-        unitNumber:
-          type: string
-        streetNumber:
-          type: string
-        street:
-          type: string
-        suburb:
-          $ref: '#/components/schemas/Suburb_2'
-        state:
-          $ref: '#/components/schemas/State'
-        country:
-          $ref: '#/components/schemas/Country'
-        royalMail:
-          $ref: '#/components/schemas/RoyalMail'
-        customAddress:
-          $ref: '#/components/schemas/CustomAddress'
-    MergeFieldTier:
-      type: object
-      required:
-      - id
-      - name
-      - categories
-      properties:
-        id:
-          type: string
-          description: Tier identifier (e.g. always_available, requires_property)
-        name:
-          type: string
-          description: Human-readable tier name
-        description:
-          type: string
-          description: Description of the tier
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/MergeFieldCategory'
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    MergeFieldsTieredResponse:
-      type: object
-      description: Returned when no context is provided. Shows all availability tiers.
-      required:
-      - meta
-      - tiers
-      properties:
-        meta:
-          type: object
-          required:
-          - response_type
-          properties:
-            template_type:
-              type: string
-              description: The template type used to filter the fields
-            delivery_method:
-              type: string
-              description: The delivery method used to filter the fields
-            response_type:
-              type: string
-              enum:
-              - tiered
-            total_fields:
-              type: integer
-              format: int32
-              description: Total number of fields returned across all tiers
-            registry_version:
-              type: string
-              description: Version of the merge field registry
-        tiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/MergeFieldTier'
-    Region:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    CustomAddress:
-      type: object
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        postTown:
-          type: string
-        postcode:
-          type: string
-    RoyalMail:
-      type: object
-      properties:
-        buildingName:
-          type: string
-        buildingNumber:
-          type: string
-        department:
-          type: string
-        locality:
-          type: string
-        locality2:
-          type: string
-        organisation:
-          type: string
-        postTown:
-          type: string
-        postcode:
-          type: string
-        subbuildingName:
-          type: string
-        subbuildingNumber:
-          type: string
-        thoroughfare:
-          type: string
-        thoroughfare2:
-          type: string
-        udprn:
-          type: integer
-          format: int64
-    Token:
-      type: object
-      properties:
-        account:
-          $ref: '#/components/schemas/ID'
-        token:
-          type: string
-        scopes:
-          type: array
-          items:
-            type: string
-    MergeFieldCategory:
-      type: object
-      required:
-      - id
-      - name
-      - fields
-      properties:
-        id:
-          type: string
-          description: Category identifier
-        name:
-          type: string
-          description: Human-readable category name
-        description:
-          type: string
-          description: Description of the category
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/MergeField'
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     User_3:
       type: object
       properties:
@@ -1227,6 +1157,76 @@ components:
               type: string
         hideMobileFromPortal:
           type: boolean
+    MergeFieldsTieredResponse:
+      type: object
+      description: Returned when no context is provided. Shows all availability tiers.
+      required:
+      - meta
+      - tiers
+      properties:
+        meta:
+          type: object
+          required:
+          - response_type
+          properties:
+            template_type:
+              type: string
+              description: The template type used to filter the fields
+            delivery_method:
+              type: string
+              description: The delivery method used to filter the fields
+            response_type:
+              type: string
+              enum:
+              - tiered
+            total_fields:
+              type: integer
+              format: int32
+              description: Total number of fields returned across all tiers
+            registry_version:
+              type: string
+              description: Version of the merge field registry
+        tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeFieldTier'
+    Suburb_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        postcode:
+          type: string
+        state:
+          $ref: '#/components/schemas/State'
+        nzDistrict:
+          $ref: '#/components/schemas/District'
+        isPoBox:
+          type: boolean
+    Address_2:
+      type: object
+      properties:
+        level:
+          type: string
+        unitNumber:
+          type: string
+        streetNumber:
+          type: string
+        street:
+          type: string
+        suburb:
+          $ref: '#/components/schemas/Suburb_2'
+        state:
+          $ref: '#/components/schemas/State'
+        country:
+          $ref: '#/components/schemas/Country'
+        royalMail:
+          $ref: '#/components/schemas/RoyalMail'
+        customAddress:
+          $ref: '#/components/schemas/CustomAddress'
   parameters:
     page:
       name: page

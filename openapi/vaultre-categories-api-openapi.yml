@@ -430,6 +430,15 @@ components:
         format: int64
         default: 50
   schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     AddUpdateCategory:
       type: object
       properties:
@@ -455,14 +464,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
-    SuccessOrError:
+    AddUpdateCategoryGrouping:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
+        name:
           type: string
     CategoryGroupingSimple:
       type: object
@@ -480,11 +485,6 @@ components:
         next:
           type: string
         self:
-          type: string
-    AddUpdateCategoryGrouping:
-      type: object
-      properties:
-        name:
           type: string
   securitySchemes:
     Api-Key:

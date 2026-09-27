@@ -590,7 +590,7 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   schemas:
-    ContactNoteTypePurpose:
+    PropertyNoteTypePurpose:
       type: object
       properties:
         id:
@@ -624,7 +624,7 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    PropertyNoteTypePurpose:
+    ContactNoteTypePurpose:
       type: object
       properties:
         id:
@@ -648,7 +648,15 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    MethodOfSaleType:
+    UnsubscribeType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ContactInterest:
       type: object
       properties:
         id:
@@ -672,74 +680,6 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    PriceQualifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    TenureOrTitleType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    UnsubscribeType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    AdvertisingPaymentType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    EntityType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    PropertyClass:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
-    HoldingAreaType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        source:
-          type: string
-        apiCode:
-          type: string
-    ExternalLinkType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     PropertyType:
       type: object
       properties:
@@ -750,20 +690,20 @@ components:
           type: string
         propertyClass:
           $ref: '#/components/schemas/PropertyClass'
-    ResponseCode:
-      type: object
-      properties:
-        msg:
-          type: string
-        code:
-          type: string
-    AuctionSaleType:
+    ExternalLinkType:
       type: object
       properties:
         id:
           type: integer
           format: int64
         name:
+          type: string
+    ResponseCode:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
           type: string
     Urls:
       type: object
@@ -782,7 +722,67 @@ components:
           format: int64
         name:
           type: string
-    ContactInterest:
+    EntityType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    TenureOrTitleType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    HoldingAreaType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        source:
+          type: string
+        apiCode:
+          type: string
+    AdvertisingPaymentType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    MethodOfSaleType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    PriceQualifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    AuctionSaleType:
       type: object
       properties:
         id:
@@ -791,13 +791,6 @@ components:
         name:
           type: string
   parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     sortOrder:
       name: sortOrder
       in: query
@@ -807,6 +800,13 @@ components:
         enum:
         - asc
         - desc
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     pagesize:
       name: pagesize
       in: query
