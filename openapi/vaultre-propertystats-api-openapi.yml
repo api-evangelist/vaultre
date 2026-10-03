@@ -225,14 +225,6 @@ components:
           type: string
         code:
           type: string
-    UpdatePortalStatsCumulative:
-      allOf:
-      - $ref: '#/components/schemas/UpdatePortalStatsTotal'
-      - type: object
-        properties:
-          statDate:
-            type: string
-            format: date-time
     Metric:
       type: object
       properties:
@@ -246,6 +238,14 @@ components:
         total:
           type: number
           format: int64
+    UpdatePortalStatsCumulative:
+      allOf:
+      - $ref: '#/components/schemas/UpdatePortalStatsTotal'
+      - type: object
+        properties:
+          statDate:
+            type: string
+            format: date-time
     UpdatePortalStatsTotal:
       type: object
       properties:
@@ -308,6 +308,13 @@ components:
         self:
           type: string
   parameters:
+    modifiedSince:
+      name: modifiedSince
+      in: query
+      description: Filter results modified since this datetime
+      schema:
+        type: string
+        format: date-time
     page:
       name: page
       in: query
@@ -315,6 +322,21 @@ components:
       schema:
         type: integer
         format: int64
+    modifiedBefore:
+      name: modifiedBefore
+      in: query
+      description: Filter results modified before this datetime
+      schema:
+        type: string
+        format: date-time
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
     sortOrder:
       name: sortOrder
       in: query
@@ -324,28 +346,6 @@ components:
         enum:
         - asc
         - desc
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    modifiedBefore:
-      name: modifiedBefore
-      in: query
-      description: Filter results modified before this datetime
-      schema:
-        type: string
-        format: date-time
-    modifiedSince:
-      name: modifiedSince
-      in: query
-      description: Filter results modified since this datetime
-      schema:
-        type: string
-        format: date-time
   securitySchemes:
     Api-Key:
       type: apiKey

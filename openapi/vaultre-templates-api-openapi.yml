@@ -347,37 +347,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    AddEmailTemplate:
-      type: object
-      properties:
-        name:
-          type: string
-        subject:
-          type: string
-        content:
-          type: string
-        propertyTemplate:
-          type: boolean
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
     SMSTemplate:
       type: object
       properties:
@@ -397,12 +366,47 @@ components:
         inserted:
           type: string
           format: date-time
-    ID:
+    Access:
       type: object
       properties:
         id:
           type: integer
           format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    AddEmailTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     AddSMSTemplate:
       type: object
       properties:
@@ -416,16 +420,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ID'
-    Access:
+    ID:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
     EmailTemplate:
       type: object
       properties:
@@ -440,6 +440,38 @@ components:
           type: string
         propertyTemplate:
           type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Access'
+        inserted:
+          type: string
+          format: date-time
+    AddUpdateSMSTemplate:
+      type: object
+      properties:
+        name:
+          type: string
+        content:
+          type: string
+        propertyTemplate:
+          type: boolean
+        accessBy:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+    OwnerSummaryTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
         accessBy:
           type: array
           items:
@@ -475,47 +507,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ID'
-    AddUpdateSMSTemplate:
-      type: object
-      properties:
-        name:
-          type: string
-        content:
-          type: string
-        propertyTemplate:
-          type: boolean
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-    OwnerSummaryTemplate:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        subject:
-          type: string
-        content:
-          type: string
-        accessBy:
-          type: array
-          items:
-            $ref: '#/components/schemas/Access'
-        inserted:
-          type: string
-          format: date-time
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     Access_2:
       type: object
       properties:
@@ -534,6 +525,15 @@ components:
               format: int64
             name:
               type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
   parameters:
     page:
       name: page

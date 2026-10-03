@@ -171,70 +171,7 @@ paths:
       - Api-Key: []
         Bearer: []
 components:
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
   schemas:
-    PropertyOfferStatus:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    AddPropertyOffer:
-      type: object
-      properties:
-        contact:
-          $ref: '#/components/schemas/ID'
-        details:
-          type: string
-        leaseLifeId:
-          type: integer
-          format: int64
-        saleLifeId:
-          type: integer
-          format: int64
-        offerDate:
-          type: string
-          format: date-time
-        offerPrice:
-          type: number
-          format: float
-        status:
-          $ref: '#/components/schemas/ID'
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
     ContactMinimal:
       type: object
       properties:
@@ -258,6 +195,58 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PhoneNumber'
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    AddPropertyOffer:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/ID'
+        details:
+          type: string
+        leaseLifeId:
+          type: integer
+          format: int64
+        saleLifeId:
+          type: integer
+          format: int64
+        offerDate:
+          type: string
+          format: date-time
+        offerPrice:
+          type: number
+          format: float
+        status:
+          $ref: '#/components/schemas/ID'
+    PropertyOfferStatus:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
     PropertyOffer:
       type: object
       properties:
@@ -282,6 +271,15 @@ components:
           format: float
         status:
           $ref: '#/components/schemas/PropertyOfferStatus'
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     Urls:
       type: object
       properties:
@@ -297,29 +295,6 @@ components:
         id:
           type: integer
           format: int64
-    PhoneNumber:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
     UpdatePropertyOffer:
       type: object
       properties:
@@ -338,6 +313,31 @@ components:
           format: float
         status:
           $ref: '#/components/schemas/ID'
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
   securitySchemes:
     Api-Key:
       type: apiKey

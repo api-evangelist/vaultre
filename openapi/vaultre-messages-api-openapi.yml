@@ -384,6 +384,25 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+    AddUpdateMessageThread:
+      type: object
+      properties:
+        name:
+          type: string
+        recipients:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageRecipient'
     UserPhoto:
       type: object
       properties:
@@ -391,6 +410,16 @@ components:
           type: string
         thumb_360:
           type: string
+    MessageReceipt:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+        seen:
+          type: boolean
     Message:
       type: object
       properties:
@@ -460,35 +489,6 @@ components:
             $ref: '#/components/schemas/MessageRecipient'
         latestMessage:
           $ref: '#/components/schemas/Message'
-    AddUpdateMessageThread:
-      type: object
-      properties:
-        name:
-          type: string
-        recipients:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageRecipient'
-    MessageReceipt:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-        seen:
-          type: boolean
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
     Access_2:
       type: object
       properties:
@@ -515,6 +515,14 @@ components:
       schema:
         type: integer
         format: int64
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
     sortOrder:
       name: sortOrder
       in: query
@@ -524,14 +532,6 @@ components:
         enum:
         - asc
         - desc
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

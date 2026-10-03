@@ -590,14 +590,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
   schemas:
-    PropertyNoteTypePurpose:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     PropertyNoteType:
       type: object
       properties:
@@ -632,6 +624,14 @@ components:
           format: int64
         name:
           type: string
+    PropertyNoteTypePurpose:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     ContactNoteType_2:
       type: object
       properties:
@@ -648,15 +648,7 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    UnsubscribeType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    ContactInterest:
+    AuctionSaleType:
       type: object
       properties:
         id:
@@ -680,7 +672,7 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    PropertyType:
+    ContactInterest:
       type: object
       properties:
         id:
@@ -688,8 +680,6 @@ components:
           format: int64
         name:
           type: string
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass'
     ExternalLinkType:
       type: object
       properties:
@@ -698,23 +688,7 @@ components:
           format: int64
         name:
           type: string
-    ResponseCode:
-      type: object
-      properties:
-        msg:
-          type: string
-        code:
-          type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    AdvertisingLedgerType:
+    AdvertisingPaymentType:
       type: object
       properties:
         id:
@@ -730,14 +704,6 @@ components:
           format: int64
         name:
           type: string
-    TenureOrTitleType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     HoldingAreaType:
       type: object
       properties:
@@ -748,21 +714,30 @@ components:
           type: string
         apiCode:
           type: string
-    AdvertisingPaymentType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    MethodOfSaleType:
+    TenureOrTitleType:
       type: object
       properties:
         id:
           type: integer
           format: int64
         name:
+          type: string
+    UnsubscribeType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
           type: string
     PropertyClass:
       type: object
@@ -774,6 +749,21 @@ components:
           type: string
         internalName:
           type: string
+    AdvertisingLedgerType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    ResponseCode:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
     PriceQualifier:
       type: object
       properties:
@@ -782,7 +772,7 @@ components:
           format: int64
         name:
           type: string
-    AuctionSaleType:
+    MethodOfSaleType:
       type: object
       properties:
         id:
@@ -790,16 +780,17 @@ components:
           format: int64
         name:
           type: string
+    PropertyType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass'
   parameters:
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
     page:
       name: page
       in: query
@@ -815,6 +806,15 @@ components:
         type: integer
         format: int64
         default: 50
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
   securitySchemes:
     Api-Key:
       type: apiKey

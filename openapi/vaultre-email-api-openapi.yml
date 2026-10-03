@@ -92,12 +92,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
     SuccessOrError:
       type: object
       properties:
@@ -107,6 +101,12 @@ components:
           type: string
         code:
           type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     Email:
       type: object
       properties:

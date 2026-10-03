@@ -106,15 +106,6 @@ components:
         vacateDate:
           type: string
           format: date-time
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     TenancyExtended:
       allOf:
       - $ref: '#/components/schemas/Tenancy'
@@ -127,6 +118,15 @@ components:
             type: string
           paymentReference:
             type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
   securitySchemes:
     Api-Key:
       type: apiKey

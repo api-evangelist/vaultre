@@ -78,13 +78,6 @@ paths:
         Bearer: []
 components:
   parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     insertedSince:
       name: insertedSince
       in: query
@@ -92,6 +85,13 @@ components:
       schema:
         type: string
         format: date-time
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     pagesize:
       name: pagesize
       in: query

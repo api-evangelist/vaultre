@@ -72,17 +72,32 @@ paths:
     servers:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
   schemas:
-    District:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        region:
-          $ref: '#/components/schemas/Region'
     CustomRegion:
       type: object
       properties:
@@ -101,6 +116,14 @@ components:
           type: string
         abbreviation:
           type: string
+    Region:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     Suburb:
       type: object
       properties:
@@ -117,6 +140,16 @@ components:
           $ref: '#/components/schemas/District'
         isPoBox:
           type: boolean
+    District:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        region:
+          $ref: '#/components/schemas/Region'
     Urls:
       type: object
       properties:
@@ -126,39 +159,6 @@ components:
           type: string
         self:
           type: string
-    Region:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

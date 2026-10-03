@@ -166,32 +166,15 @@ paths:
     servers:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
 components:
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
   schemas:
+    Building:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
     SuccessOrError:
       type: object
       properties:
@@ -206,14 +189,6 @@ components:
       properties:
         name:
           type: string
-    Building:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     Urls:
       type: object
       properties:
@@ -223,6 +198,31 @@ components:
           type: string
         self:
           type: string
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
   securitySchemes:
     Api-Key:
       type: apiKey

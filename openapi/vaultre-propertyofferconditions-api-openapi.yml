@@ -245,63 +245,6 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    PropertyOfferCondition:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        condition:
-          $ref: '#/components/schemas/OfferCondition'
-        user:
-          $ref: '#/components/schemas/User'
-        due:
-          type: string
-          format: date-time
-        completed:
-          type: boolean
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    OfferCondition:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    UpdatePropertyOfferCondition:
-      type: object
-      properties:
-        condition:
-          $ref: '#/components/schemas/ID'
-        user:
-          $ref: '#/components/schemas/ID'
-        due:
-          type: string
-          format: date-time
-        completed:
-          type: boolean
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
     PhoneNumber:
       type: object
       properties:
@@ -324,6 +267,25 @@ components:
           - Facsimile
           - Direct
         comment:
+          type: string
+    UpdatePropertyOfferCondition:
+      type: object
+      properties:
+        condition:
+          $ref: '#/components/schemas/ID'
+        user:
+          $ref: '#/components/schemas/ID'
+        due:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
           type: string
     User:
       type: object
@@ -392,15 +354,44 @@ components:
               type: boolean
         websiteUrl:
           type: string
-    Urls:
+    OfferCondition:
       type: object
       properties:
-        previous:
+        id:
+          type: number
+          format: int64
+        name:
           type: string
-        next:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
           type: string
-        self:
+        code:
           type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    PropertyOfferCondition:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        condition:
+          $ref: '#/components/schemas/OfferCondition'
+        user:
+          $ref: '#/components/schemas/User'
+        due:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
     User_2:
       type: object
       properties:
@@ -496,6 +487,15 @@ components:
               type: string
         hideMobileFromPortal:
           type: boolean
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
   parameters:
     page:
       name: page
@@ -504,6 +504,14 @@ components:
       schema:
         type: integer
         format: int64
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
     sortOrder:
       name: sortOrder
       in: query
@@ -513,14 +521,6 @@ components:
         enum:
         - asc
         - desc
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey
