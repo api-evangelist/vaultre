@@ -413,15 +413,6 @@ components:
           format: int64
         name:
           type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
     CategoryGrouping:
       type: object
       properties:
@@ -439,6 +430,24 @@ components:
       properties:
         name:
           type: string
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
     AddUpdateCategoryGrouping:
       type: object
       properties:
@@ -452,23 +461,7 @@ components:
           format: int64
         name:
           type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
   parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -477,6 +470,13 @@ components:
         type: integer
         format: int64
         default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     sortOrder:
       name: sortOrder
       in: query

@@ -230,7 +230,83 @@ paths:
     servers:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.1
 components:
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    insertedSince:
+      name: insertedSince
+      in: query
+      description: Filter results inserted since this datetime
+      schema:
+        type: string
+        format: date-time
+    insertedBefore:
+      name: insertedBefore
+      in: query
+      description: Filter results inserted before this datetime
+      schema:
+        type: string
+        format: date-time
   schemas:
+    ContactNoteReminder:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    ContactNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
     PhoneNumber:
       type: object
       properties:
@@ -252,6 +328,38 @@ components:
           - Mobile
           - Facsimile
           - Direct
+    AddUpdateTask:
+      type: object
+      properties:
+        subject:
+          type: string
+        description:
+          type: string
+        start:
+          type: string
+          format: date-time
+    ContactNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        insertedBy:
+          $ref: '#/components/schemas/User'
+        type:
+          $ref: '#/components/schemas/ContactNoteType'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
     Task:
       type: object
       properties:
@@ -290,31 +398,23 @@ components:
               format: int64
             class:
               $ref: '#/components/schemas/PropertyClass'
-    UserPhoto:
+    ContactNoteTypePurpose:
       type: object
       properties:
-        original:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
-        thumb_360:
-          type: string
-    AddUpdateTask:
+    SuccessOrError:
       type: object
       properties:
-        subject:
+        success:
+          type: boolean
+        msg:
           type: string
-        description:
+        code:
           type: string
-        start:
-          type: string
-          format: date-time
-    ContactNoteReminder:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date-time
-        user:
-          $ref: '#/components/schemas/User'
     TaskContact:
       type: object
       properties:
@@ -384,7 +484,7 @@ components:
               type: boolean
             sendSMS:
               type: boolean
-    ContactNoteType:
+    ContactNoteType_2:
       type: object
       properties:
         id:
@@ -396,26 +496,46 @@ components:
           type: string
         defaultReadOnly:
           type: boolean
+        pinned:
+          type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    SuccessOrError:
+    PhoneNumber_2:
       type: object
       properties:
-        success:
-          type: boolean
-        msg:
+        number:
           type: string
-        code:
+        typeCode:
           type: string
-    PropertyClass:
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    AddTask:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-        name:
+        subject:
           type: string
-    ContactNote:
+        description:
+          type: string
+        start:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/ID'
+    ContactNote_2:
       type: object
       properties:
         id:
@@ -431,20 +551,22 @@ components:
           type: string
         readOnly:
           type: boolean
+        contact:
+          $ref: '#/components/schemas/ID'
         insertedBy:
-          $ref: '#/components/schemas/User'
+          $ref: '#/components/schemas/User_2'
         type:
-          $ref: '#/components/schemas/ContactNoteType'
+          $ref: '#/components/schemas/ContactNoteType_2'
         reminder:
           $ref: '#/components/schemas/ContactNoteReminder'
-    ContactNoteTypePurpose:
+        propertyFeedback:
+          $ref: '#/components/schemas/PropertyFeedback'
+    ID:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        name:
-          type: string
     PropertyFeedback:
       type: object
       properties:
@@ -484,30 +606,7 @@ components:
         contractSent:
           type: string
           format: date-time
-    PhoneNumber_2:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    ContactNoteType_2:
+    PropertyClass_2:
       type: object
       properties:
         id:
@@ -515,40 +614,8 @@ components:
           format: int64
         name:
           type: string
-        colour:
+        internalName:
           type: string
-        defaultReadOnly:
-          type: boolean
-        pinned:
-          type: boolean
-        purpose:
-          $ref: '#/components/schemas/ContactNoteTypePurpose'
-    ContactNote_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        contact:
-          $ref: '#/components/schemas/ID'
-        insertedBy:
-          $ref: '#/components/schemas/User_2'
-        type:
-          $ref: '#/components/schemas/ContactNoteType_2'
-        reminder:
-          $ref: '#/components/schemas/ContactNoteReminder'
-        propertyFeedback:
-          $ref: '#/components/schemas/PropertyFeedback'
     UpdateTask:
       type: object
       properties:
@@ -559,6 +626,16 @@ components:
         start:
           type: string
           format: date-time
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
     User_2:
       type: object
       properties:
@@ -626,38 +703,6 @@ components:
               type: boolean
         websiteUrl:
           type: string
-    AddTask:
-      type: object
-      properties:
-        subject:
-          type: string
-        description:
-          type: string
-        start:
-          type: string
-          format: date-time
-        user:
-          $ref: '#/components/schemas/ID'
-    PropertyClass_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
-    Access:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
     Task_2:
       type: object
       properties:
@@ -698,12 +743,80 @@ components:
               $ref: '#/components/schemas/PropertyClass_2'
         user:
           $ref: '#/components/schemas/Access'
-    ID:
+    ContactNoteType_3:
       type: object
       properties:
         id:
           type: integer
           format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        defaultReadOnly:
+          type: boolean
+        pinned:
+          type: boolean
+        purpose:
+          $ref: '#/components/schemas/ContactNoteTypePurpose'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    PhoneNumber_3:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    ContactNote_3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        body:
+          type: string
+        readOnly:
+          type: boolean
+        contact:
+          $ref: '#/components/schemas/ID'
+        insertedBy:
+          $ref: '#/components/schemas/User_3'
+        type:
+          $ref: '#/components/schemas/ContactNoteType_3'
+        reminder:
+          $ref: '#/components/schemas/ContactNoteReminder'
+        propertyFeedback:
+          $ref: '#/components/schemas/PropertyFeedback_2'
     PropertyFeedback_2:
       type: object
       properties:
@@ -743,30 +856,7 @@ components:
         contractSent:
           type: string
           format: date-time
-    PhoneNumber_3:
-      type: object
-      properties:
-        number:
-          type: string
-        typeCode:
-          type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    ContactNoteType_3:
+    PropertyClass_3:
       type: object
       properties:
         id:
@@ -774,40 +864,26 @@ components:
           format: int64
         name:
           type: string
-        colour:
+        internalName:
           type: string
-        defaultReadOnly:
-          type: boolean
-        pinned:
-          type: boolean
-        purpose:
-          $ref: '#/components/schemas/ContactNoteTypePurpose'
-    ContactNote_3:
+    Access_2:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        inserted:
+        name:
           type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        body:
-          type: string
-        readOnly:
-          type: boolean
-        contact:
-          $ref: '#/components/schemas/ID'
-        insertedBy:
-          $ref: '#/components/schemas/User_3'
-        type:
-          $ref: '#/components/schemas/ContactNoteType_3'
-        reminder:
-          $ref: '#/components/schemas/ContactNoteReminder'
-        propertyFeedback:
-          $ref: '#/components/schemas/PropertyFeedback_2'
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
+        account:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            name:
+              type: string
     User_3:
       type: object
       properties:
@@ -903,43 +979,6 @@ components:
               type: string
         hideMobileFromPortal:
           type: boolean
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    PropertyClass_3:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        internalName:
-          type: string
-    Access_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-        account:
-          type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-            name:
-              type: string
     Task_3:
       type: object
       properties:
@@ -980,45 +1019,6 @@ components:
               $ref: '#/components/schemas/PropertyClass_3'
         user:
           $ref: '#/components/schemas/Access_2'
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    insertedBefore:
-      name: insertedBefore
-      in: query
-      description: Filter results inserted before this datetime
-      schema:
-        type: string
-        format: date-time
-    insertedSince:
-      name: insertedSince
-      in: query
-      description: Filter results inserted since this datetime
-      schema:
-        type: string
-        format: date-time
   securitySchemes:
     Api-Key:
       type: apiKey

@@ -76,7 +76,63 @@ paths:
         Bearer: []
       x-codegen-request-body-name: body
 components:
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
   schemas:
+    FMSLeadContact:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        doNotMail:
+          type: boolean
+        description:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    FMSLead:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        contact:
+          type: string
+          $ref: '#/components/schemas/FMSLeadContact'
+        property:
+          type: string
+          $ref: '#/components/schemas/FMSLeadProperty'
+        appraisalRequired:
+          type: boolean
+        appraisalType:
+          type: string
+        source:
+          type: string
     FMSLeadProperty:
       type: object
       properties:
@@ -97,6 +153,15 @@ components:
           format: int64
         contactIsOwner:
           type: boolean
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     AddFMSLead:
       type: object
       properties:
@@ -112,71 +177,6 @@ components:
           type: string
         source:
           type: string
-    FMSLeadContact:
-      type: object
-      properties:
-        name:
-          type: string
-        phone:
-          type: string
-        email:
-          type: string
-        doNotMail:
-          type: boolean
-        description:
-          type: string
-    FMSLead:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        contact:
-          type: string
-          $ref: '#/components/schemas/FMSLeadContact'
-        property:
-          type: string
-          $ref: '#/components/schemas/FMSLeadProperty'
-        appraisalRequired:
-          type: boolean
-        appraisalType:
-          type: string
-        source:
-          type: string
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
   securitySchemes:
     Api-Key:
       type: apiKey

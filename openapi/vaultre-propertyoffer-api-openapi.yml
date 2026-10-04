@@ -172,6 +172,78 @@ paths:
         Bearer: []
 components:
   schemas:
+    AddPropertyOffer:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/ID'
+        details:
+          type: string
+        leaseLifeId:
+          type: integer
+          format: int64
+        saleLifeId:
+          type: integer
+          format: int64
+        offerDate:
+          type: string
+          format: date-time
+        offerPrice:
+          type: number
+          format: float
+        status:
+          $ref: '#/components/schemas/ID'
+    UpdatePropertyOffer:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        contact:
+          $ref: '#/components/schemas/ID'
+        details:
+          type: string
+        offerDate:
+          type: string
+          format: date-time
+        offerPrice:
+          type: number
+          format: float
+        status:
+          $ref: '#/components/schemas/ID'
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    PropertyOffer:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        contact:
+          $ref: '#/components/schemas/ContactMinimal'
+        details:
+          type: string
+        leaseLifeId:
+          type: integer
+          format: int64
+        saleLifeId:
+          type: integer
+          format: int64
+        offerDate:
+          type: string
+          format: date-time
+        offerPrice:
+          type: number
+          format: float
+        status:
+          $ref: '#/components/schemas/PropertyOfferStatus'
     ContactMinimal:
       type: object
       properties:
@@ -218,59 +290,6 @@ components:
           - Direct
         comment:
           type: string
-    AddPropertyOffer:
-      type: object
-      properties:
-        contact:
-          $ref: '#/components/schemas/ID'
-        details:
-          type: string
-        leaseLifeId:
-          type: integer
-          format: int64
-        saleLifeId:
-          type: integer
-          format: int64
-        offerDate:
-          type: string
-          format: date-time
-        offerPrice:
-          type: number
-          format: float
-        status:
-          $ref: '#/components/schemas/ID'
-    PropertyOfferStatus:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    PropertyOffer:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        contact:
-          $ref: '#/components/schemas/ContactMinimal'
-        details:
-          type: string
-        leaseLifeId:
-          type: integer
-          format: int64
-        saleLifeId:
-          type: integer
-          format: int64
-        offerDate:
-          type: string
-          format: date-time
-        offerPrice:
-          type: number
-          format: float
-        status:
-          $ref: '#/components/schemas/PropertyOfferStatus'
     SuccessOrError:
       type: object
       properties:
@@ -280,14 +299,13 @@ components:
           type: string
         code:
           type: string
-    Urls:
+    PropertyOfferStatus:
       type: object
       properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
+        id:
+          type: number
+          format: int64
+        name:
           type: string
     ID:
       type: object
@@ -295,32 +313,7 @@ components:
         id:
           type: integer
           format: int64
-    UpdatePropertyOffer:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        contact:
-          $ref: '#/components/schemas/ID'
-        details:
-          type: string
-        offerDate:
-          type: string
-          format: date-time
-        offerPrice:
-          type: number
-          format: float
-        status:
-          $ref: '#/components/schemas/ID'
   parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -329,6 +322,13 @@ components:
         type: integer
         format: int64
         default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     sortOrder:
       name: sortOrder
       in: query

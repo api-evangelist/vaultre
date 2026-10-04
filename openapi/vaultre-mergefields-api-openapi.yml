@@ -81,46 +81,42 @@ paths:
         Bearer: []
 components:
   schemas:
-    MergeFieldTier:
+    MergeFieldsFlatResponse:
       type: object
+      description: Returned when a context is provided. Shows only fields usable in that context.
       required:
-      - id
-      - name
+      - meta
       - categories
       properties:
-        id:
-          type: string
-          description: Tier identifier (e.g. always_available, requires_property)
-        name:
-          type: string
-          description: Human-readable tier name
-        description:
-          type: string
-          description: Description of the tier
+        meta:
+          type: object
+          required:
+          - response_type
+          properties:
+            context:
+              type: string
+              description: The context used to filter the fields
+            template_type:
+              type: string
+              description: The template type used to filter the fields
+            delivery_method:
+              type: string
+              description: The delivery method used to filter the fields
+            response_type:
+              type: string
+              enum:
+              - flat
+            total_fields:
+              type: integer
+              format: int32
+              description: Total number of fields returned
+            registry_version:
+              type: string
+              description: Version of the merge field registry
         categories:
           type: array
           items:
             $ref: '#/components/schemas/MergeFieldCategory'
-    MergeFieldCategory:
-      type: object
-      required:
-      - id
-      - name
-      - fields
-      properties:
-        id:
-          type: string
-          description: Category identifier
-        name:
-          type: string
-          description: Human-readable category name
-        description:
-          type: string
-          description: Description of the category
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/MergeField'
     MergeFieldsTieredResponse:
       type: object
       description: Returned when no context is provided. Shows all availability tiers.
@@ -154,47 +150,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MergeFieldTier'
-    SuccessOrError:
+    MergeFieldCategory:
       type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    MergeFieldsFlatResponse:
-      type: object
-      description: Returned when a context is provided. Shows only fields usable in that context.
       required:
-      - meta
+      - id
+      - name
+      - fields
+      properties:
+        id:
+          type: string
+          description: Category identifier
+        name:
+          type: string
+          description: Human-readable category name
+        description:
+          type: string
+          description: Description of the category
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergeField'
+    MergeFieldTier:
+      type: object
+      required:
+      - id
+      - name
       - categories
       properties:
-        meta:
-          type: object
-          required:
-          - response_type
-          properties:
-            context:
-              type: string
-              description: The context used to filter the fields
-            template_type:
-              type: string
-              description: The template type used to filter the fields
-            delivery_method:
-              type: string
-              description: The delivery method used to filter the fields
-            response_type:
-              type: string
-              enum:
-              - flat
-            total_fields:
-              type: integer
-              format: int32
-              description: Total number of fields returned
-            registry_version:
-              type: string
-              description: Version of the merge field registry
+        id:
+          type: string
+          description: Tier identifier (e.g. always_available, requires_property)
+        name:
+          type: string
+          description: Human-readable tier name
+        description:
+          type: string
+          description: Description of the tier
         categories:
           type: array
           items:
@@ -235,6 +226,15 @@ components:
         custom_field:
           type: boolean
           description: Whether the field is a custom account-specific field
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
   securitySchemes:
     Api-Key:
       type: apiKey

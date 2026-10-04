@@ -65,15 +65,6 @@ paths:
         Bearer: []
 components:
   schemas:
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     SaleSummary:
       type: object
       properties:
@@ -103,6 +94,15 @@ components:
         totalFees:
           type: number
           format: float
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
   securitySchemes:
     Api-Key:
       type: apiKey

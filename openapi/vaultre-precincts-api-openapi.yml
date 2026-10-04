@@ -77,7 +77,48 @@ paths:
       - Api-Key: []
         Bearer: []
 components:
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
   schemas:
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
     Access:
       type: object
       properties:
@@ -96,13 +137,15 @@ components:
               format: int64
             name:
               type: string
-    UserPhoto:
+    Vertex:
       type: object
       properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
     Precinct:
       type: object
       properties:
@@ -125,49 +168,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Vertex'
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    Vertex:
-      type: object
-      properties:
-        latitude:
-          type: number
-          format: float
-        longitude:
-          type: number
-          format: float
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
   securitySchemes:
     Api-Key:
       type: apiKey

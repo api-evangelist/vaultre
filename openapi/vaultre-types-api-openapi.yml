@@ -589,19 +589,32 @@ paths:
     servers:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.3
 components:
+  parameters:
+    pagesize:
+      name: pagesize
+      in: query
+      description: Number of records to be returned in each page.
+      schema:
+        type: integer
+        format: int64
+        default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
+    sortOrder:
+      name: sortOrder
+      in: query
+      description: Order by which to sort the results. Used in conjunction with sort parameter.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
   schemas:
-    PropertyNoteType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        colour:
-          type: string
-        purpose:
-          $ref: '#/components/schemas/PropertyNoteTypePurpose'
     ContactNoteType:
       type: object
       properties:
@@ -632,6 +645,18 @@ components:
           format: int64
         name:
           type: string
+    PropertyNoteType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colour:
+          type: string
+        purpose:
+          $ref: '#/components/schemas/PropertyNoteTypePurpose'
     ContactNoteType_2:
       type: object
       properties:
@@ -648,11 +673,11 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    AuctionSaleType:
+    EntityType:
       type: object
       properties:
         id:
-          type: integer
+          type: number
           format: int64
         name:
           type: string
@@ -672,7 +697,62 @@ components:
           type: boolean
         purpose:
           $ref: '#/components/schemas/ContactNoteTypePurpose'
-    ContactInterest:
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    AdvertisingLedgerType:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+        name:
+          type: string
+    PropertyType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        propertyClass:
+          $ref: '#/components/schemas/PropertyClass'
+    PriceQualifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    HoldingAreaType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        source:
+          type: string
+        apiCode:
+          type: string
+    PropertyClass:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        internalName:
+          type: string
+    MethodOfSaleType:
       type: object
       properties:
         id:
@@ -688,6 +768,13 @@ components:
           format: int64
         name:
           type: string
+    ResponseCode:
+      type: object
+      properties:
+        msg:
+          type: string
+        code:
+          type: string
     AdvertisingPaymentType:
       type: object
       properties:
@@ -696,25 +783,7 @@ components:
           format: int64
         name:
           type: string
-    EntityType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    HoldingAreaType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        source:
-          type: string
-        apiCode:
-          type: string
-    TenureOrTitleType:
+    ContactInterest:
       type: object
       properties:
         id:
@@ -730,16 +799,7 @@ components:
           format: int64
         name:
           type: string
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    PropertyClass:
+    AuctionSaleType:
       type: object
       properties:
         id:
@@ -747,24 +807,7 @@ components:
           format: int64
         name:
           type: string
-        internalName:
-          type: string
-    AdvertisingLedgerType:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        name:
-          type: string
-    ResponseCode:
-      type: object
-      properties:
-        msg:
-          type: string
-        code:
-          type: string
-    PriceQualifier:
+    TenureOrTitleType:
       type: object
       properties:
         id:
@@ -772,49 +815,6 @@ components:
           format: int64
         name:
           type: string
-    MethodOfSaleType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-    PropertyType:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        propertyClass:
-          $ref: '#/components/schemas/PropertyClass'
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
-    pagesize:
-      name: pagesize
-      in: query
-      description: Number of records to be returned in each page.
-      schema:
-        type: integer
-        format: int64
-        default: 50
-    sortOrder:
-      name: sortOrder
-      in: query
-      description: Order by which to sort the results. Used in conjunction with sort parameter.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
   securitySchemes:
     Api-Key:
       type: apiKey

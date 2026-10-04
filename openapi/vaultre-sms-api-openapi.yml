@@ -109,12 +109,6 @@ components:
           type: string
         number:
           type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
     SMS_2:
       type: object
       properties:
@@ -124,6 +118,12 @@ components:
           type: string
         number:
           type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     BulkSMS:
       type: object
       properties:

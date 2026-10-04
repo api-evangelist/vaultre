@@ -97,13 +97,6 @@ paths:
         Bearer: []
 components:
   parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -112,6 +105,13 @@ components:
         type: integer
         format: int64
         default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     sortOrder:
       name: sortOrder
       in: query
@@ -122,14 +122,6 @@ components:
         - asc
         - desc
   schemas:
-    DistributionList:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
     Urls:
       type: object
       properties:
@@ -138,6 +130,14 @@ components:
         next:
           type: string
         self:
+          type: string
+    DistributionList:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
           type: string
   securitySchemes:
     Api-Key:

@@ -193,6 +193,15 @@ paths:
     - url: https://ap-southeast-2.api.vaultre.com.au/api/v1.2
 components:
   schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
     UpdatePortalStats:
       type: object
       properties:
@@ -216,15 +225,14 @@ components:
         total:
           type: number
           format: int64
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
+    UpdatePortalStatsCumulative:
+      allOf:
+      - $ref: '#/components/schemas/UpdatePortalStatsTotal'
+      - type: object
+        properties:
+          statDate:
+            type: string
+            format: date-time
     Metric:
       type: object
       properties:
@@ -238,14 +246,6 @@ components:
         total:
           type: number
           format: int64
-    UpdatePortalStatsCumulative:
-      allOf:
-      - $ref: '#/components/schemas/UpdatePortalStatsTotal'
-      - type: object
-        properties:
-          statDate:
-            type: string
-            format: date-time
     UpdatePortalStatsTotal:
       type: object
       properties:
@@ -270,6 +270,15 @@ components:
           type: integer
           format: int64
         name:
+          type: string
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
           type: string
     PortalStats:
       type: object
@@ -298,30 +307,7 @@ components:
         total:
           type: integer
           format: int64
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
   parameters:
-    modifiedSince:
-      name: modifiedSince
-      in: query
-      description: Filter results modified since this datetime
-      schema:
-        type: string
-        format: date-time
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     modifiedBefore:
       name: modifiedBefore
       in: query
@@ -337,6 +323,13 @@ components:
         type: integer
         format: int64
         default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     sortOrder:
       name: sortOrder
       in: query
@@ -346,6 +339,13 @@ components:
         enum:
         - asc
         - desc
+    modifiedSince:
+      name: modifiedSince
+      in: query
+      description: Filter results modified since this datetime
+      schema:
+        type: string
+        format: date-time
   securitySchemes:
     Api-Key:
       type: apiKey

@@ -101,12 +101,6 @@ components:
           type: string
         code:
           type: string
-    ID:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
     Email:
       type: object
       properties:
@@ -120,6 +114,12 @@ components:
           type: string
         to:
           type: string
+    ID:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     BulkEmail:
       type: object
       properties:

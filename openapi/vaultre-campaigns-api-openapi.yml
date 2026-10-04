@@ -132,28 +132,70 @@ paths:
         Bearer: []
 components:
   schemas:
-    PhoneNumber:
+    CampaignTracking:
       type: object
       properties:
-        number:
+        id:
+          type: number
+          format: int64
+        remoteAddress:
           type: string
-        typeCode:
+        url:
           type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
+        inserted:
           type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
+          format: date-time
+        contact:
+          type: object
+          $ref: '#/components/schemas/ContactMinimal'
+    CampaignComments:
+      type: object
+      properties:
+        categories:
+          type: string
+        from:
+          type: string
+        lists:
+          type: string
+        precincts:
+          type: string
+        subject:
+          type: string
+    CampaignTrackingSummary:
+      type: object
+      properties:
+        readPenetration:
+          type: string
+        totalClicks:
+          type: integer
+          format: int64
+        totalRecipients:
+          type: integer
+          format: int64
+        totalRecipientsRead:
+          type: integer
+          format: int64
+        totalUnsubscribers:
+          type: integer
+          format: int64
+        totalViews:
+          type: integer
+          format: int64
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
           type: string
     ContactMinimal:
       type: object
@@ -178,62 +220,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PhoneNumber'
-    CampaignComments:
+    PhoneNumber:
       type: object
       properties:
-        categories:
+        number:
           type: string
-        from:
+        typeCode:
           type: string
-        lists:
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
           type: string
-        precincts:
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
           type: string
-        subject:
-          type: string
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
-    CampaignTracking:
+    Campaign:
       type: object
       properties:
         id:
           type: number
           format: int64
-        remoteAddress:
+        title:
           type: string
-        url:
-          type: string
+        bulkEmail:
+          type: boolean
         inserted:
           type: string
           format: date-time
-        contact:
-          type: object
-          $ref: '#/components/schemas/ContactMinimal'
-    CampaignTrackingSummary:
-      type: object
-      properties:
-        readPenetration:
-          type: string
-        totalClicks:
-          type: integer
-          format: int64
-        totalRecipients:
-          type: integer
-          format: int64
-        totalRecipientsRead:
-          type: integer
-          format: int64
-        totalUnsubscribers:
-          type: integer
-          format: int64
-        totalViews:
-          type: integer
-          format: int64
+        comments:
+          $ref: '#/components/schemas/CampaignComments'
+        user:
+          $ref: '#/components/schemas/User'
     User:
       type: object
       properties:
@@ -329,32 +355,6 @@ components:
               type: string
         hideMobileFromPortal:
           type: boolean
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
-    Campaign:
-      type: object
-      properties:
-        id:
-          type: number
-          format: int64
-        title:
-          type: string
-        bulkEmail:
-          type: boolean
-        inserted:
-          type: string
-          format: date-time
-        comments:
-          $ref: '#/components/schemas/CampaignComments'
-        user:
-          $ref: '#/components/schemas/User'
   parameters:
     page:
       name: page

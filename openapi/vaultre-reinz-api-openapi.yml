@@ -78,20 +78,6 @@ paths:
         Bearer: []
 components:
   parameters:
-    insertedSince:
-      name: insertedSince
-      in: query
-      description: Filter results inserted since this datetime
-      schema:
-        type: string
-        format: date-time
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -100,10 +86,24 @@ components:
         type: integer
         format: int64
         default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     insertedBefore:
       name: insertedBefore
       in: query
       description: Filter results inserted before this datetime
+      schema:
+        type: string
+        format: date-time
+    insertedSince:
+      name: insertedSince
+      in: query
+      description: Filter results inserted since this datetime
       schema:
         type: string
         format: date-time

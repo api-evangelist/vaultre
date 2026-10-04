@@ -42,6 +42,13 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
     Staff:
       type: object
       properties:
@@ -68,13 +75,6 @@ components:
         email:
           type: string
           format: email
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
   securitySchemes:
     ApiKey:
       type: apiKey

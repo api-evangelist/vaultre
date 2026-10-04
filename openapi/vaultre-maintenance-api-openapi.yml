@@ -718,69 +718,31 @@ components:
           format: int64
         name:
           type: string
-    Access:
+    MaintenancePhoto:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        name:
+        url:
           type: string
-        photo:
-          $ref: '#/components/schemas/UserPhoto'
-    PhoneNumber:
+        description:
+          type: string
+        userFileName:
+          type: string
+    UpdateMaintenance:
       type: object
       properties:
-        number:
+        summary:
           type: string
-        typeCode:
+        description:
           type: string
-          enum:
-          - H
-          - W
-          - M
-          - F
-          - D
-        type:
-          type: string
-          enum:
-          - Home
-          - Work
-          - Mobile
-          - Facsimile
-          - Direct
-        comment:
-          type: string
-    ContactMinimal:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        displayName:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        emails:
+        requestedBy:
+          $ref: '#/components/schemas/ID'
+        notifications:
           type: array
           items:
-            type: string
-            format: email
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-    UserPhoto:
-      type: object
-      properties:
-        original:
-          type: string
-        thumb_360:
-          type: string
+            $ref: '#/components/schemas/ID'
     Tenancy:
       type: object
       properties:
@@ -814,119 +776,6 @@ components:
         arrearsAmount:
           type: number
           format: float
-    MaintenanceRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        supplier:
-          $ref: '#/components/schemas/ContactMinimal'
-        status:
-          type: string
-          enum:
-          - requested
-          - viewed
-          - notInterested
-          - received
-        jobId:
-          type: integer
-          format: int64
-        quote:
-          $ref: '#/components/schemas/PropertyFile'
-        invoice:
-          $ref: '#/components/schemas/PropertyFile'
-        isWorkOrder:
-          type: boolean
-    AddMaintenanceRequest:
-      type: object
-      properties:
-        supplier:
-          $ref: '#/components/schemas/ID'
-        subject:
-          type: string
-        bodyHTML:
-          type: string
-        isWorkOrder:
-          type: boolean
-        sender:
-          $ref: '#/components/schemas/ID'
-    MaintenancePhoto:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        url:
-          type: string
-        description:
-          type: string
-        userFileName:
-          type: string
-    PropertyFile:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        filename:
-          type: string
-        filesize:
-          type: integer
-          format: int64
-        contentType:
-          type: string
-        url:
-          type: string
-    UpdateMaintenance:
-      type: object
-      properties:
-        summary:
-          type: string
-        description:
-          type: string
-        requestedBy:
-          $ref: '#/components/schemas/ID'
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-    SuccessOrError:
-      type: object
-      properties:
-        success:
-          type: boolean
-        msg:
-          type: string
-        code:
-          type: string
-    AddMaintenance:
-      type: object
-      properties:
-        summary:
-          type: string
-        description:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        requestedBy:
-          $ref: '#/components/schemas/ID'
-        notifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/ID'
-        tenancy:
-          $ref: '#/components/schemas/ID'
     Maintenance:
       type: object
       properties:
@@ -967,12 +816,210 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Access'
+    ContactMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+    UserPhoto:
+      type: object
+      properties:
+        original:
+          type: string
+        thumb_360:
+          type: string
+    PhoneNumber:
+      type: object
+      properties:
+        number:
+          type: string
+        typeCode:
+          type: string
+          enum:
+          - H
+          - W
+          - M
+          - F
+          - D
+        type:
+          type: string
+          enum:
+          - Home
+          - Work
+          - Mobile
+          - Facsimile
+          - Direct
+        comment:
+          type: string
+    AddMaintenanceRequest:
+      type: object
+      properties:
+        supplier:
+          $ref: '#/components/schemas/ID'
+        subject:
+          type: string
+        bodyHTML:
+          type: string
+        isWorkOrder:
+          type: boolean
+        sender:
+          $ref: '#/components/schemas/ID'
+    PropertyFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        contentType:
+          type: string
+        url:
+          type: string
+    MaintenanceRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        supplier:
+          $ref: '#/components/schemas/ContactMinimal'
+        status:
+          type: string
+          enum:
+          - requested
+          - viewed
+          - notInterested
+          - received
+        jobId:
+          type: integer
+          format: int64
+        quote:
+          $ref: '#/components/schemas/PropertyFile'
+        invoice:
+          $ref: '#/components/schemas/PropertyFile'
+        isWorkOrder:
+          type: boolean
+    SuccessOrError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
+        code:
+          type: string
+    AddMaintenance:
+      type: object
+      properties:
+        summary:
+          type: string
+        description:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        requestedBy:
+          $ref: '#/components/schemas/ID'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/ID'
+        tenancy:
+          $ref: '#/components/schemas/ID'
+    Access:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        photo:
+          $ref: '#/components/schemas/UserPhoto'
     ID:
       type: object
       properties:
         id:
           type: integer
           format: int64
+    MaintenanceNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        note:
+          type: string
+        inserted:
+          type: string
+          format: date-time
+        insertedBy:
+          $ref: '#/components/schemas/Access_2'
+    PropertyFile_2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inserted:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        filename:
+          type: string
+        filesize:
+          type: integer
+          format: int64
+        contentType:
+          type: string
+        url:
+          type: string
+        electronicTable:
+          type: boolean
+        isPublic:
+          type: boolean
+    Urls:
+      type: object
+      properties:
+        previous:
+          type: string
+        next:
+          type: string
+        self:
+          type: string
     Tenancy_2:
       type: object
       properties:
@@ -1009,40 +1056,6 @@ components:
         vacateDate:
           type: string
           format: date-time
-    PropertyFile_2:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        inserted:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        filename:
-          type: string
-        filesize:
-          type: integer
-          format: int64
-        contentType:
-          type: string
-        url:
-          type: string
-        electronicTable:
-          type: boolean
-        isPublic:
-          type: boolean
-    Urls:
-      type: object
-      properties:
-        previous:
-          type: string
-        next:
-          type: string
-        self:
-          type: string
     Access_2:
       type: object
       properties:
@@ -1061,27 +1074,7 @@ components:
               format: int64
             name:
               type: string
-    MaintenanceNote:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        note:
-          type: string
-        inserted:
-          type: string
-          format: date-time
-        insertedBy:
-          $ref: '#/components/schemas/Access_2'
   parameters:
-    page:
-      name: page
-      in: query
-      description: Page number of results
-      schema:
-        type: integer
-        format: int64
     pagesize:
       name: pagesize
       in: query
@@ -1090,6 +1083,13 @@ components:
         type: integer
         format: int64
         default: 50
+    page:
+      name: page
+      in: query
+      description: Page number of results
+      schema:
+        type: integer
+        format: int64
     sortOrder:
       name: sortOrder
       in: query
