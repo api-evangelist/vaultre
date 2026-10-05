@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.api.vaultre.com.au/swagger/vaultre.yaml",
+ "requested_url": "https://docs.api.vaultre.com.au/swagger/vaultre.yaml",
+ "status": 200,
+ "content_type": "application/yaml",
+ "bytes": 789193,
+ "sha256": "80ad838dda8635797d2ce0be7c65f2411df0cbdeb0127034959ad0521328f36c",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.968), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

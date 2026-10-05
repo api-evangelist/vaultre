@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.api.vaultre.com.au/swagger/vaultre_v1_2.yaml",
+ "requested_url": "https://docs.api.vaultre.com.au/swagger/vaultre_v1_2.yaml",
+ "status": 200,
+ "content_type": "binary/octet-stream",
+ "bytes": 435571,
+ "sha256": "cbb7f4933f687abffb3572822b78803999350e1e19b00ec4592a4eba8373bd1b",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
